@@ -163,7 +163,11 @@ module.exports = function (grunt) {
         release: {
             options: {
                 npm: false,
-                afterBump: ['default', 'dist']
+                afterBump: ['default', 'dist'],
+                github: {
+                    repo: 'dpmcmlxxvi/olexp',
+                    accessTokenVar: 'GITHUB_ACCESS_TOKEN'
+                },
             }
         },
 
