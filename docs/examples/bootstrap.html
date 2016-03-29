@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+    <title>OpenLayers Explorer example</title>
+    
+    <link href="../../libs/ol3/ol.css" rel="stylesheet" type="text/css">
+    <link href="../../libs/w2ui/w2ui.min.css" rel="stylesheet" type="text/css" />
+    <link href="../../dist/olexp.css" rel="stylesheet" type="text/css" />
+    
+    <script src="../../libs/jquery/jquery.js" type="text/javascript"></script>
+    <script src="../../libs/ol3/ol.js" type="text/javascript"></script>
+    <script src="../../libs/w2ui/w2ui.js" type="text/javascript"></script>
+    <script src="../../dist/olexp.js" type="text/javascript"></script>
+    
+    <link href="./css/bootstrap.min.css" rel="stylesheet">
+    
+    <style>
+        body
+        {
+        	padding-top    : 20px;
+        	padding-bottom : 20px;
+        }
+        
+        .navbar 
+        {
+        	margin-bottom : 20px;
+        }
+        
+        #explorer
+        {
+        	height : 500px;
+        	width  : 100%;
+        }
+    </style>
+
+</head>
+
+<body>
+
+    <div class="container">
+
+        <nav class="navbar navbar-default">
+            <div class="container-fluid">
+                <div class="navbar-header">
+                    <a class="navbar-brand" href="#">
+                        OpenLayers Explorer
+                    </a>
+                </div>
+            </div>
+        </nav>
+
+        <div class="jumbotron">
+            <div id="explorer"></div>
+        </div>
+
+    </div>
+
+    <script type="text/javascript">
+    
+        var explorer = null;
+        
+        window.onload = function() {
+    
+            explorer = new olexp.Explorer('explorer');
+            var layerstm = new ol.layer.Tile({
+                source: new ol.source.Stamen({layer: 'watercolor'})
+            });
+            layerstm.set('name','Stamen');
+            explorer.map.addLayer(layerstm);
+    
+        };
+    
+    </script>
+
+</body>
+</html>

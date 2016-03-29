@@ -1,0 +1,43 @@
+{
+  "name": "olexp",
+  "version": "0.0.0",
+  "description": "OpenLayers Explorer is a JavaScript application that combines the power of OpenLayers 3 interactive mapping and the layout management of w2ui.",
+  "author": "Daniel Pulido <dpmcmlxxvi@gmail.com>",
+  "main": "dist/olexp.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/dpmcmlxxvi/olexp"
+  },
+  "bugs": {
+    "url": "https://github.com/dpmcmlxxvi/olexp/issues"
+  },
+  "keywords": [
+    "OpenLayers",
+    "w2ui",
+    "JavaScript",
+    "application",
+    "explorer"
+  ],
+  "devDependencies": {
+    "blanket": "^1.2.3",
+    "chai": "^3.5.0",
+    "grunt": "^0.4.5",
+    "grunt-contrib-clean": "~0.5.0",
+    "grunt-contrib-concat": "^0.4.0",
+    "grunt-contrib-copy": "^1.0.0",
+    "grunt-contrib-csslint": "^0.2.0",
+    "grunt-contrib-cssmin": "^0.10.0",
+    "grunt-contrib-jshint": "^0.10.0",
+    "grunt-contrib-uglify": "^0.5.0",
+    "grunt-gh-pages": "^1.0.0",
+    "grunt-git": "^0.3.7",
+    "grunt-jsdoc": "^1.1.0",
+    "grunt-release": "^0.13.0",
+    "ink-docstrap": "^1.1.2",
+    "jsdoc": "^3.4.0",
+    "mocha": "^2.3.3"
+  },
+  "preferGlobal": false,
+  "private": false,
+  "license": "MIT"
+}

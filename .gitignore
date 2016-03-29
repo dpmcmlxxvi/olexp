@@ -1,0 +1,5 @@
+/.project
+/.settings
+/.grunt
+docs/api
+node_modules

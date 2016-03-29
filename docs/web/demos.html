@@ -1,0 +1,200 @@
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>OpenLayers Explorer | Demos</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="./css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+    <link href="./css/ie10-viewport-bug-workaround.css" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="./css/olexp.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <link href="../../libs/ol3/ol.css" rel="stylesheet" type="text/css">
+    <link href="../../libs/w2ui/w2ui.min.css" rel="stylesheet" type="text/css" />
+    <link href="../../dist/olexp.css" rel="stylesheet" type="text/css" />
+    
+    <script src="../../libs/jquery/jquery.js" type="text/javascript"></script>
+    <script src="../../libs/ol3/ol.js" type="text/javascript"></script>
+    <script src="../../libs/w2ui/w2ui.js" type="text/javascript"></script>
+    <script src="../../dist/olexp.js" type="text/javascript"></script>
+
+  </head>
+
+  <body>
+
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+        </div>
+        <div id="navbar" class="collapse navbar-collapse">
+          <ul class="nav navbar-nav">
+            <li class="active"><a href=".">Home</a></li>
+            <li><a href="start.html">Getting Started</a></li>
+            <li><a href="demos.html">Demos</a></li>
+            <li><a href="../api/">Docs</a></li>
+          </ul>
+          <ul class="nav navbar-nav navbar-right olexp-github-logo">
+            <li><a href="https://github.com/dpmcmlxxvi/olexp">
+            <img src="./img/GitHub-Mark-Light-32px.png">
+            </a></li>
+          </ul>
+        </div><!--/.nav-collapse -->
+      </div>
+    </nav>
+
+    <div class="container" style="min-width: 750px;">
+      <h1>Demos</h1>
+      <div class="row">
+        <div class="col-md-12">
+          <h2>Simple</h2>
+          <p>
+            This is the simplest example where only an empty map is displayed
+            with the default toolbar and layer manager. Click
+            <a href="../examples/simple.html">here</a> for a stand alone
+            example.
+          </p>
+          <div id="explorer-simple" style="height: 500px; width: 100%;"></div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-12">
+          <h2>Options</h2>
+          <p>
+            This example shows how to pass an optional constructor argument to
+            modify application options. This example moves the location of
+            the navigation and toolbar panels, disables a control, hides the
+            overlays node, changes various settings, and adds an additional
+            context menu to the layer manager items. Click
+            <a href="../examples/options.html">here</a> for a stand alone
+            example.
+          </p>
+          <div id="explorer-options" style="height: 500px; width: 100%;"></div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-12">
+          <h2>Layers</h2>
+          <p>
+            This example shows how to add additional map layers and group them
+            using the explorer API. Click <a href="../examples/explorer.html">
+            here</a> for a stand alone example.
+          </p>
+          <div id="explorer-layers" style="height: 500px; width: 100%;"></div>
+
+          <!-- Link label for Washington, D.C. -->
+          <div style="display: none;">
+              <a id="label"
+                 target="_blank"
+                 href="http://en.wikipedia.org/wiki/Washington,_D.C.">
+                  Washington D.C.
+              </a>
+              <div id="marker" title="Marker"></div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-12">
+          <h2>Stand Alone</h2>
+          <p>
+            Click <a href="../examples/standalone.html">here</a> for an
+            example of the "Layers" example that uses the stand alone version
+            of the <code>olexp</code> library.
+          </p>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-12">
+          <h2>Cesium</h2>
+          <p>
+            Click <a href="../examples/cesium.html">here</a> for a stand alone
+            example that shows how to use the
+            <a href="http://openlayers.org/ol3-cesium/">ol3-cesium</a>
+            library.
+          </p>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-12">
+          <h2>Proj4</h2>
+          <p>
+            Click <a href="../examples/proj4.html">here</a> for a stand alone
+            example that shows how to use the proj4 library. The example loads a
+            GeoJSON file with a custom coordinate reference system, queries
+            <a href="http://epsg.io">epsg.io</a> for its corresponding
+            definition, adds that definition to <a href="http://proj4js.org/">
+            proj4</a>, and then loads the GeoJSON layer to the explorer map.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <div class="container">
+      <hr>
+      <footer>
+        <p>&copy; 2016 Daniel Pulido &lt;dpmcmlxxvi@gmail.com&gt;</p>
+        <p>
+            Source code is released under the
+            <a href="http://opensource.org/licenses/MIT">MIT</a> license.
+            Documentation is released under the
+            <a href="http://creativecommons.org/licenses/by-sa/4.0/">CC BY 4.0</a>
+            license.
+            Icons are from <a href="http://trac.osgeo.org/osgeo/wiki">OSGeo</a>
+            and released under the
+            <a href="http://creativecommons.org/licenses/by-sa/4.0/">CC BY 4.0</a>
+            license.
+        </p>
+      </footer>
+    </div>
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script> -->
+    <!-- <script>window.jQuery || document.write('<script src="./js/jquery.min.js"><\/script>')</script> -->
+    <script src="./js/bootstrap.min.js"></script>
+    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+    <script src="./js/ie10-viewport-bug-workaround.js"></script>
+    <script src="../examples/js/example.simple.js" type="text/javascript"></script>
+    <script src="../examples/js/example.options.js" type="text/javascript"></script>
+    <script src="../examples/js/example.layers.js" type="text/javascript"></script>
+    <script type="text/javascript">
+
+        var explorerSimple = null;
+        var explorerOptions = null;
+        var explorerLayers = null;
+
+        window.onload = function() {
+
+            explorerSimple = runExampleSimple('explorer-simple');
+            explorerOptions = runExampleOptions('explorer-options', '../examples');
+            explorerLayers = runExampleLayers('explorer-layers', '../examples');
+
+        };
+    
+    </script>
+
+  </body>
+</html>

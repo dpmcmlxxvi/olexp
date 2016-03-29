@@ -1,0 +1,11 @@
+
+/*
+ * olexp explorer styling
+ */
+ 
+.olexp-explorer-content,
+.olexp-explorer-map
+{
+    height: 100%;
+    width: 100%;
+}

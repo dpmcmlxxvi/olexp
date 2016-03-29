@@ -1,0 +1,10 @@
+
+/*
+ * w2ui override
+ */
+
+.w2ui-toolbar table.w2ui-button .w2ui-tb-image
+{
+    height: 24px;
+    width: 24px;
+}

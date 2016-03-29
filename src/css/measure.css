@@ -1,0 +1,53 @@
+
+/*
+ * OpenLayersExplorer measurement tool styles
+ */
+
+.olexp-measure
+{
+	background: #000000;
+    background: rgba(0, 0, 0, 0.5);
+    border-radius: 4px;
+    color: white;
+    opacity: 0.7;
+    padding: 4px 8px;
+    position: relative;
+    white-space: nowrap;
+}
+
+.olexp-measure-active
+{
+    font-weight: bold;
+	opacity: 1;
+}
+
+.olexp-measure-static
+{
+    background-color: #ffcc33;
+    border: 1px solid white;
+    color: black;
+}
+
+.olexp-measure-active:before,
+.olexp-measure-static:before
+{
+    border-left: 6px solid transparent;
+    border-right: 6px solid transparent;
+    border-top: 6px solid #000000;
+    border-top: 6px solid rgba(0, 0, 0, 0.5);
+    bottom: -6px;
+    content: "";
+    left: 50%;
+    margin-left: -7px;
+    position: absolute;
+}
+
+.olexp-measure-static:before
+{
+    border-top-color: #ffcc33;
+}
+
+.olexp-measure-hidden
+{
+    display: none;
+}

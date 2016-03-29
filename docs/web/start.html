@@ -1,0 +1,317 @@
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>OpenLayers Explorer | Getting Started</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="./css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+    <link href="./css/ie10-viewport-bug-workaround.css" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="./css/olexp.css" rel="stylesheet">
+    <link href="./css/github.css" rel="stylesheet">
+    <script src="./js/highlight.pack.js" type="text/javascript"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <link href="../../libs/ol3/ol.css" rel="stylesheet" type="text/css">
+    <link href="../../libs/w2ui/w2ui.min.css" rel="stylesheet" type="text/css" />
+    <link href="../../dist/olexp.css" rel="stylesheet" type="text/css" />
+    
+    <script src="../../libs/jquery/jquery.js" type="text/javascript"></script>
+    <script src="../../libs/ol3/ol.js" type="text/javascript"></script>
+    <script src="../../libs/w2ui/w2ui.js" type="text/javascript"></script>
+    <script src="../../dist/olexp.js" type="text/javascript"></script>
+
+  </head>
+
+  <body>
+
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+        </div>
+        <div id="navbar" class="collapse navbar-collapse">
+          <ul class="nav navbar-nav">
+            <li class="active"><a href=".">Home</a></li>
+            <li><a href="start.html">Getting Started</a></li>
+            <li><a href="demos.html">Demos</a></li>
+            <li><a href="../api/">Docs</a></li>
+          </ul>
+          <ul class="nav navbar-nav navbar-right olexp-github-logo">
+            <li><a href="https://github.com/dpmcmlxxvi/olexp">
+            <img src="./img/GitHub-Mark-Light-32px.png">
+            </a></li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <div class="container" style="min-width: 750px;">
+      <h1>Getting Started</h1>
+      <div class="row">
+        <div class="col-md-12">
+          <h2>Setup</h2>
+          <p>
+            The <code>olexp</code> library has two dependencies that must be included,
+            OpenLayers 3 and w2ui, and the latter of which also depends on
+            jQuery. Therefore, the following is the minimum needed to set up
+            an <code>olexp</code> web application.
+            <pre>
+<code class="html">    &lt;link href="path/to/ol3/ol.css" rel="stylesheet" type="text/css"/&gt;
+    &lt;link href="path/to/w2ui/w2ui.min.css" rel="stylesheet" type="text/css" /&gt;
+    &lt;link href="path/to/olexp/olexp.min.css" rel="stylesheet" type="text/css" /&gt;
+    
+    &lt;script src="path/to/jquery/jquery.min.js" type="text/javascript"&gt;&lt;/script&gt;
+    &lt;script src="path/to/ol3/ol.js" type="text/javascript"&gt;&lt;/script&gt;
+    &lt;script src="path/to/w2ui/w2ui.min.js" type="text/javascript"&gt;&lt;/script&gt;
+    &lt;script src="path/to/olexp/olexp.min.js" type="text/javascript"&gt;&lt;/script&gt;</code></pre>
+          </p>
+          <p>
+            Alternatively, there is a standalone version of the library that
+            combines the above styles and scripts into single css and javascript
+            files and can be set up as follows:
+            <pre>
+<code class="html">    &lt;link href="path/to/olexp/olexp.sa.min.css" rel="stylesheet" type="text/css" /&gt;
+    &lt;script src="path/to/olexp/olexp.sa.min.js" type="text/javascript"&gt;&lt;/script&gt;</code></pre>
+          </p>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-12">
+          <h2>Usage</h2>
+          <p>
+            Using the <code>olexp</code> library is as simple as creating a
+            <code>&lt;div id="..."&gt;</code> container and then providing its
+            <code>id</code> to the <code>olexp.Explorer(id)</code> constructor.
+            The default explorer provides reasonable defaults for the the
+            explorer's layout and map settings. By default the toolbar is
+            displayed across the top with a layer manager on the left and the
+            map in the center. Note that the <code>&lt;div&gt;</code> container
+            must have its dimensions defined in order for the rendered explorer
+            to be visible.
+          </p>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-12">
+          <h2>Example</h2>
+          <p>
+            Below is the standard explorer that is displayed when no options are
+            provided or layers added - an empty map with the default toolbar
+            and layer manager.
+          </p>
+          <pre>
+<code class="html">    &lt;div id="explorer" style="height: 500px; width: 100%;"&gt;&lt;/div&gt;
+    &lt;script type="text/javascript"&gt;
+        var explorer = new olexp.Explorer('explorer');
+    &lt;/script&gt;</code></pre>
+          <div id="explorer" style="height: 500px; width: 100%;"></div>
+          <script type="text/javascript">
+            var explorer = new olexp.Explorer('explorer');
+          </script>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-12">
+          <h2>Options</h2>
+          <p>
+            The <code>olexp.Explorer(id, options)</code> constructor takes an
+            optional second argument that allows the user to override the
+            default settings and change properties like the placement and
+            styling of various components. The following example shows a subset
+            of some of the available options. Several of the options are
+            <a href="http://w2ui.com/web/docs">w2ui components</a> and can be
+            modified according to their documentation. The <code>olmap</code>
+            option allows the user to provide customized arguments to the
+            <a href="http://openlayers.org/en/v3.9.0/apidoc/ol.Map.html">
+            OpenLayers map constructor</a>. For a complete description see the
+            <a href="../api/olexp.html#.ExplorerOptions">ExplorerOptions</a>
+            documentation.
+            <pre>
+<code class="javascript">    options = {
+        controls : {             // enable/disable various toolbar controls
+            editsettings : true, // control to edit map settings
+            exportmap    : true, // control to export the map to an image
+            graticule    : true, // control to edit grid lines
+            layercontrol : true, // control to add tiles and vector layers
+            layermanager : true, // control to manage layers
+            layermenu    : true, // control to view item options
+            measure      : true, // control to measure lines and areas
+            toolbarhide  : true  // control to hide the toolbar
+        },
+        details : {              // preview panel to displays layer details
+            hidden    : true,
+            resizable : true,
+            size      : '25%',
+            type      : 'preview'
+        },
+        map : {                   // main panel with ol3 map
+            type    : 'main'
+        },
+        navigation : {            // navigation panel holding the layer manager
+            resizable : true,
+            size      : '15%',
+            type      : 'left'
+        },
+        olcontrols : {            // enable/disable various ol.Map controls
+            fullscreen    : true, // control to switch to full screen mode
+            mouseposition : true, // control to view mouse position coordinates
+            overviewmap   : true, // control to display overview map
+            rotate        : true, // control to rotate map
+            scaleline     : true, // control to display scale line
+            zoom          : true, // control to display zoom buttons
+            zoomslider    : true, // control to display zoom slider
+            zoomtoextent  : true  // control to display zoom extent button
+        },
+        olinteractions : {        // enable/disable various ol.Map interactions
+            draganddrop : true    // drag and drop interaction
+        },
+        olmap : {                 // ol.Map constructor options
+            controls : [],
+            view     : new ol.View({center: [0,0], zoom: 4})
+        },
+        outline : {               // panel that outlines the displayed items
+            type  : 'main'
+        },
+        toolbar : {               // toolbar with map and layer controls
+            size  : '40',
+            style : 'padding: 5px;',
+            type  : 'top'
+        },
+    };
+            </code></pre>
+          </p>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-12">
+          <h2>API</h2>
+          <p>
+            The <code>olexp</code> API allows the user to directly modify the w2ui layout and
+            its components (i.e., toolbar, navigation, and map panels) as well
+            as the OpenLayers map. The OpenLayers and w2ui documentation for
+            these API properties should be referenced when altering these
+            objects. For example, modifying w2ui objects after they have been
+            rendered can require calling their respective <code>refresh()</code>
+            method in order for the change to be displayed. The object
+            returned by the <code>olexp.Explorer</code> constructor has the
+            following API. For a complete description see the
+            <a href="../api/olexp.html#.ExplorerAPI">ExplorerAPI</a>
+            documentation.
+          </p>
+            <table class="table table-striped table-bordered">
+                <thead>
+                    <tr>
+                        <th>Property</th>
+                        <th>Type</th>
+                        <th>Description</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>details</td>
+                        <td><a href="http://w2ui.com/web/docs/grid">w2grid</a></td>
+                        <td>
+                            Layer details panels. Display the details of the
+                            later that is currently selected in the outline
+                            sidebar.
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>layout</td>
+                        <td><a href="http://w2ui.com/web/docs/layout">w2layout</a></td>
+                        <td>Explorer layout object. Contains the map, toolbar,
+                        and navigation panels. Can maintain up to 3 additional
+                        panels that are stretchable and resizable.</td>
+                    </tr>
+                    <tr>
+                        <td>manager</td>
+                        <td><a href="../api/olexp.manager.html#.ManagerAPI">ManagerAPI</a></td>
+                        <td>Manager to access and control managed items.</td>
+                    </tr>
+                    <tr>
+                        <td>map</td>
+                        <td><a href="http://openlayers.org/en/v3.9.0/apidoc/ol.Map.html">ol.Map</a></td>
+                        <td>OpenLayers map object used to add layers, overlays, controls, etc.</td>
+                    </tr>
+                    <tr>
+                        <td>navigation</td>
+                        <td><a href="http://w2ui.com/web/docs/w2layout.panels">w2layout.panels</a></td>
+                        <td>Layer manager navigation panel. The panel that
+                        contains the outline sidebar and detail grid.</td>
+                    </tr>
+                    <tr>
+                        <td>options</td>
+                        <td><a href="../api/olexp.html#.ExplorerOptions">ExplorerOptions</a></td>
+                        <td>Explorer options object that contains the
+                        options argument passed to the explorer constructor.</td>
+                    </tr>
+                    <tr>
+                        <td>outline</td>
+                        <td><a href="http://w2ui.com/web/docs/sidebar">w2sidebar</a></td>
+                        <td>Layer manager outline panel that allows the user to
+                        manage the ordering and properties of the map layers.</td>
+                    </tr>
+                    <tr>
+                        <td>toolbar</td>
+                        <td><a href="http://w2ui.com/web/docs/toolbar">w2toolbar</a></td>
+                        <td>Explorer toolbar that contains map and layers
+                        controls.</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+      </div>
+    </div>
+
+    <div class="container">
+      <hr>
+      <footer>
+        <p>&copy; 2016 Daniel Pulido &lt;dpmcmlxxvi@gmail.com&gt;</p>
+        <p>
+            Source code is released under the
+            <a href="http://opensource.org/licenses/MIT">MIT</a> license.
+            Documentation is released under the
+            <a href="http://creativecommons.org/licenses/by-sa/4.0/">CC BY 4.0</a>
+            license.
+            Icons are from <a href="http://trac.osgeo.org/osgeo/wiki">OSGeo</a>
+            and released under the
+            <a href="http://creativecommons.org/licenses/by-sa/4.0/">CC BY 4.0</a>
+            license.
+        </p>
+      </footer>
+    </div>
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script> -->
+    <!-- <script>window.jQuery || document.write('<script src="./js/jquery.min.js"><\/script>')</script> -->
+    <script src="./js/bootstrap.min.js"></script>
+    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+    <script src="./js/ie10-viewport-bug-workaround.js"></script>
+
+  </body>
+</html>
