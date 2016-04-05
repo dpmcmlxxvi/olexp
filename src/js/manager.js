@@ -25,32 +25,11 @@ olexp.manager = olexp.manager || {};
     {
 
         /**
-         * Total count of items added
-         * @ignore
-         * @type {number}
-         */
-        this.count = 0;
-
-        /**
-         * Details grid
-         * @ignore
-         * @type {external:jQuery.fn.w2grid}
-         */
-        this.details = details;
-
-        /**
          * Event listeners
          * @ignore
          * @type {olexp.event.Event}
          */
         this.event = new olexp.event.Event({'select:item' : []});
-
-        /**
-         * List of managed items
-         * @ignore
-         * @type {number}
-         */
-        this.items = [];
 
         /**
          * Layer Manager
