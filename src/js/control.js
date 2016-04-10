@@ -30,7 +30,7 @@ olexp.control = olexp.control || {};
                          },
                 hint   : 'Edit Controls',
                 popup  : {
-                             height : 370,
+                             height : 380,
                              style  : 'width: 100%; height: 100%;',
                              title  : 'Edit Controls',
                              width  : 225
@@ -680,10 +680,10 @@ olexp.control = olexp.control || {};
                 },
                 hint   : 'Add Tile Layer',
                 popup  : {
-                    height : 175,
+                    height : 165,
                     style  : 'border: 0px; background-color: transparent;',
                     title  : 'Add Tile Layer',
-                    width  : 285
+                    width  : 290
                 },
                 span   : 3
             },
