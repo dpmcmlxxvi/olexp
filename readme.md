@@ -13,7 +13,12 @@ a layer manager and a toolbar.
 DOCUMENTATION
 ------------------------------------------------------------
 
-The library documentation is available [here](http://dpmcmlxxvi.github.io/olexp).
+The following help is available at the olexp
+[website](http://dpmcmlxxvi.github.io/olexp):
+
+- [Documentation](http://dpmcmlxxvi.github.io/olexp/docs/web/)
+- [Examples](http://dpmcmlxxvi.github.io/olexp/docs/web/demos.html)
+- [API](http://dpmcmlxxvi.github.io/olexp/docs/api/)
 
 BUILD
 ------------------------------------------------------------
