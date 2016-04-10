@@ -1,6 +1,6 @@
 {
   "name": "olexp",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "OpenLayers Explorer is a JavaScript application that combines the power of OpenLayers 3 interactive mapping and the layout management of w2ui.",
   "author": "Daniel Pulido <dpmcmlxxvi@gmail.com>",
   "main": "dist/olexp.js",
