@@ -9,6 +9,8 @@ olexp.menu = olexp.menu || {};
 //--------------------------------------------------
 (function(olexp) {
 
+    "use strict";
+
     /**
      * Properties menu item
      * @param {olexp.manager.Manager} manager Explorer manager

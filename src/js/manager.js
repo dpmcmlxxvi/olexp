@@ -9,6 +9,8 @@ olexp.manager = olexp.manager || {};
 //--------------------------------------------------
 (function(olexp) {
 
+    "use strict";
+
     /**
      * Item manager that synchronizes adding and removing items from the map
      * sidebar and the corresponding layers on the ol3 map
@@ -446,8 +448,7 @@ olexp.manager = olexp.manager || {};
      * @public
      * @returns {olexp.manager.ManagerAPI}
      */
-    olexp.manager.Manager = function(map, outline, details, layers, overlays)
-    {
+    olexp.manager.Manager = function(map, outline, details, layers, overlays) {
         var manager = new ManagerAPI(map, outline, details, layers, overlays);
         return {
             getById        : manager.getById.bind(manager),
@@ -1143,8 +1144,7 @@ olexp.manager = olexp.manager || {};
      * @param {external:jQuery.fn.w2grid} details Details grid
      * @public
      */
-    olexp.manager.NodeManager = function(id, map, outline, details)
-    {
+    olexp.manager.NodeManager = function(id, map, outline, details) {
         var manager = new NodeManager(id, map, outline, details);
         return {
             getById        : manager.getById.bind(manager),

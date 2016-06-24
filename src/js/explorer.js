@@ -367,6 +367,7 @@ var olexp = olexp || {};
  * olexp main module
  */
 (function(olexp) {
+    "use strict";
 
     /**
      * Main OpenLayers Explorer object that provides a layout manager to an
@@ -976,8 +977,7 @@ var olexp = olexp || {};
      * @returns {olexp.ExplorerAPI} Explorer API
      * @throws {Error} DOM id must be defined and exist
      */
-    olexp.Explorer = function(id, options)
-    {
+    olexp.Explorer = function(id, options) {
         var explorer = new Explorer(id, options);
         return explorer.api;
     };

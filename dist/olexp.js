@@ -368,6 +368,7 @@ var olexp = olexp || {};
  * olexp main module
  */
 (function(olexp) {
+    "use strict";
 
     /**
      * Main OpenLayers Explorer object that provides a layout manager to an
@@ -977,8 +978,7 @@ var olexp = olexp || {};
      * @returns {olexp.ExplorerAPI} Explorer API
      * @throws {Error} DOM id must be defined and exist
      */
-    olexp.Explorer = function(id, options)
-    {
+    olexp.Explorer = function(id, options) {
         var explorer = new Explorer(id, options);
         return explorer.api;
     };
@@ -995,6 +995,8 @@ olexp.event = olexp.event || {};
 // Event Handler
 //--------------------------------------------------
 (function(olexp) {
+
+    "use strict";
 
     /**
      * Handles listening for registered events
@@ -1132,6 +1134,8 @@ olexp.control = olexp.control || {};
 // Edit Settings Control
 //--------------------------------------------------
 (function(olexp) {
+
+    "use strict";
 
     /**
      * Control to edit settings
@@ -2664,8 +2668,8 @@ olexp = (function(olexp) {
          * @type {olexp.measure.Tool}
          */
         this.tool = new olexp.measure.Tool(explorer.map,
-                                           olexp.measure.Type.LINE,
-                                           settings);
+                                           {type: olexp.measure.Type.LINE,
+                                            settings: settings});
 
     };
 
@@ -2674,8 +2678,7 @@ olexp = (function(olexp) {
      * @memberOf Measurement.prototype
      * @private
      */
-    Measurement.prototype.area = function()
-    {
+    Measurement.prototype.area = function() {
         var enable = !this.explorer.toolbar.get(this.ids.area).checked;
         this.measure(olexp.measure.Type.AREA, enable);
     };
@@ -2776,107 +2779,106 @@ olexp = (function(olexp) {
 //--------------------------------------------------
 (function(olexp) {
 
- /**
-  * Control to hide toolbar
-  * @param {olexp.Explorer} explorer Source explorer
-  * @param {object} options Control options {hidden   : True if toolbar is
-  *                                                     initially hidden,
-  *                                          settings : olexp.ExplorerSettings}
-  * @private
-  */
- var ToolbarHide = function(explorer, options)
- {
+    /**
+     * Control to hide toolbar
+     * @param {olexp.Explorer} explorer Source explorer
+     * @param {object} options Control options {hidden   : True if toolbar is
+     *                                                     initially hidden,
+     *                                          settings : olexp.ExplorerSettings}
+     * @private
+     */
+    var ToolbarHide = function(explorer, options)
+    {
+    
+        //==================================================
+        // Override Toolbar Hide option defaults
+        // with user provided values. 
+        //--------------------------------------------------
+        var olexpSettings = $.extend(true, {control : {
+            ToolbarHide : {
+                hint : 'Hide toolbar'
+            }}}, options.settings);
+    
+        /**
+         * Button element id
+         * @field
+         * @private
+         * @type {string}
+         */
+        this.button = options.settings.prefix + '-control-toolbar-hide-button';
+    
+        /**
+         * Source explorer
+         * @field
+         * @private
+         * @type {olexp.Explorer}
+         */
+        this.explorer = explorer;
+    
+        /**
+         * Control icon
+         * @field
+         * @private
+         * @type {string}
+         */
+        this.icon = 'olexp-control-toolbar-hide';
+    
+        /**
+         * ToolbarHide control settings
+         * @field
+         * @private
+         * @param {Object} settings
+         */
+        this.settings = olexpSettings.control.ToolbarHide;
+    
+        /**
+         * ol.control to show toolbar when hidden
+         * @field
+         * @private
+         * @type {olexp.ol.ToolbarShow}
+         */
+        this.show = olexp.ol.ToolbarShow(this.explorer, options);
+    
+    };
 
-     //==================================================
-     // Override Toolbar Hide option defaults
-     // with user provided values. 
-     //--------------------------------------------------
-     var olexpSettings = $.extend(true, {control : {
-         ToolbarHide : {
-             hint : 'Hide toolbar'
-         }}}, options.settings);
-
+    /**
+     * Toolbar visibility
+     * @private
+     */
+    ToolbarHide.prototype.hide = function()
+    {
+        this.explorer.layout.hide(this.explorer.options.toolbar.type);
+        this.show.setMap(this.explorer.map);
+    };
+    
      /**
-      * Button element id
-      * @field
-      * @private
-      * @type {string}
+      * Control to set toolbar visibility
+      * @memberOf olexp.control
+      * @param {olexp.Explorer} explorer Source Explorer
+      * @param {object} options Control options
+      * @param {boolean} options.hidden True if toolbar is initially hidden
+      * @param {olexp.ExplorerSettings} options.settings Explorer settings
+      * @public
+      * @returns {external:jQuery.fn.w2toolbar.properties} ToolbarHide toolbar
+      *          control
       */
-     this.button = options.settings.prefix + '-control-toolbar-hide-button';
+    olexp.control.ToolbarHide = function(explorer, options) {
+    
+        var control = new ToolbarHide(explorer, options);
 
-     /**
-      * Source explorer
-      * @field
-      * @private
-      * @type {olexp.Explorer}
-      */
-     this.explorer = explorer;
+         return {
+             hint    : control.settings.hint,
+             id      : control.button,
+             img     : control.icon,
+             onClick : function (event) {
+                           control.hide();
+                       },
+             type    : 'button'
+         };
+    };
+    
+    return olexp;
 
-     /**
-      * Control icon
-      * @field
-      * @private
-      * @type {string}
-      */
-     this.icon = 'olexp-control-toolbar-hide';
-
-     /**
-      * ToolbarHide control settings
-      * @field
-      * @private
-      * @param {Object} settings
-      */
-     this.settings = olexpSettings.control.ToolbarHide;
-
-     /**
-      * ol.control to show toolbar when hidden
-      * @field
-      * @private
-      * @type {olexp.ol.ToolbarShow}
-      */
-     this.show = olexp.ol.ToolbarShow(this.explorer, options);
-
- };
-
- /**
-  * Toolbar visibility
-  * @private
-  */
- ToolbarHide.prototype.hide = function()
- {
-     this.explorer.layout.hide(this.explorer.options.toolbar.type);
-     this.show.setMap(this.explorer.map);
- };
-
-  /**
-   * Control to set toolbar visibility
-   * @memberOf olexp.control
-   * @param {olexp.Explorer} explorer Source Explorer
-   * @param {object} options Control options
-   * @param {boolean} options.hidden True if toolbar is initially hidden
-   * @param {olexp.ExplorerSettings} options.settings Explorer settings
-   * @public
-   * @returns {external:jQuery.fn.w2toolbar.properties} ToolbarHide toolbar
-   *          control
-   */
- olexp.control.ToolbarHide = function(explorer, options)
- {
-
-     var control = new ToolbarHide(explorer, options);
-     
-      return {
-          hint    : control.settings.hint,
-          id      : control.button,
-          img     : control.icon,
-          onClick : function (event) {
-                        control.hide();
-                    },
-          type    : 'button'
-      };
- };
-
- return olexp;
- 
 }(olexp || {}));
 
 
@@ -2889,6 +2891,8 @@ olexp.item = olexp.item || {};
 // Explorer managed item
 //--------------------------------------------------
 (function(olexp) {
+
+    "use strict";
 
     /**
      * Item icons
@@ -2937,7 +2941,7 @@ olexp.item = olexp.item || {};
      * @param {ol.layer.Layer|ol.Overlay} layer ol3 layer/overlay object
      * @private
      */
-    Item = function(id, name, layer)
+    var Item = function(id, name, layer)
     {
 
         /**
@@ -3308,8 +3312,7 @@ olexp.item = olexp.item || {};
      *        overlay object
      * @public
      */
-    olexp.item.Item = function(id, name, layer)
-    {
+    olexp.item.Item = function(id, name, layer) {
         var item = new Item(id, name, layer);
         return {
             getDetails       : item.getDetails.bind(item),
@@ -3417,6 +3420,8 @@ olexp.manager = olexp.manager || {};
 // Manager
 //--------------------------------------------------
 (function(olexp) {
+
+    "use strict";
 
     /**
      * Item manager that synchronizes adding and removing items from the map
@@ -3855,8 +3860,7 @@ olexp.manager = olexp.manager || {};
      * @public
      * @returns {olexp.manager.ManagerAPI}
      */
-    olexp.manager.Manager = function(map, outline, details, layers, overlays)
-    {
+    olexp.manager.Manager = function(map, outline, details, layers, overlays) {
         var manager = new ManagerAPI(map, outline, details, layers, overlays);
         return {
             getById        : manager.getById.bind(manager),
@@ -4552,8 +4556,7 @@ olexp.manager = olexp.manager || {};
      * @param {external:jQuery.fn.w2grid} details Details grid
      * @public
      */
-    olexp.manager.NodeManager = function(id, map, outline, details)
-    {
+    olexp.manager.NodeManager = function(id, map, outline, details) {
         var manager = new NodeManager(id, map, outline, details);
         return {
             getById        : manager.getById.bind(manager),
@@ -4581,6 +4584,8 @@ olexp.measure = olexp.measure || {};
 // Measuring Tool
 //--------------------------------------------------
 (function(olexp) {
+
+    "use strict";
 
     /**
      * Enumeration of item measurements types. Object key where measurement is stored.
@@ -5238,6 +5243,8 @@ olexp.menu = olexp.menu || {};
 //--------------------------------------------------
 (function(olexp) {
 
+    "use strict";
+
     /**
      * Properties menu item
      * @param {olexp.manager.Manager} manager Explorer manager
@@ -5652,6 +5659,8 @@ olexp.ol = olexp.ol || {};
 //--------------------------------------------------
 (function(olexp) {
 
+    "use strict";
+
     /**
      * Control to show toolbar
      * @param {olexp.Explorer} explorer Source explorer
@@ -5727,8 +5736,7 @@ olexp.ol = olexp.ol || {};
      * @returns {external:jQuery.fn.w2toolbar.properties} ToolbarShow toolbar
      *          control
      */
-    olexp.ol.ToolbarShow = function(explorer, options)
-    {
+    olexp.ol.ToolbarShow = function(explorer, options) {
     
         var opts = $.extend({hidden: false}, options);
         
@@ -5752,6 +5760,8 @@ olexp.selection = olexp.selection || {};
 // Selection Tool
 //--------------------------------------------------
 (function(olexp) {
+
+    "use strict";
 
     /**
      * Handles the selection of features on the map
@@ -5833,8 +5843,7 @@ olexp.selection = olexp.selection || {};
      * @public
      * @returns {olexp.selection.Feature} Feature selector
      */
-    olexp.selection.Feature = function(map, details)
-    {
+    olexp.selection.Feature = function(map, details) {
 
         var selector = new Feature(map, details);
 
@@ -5868,12 +5877,14 @@ olexp.util = olexp.util || {};
 //--------------------------------------------------
 (function(olexp) {
 
+    "use strict";
+
     /**
      * Utility tools
      * @param {olexp.ExplorerSettings} settings olexp settings
      * @private
      */
-    Util = function(settings)
+    var Util = function(settings)
     {
 
         //==================================================
@@ -5883,7 +5894,7 @@ olexp.util = olexp.util || {};
         var olexpSettings = $.extend(true, {util : {Util : {
             Cluster         : function(size)
                               {
-                                  style = [new ol.style.Style({
+                                  var style = [new ol.style.Style({
                                                image : new ol.style.Circle({
                                                            radius : 10,
                                                            stroke : new ol.style.Stroke({
@@ -6561,8 +6572,7 @@ olexp.util = olexp.util || {};
      * @param {olexp.ExplorerSettings} settings olexp settings
      * @public
      */
-    olexp.util.Util = function(settings)
-    {
+    olexp.util.Util = function(settings) {
         var util = new Util(settings);
         return {
             addLayerVector  : util.addLayerVector.bind(util),

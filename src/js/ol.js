@@ -10,6 +10,8 @@ olexp.ol = olexp.ol || {};
 //--------------------------------------------------
 (function(olexp) {
 
+    "use strict";
+
     /**
      * Control to show toolbar
      * @param {olexp.Explorer} explorer Source explorer
@@ -85,8 +87,7 @@ olexp.ol = olexp.ol || {};
      * @returns {external:jQuery.fn.w2toolbar.properties} ToolbarShow toolbar
      *          control
      */
-    olexp.ol.ToolbarShow = function(explorer, options)
-    {
+    olexp.ol.ToolbarShow = function(explorer, options) {
     
         var opts = $.extend({hidden: false}, options);
         

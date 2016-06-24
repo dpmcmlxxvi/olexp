@@ -9,6 +9,8 @@ olexp.measure = olexp.measure || {};
 //--------------------------------------------------
 (function(olexp) {
 
+    "use strict";
+
     /**
      * Enumeration of item measurements types. Object key where measurement is stored.
      * @enum {string}

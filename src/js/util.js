@@ -9,12 +9,14 @@ olexp.util = olexp.util || {};
 //--------------------------------------------------
 (function(olexp) {
 
+    "use strict";
+
     /**
      * Utility tools
      * @param {olexp.ExplorerSettings} settings olexp settings
      * @private
      */
-    Util = function(settings)
+    var Util = function(settings)
     {
 
         //==================================================
@@ -24,7 +26,7 @@ olexp.util = olexp.util || {};
         var olexpSettings = $.extend(true, {util : {Util : {
             Cluster         : function(size)
                               {
-                                  style = [new ol.style.Style({
+                                  var style = [new ol.style.Style({
                                                image : new ol.style.Circle({
                                                            radius : 10,
                                                            stroke : new ol.style.Stroke({
@@ -702,8 +704,7 @@ olexp.util = olexp.util || {};
      * @param {olexp.ExplorerSettings} settings olexp settings
      * @public
      */
-    olexp.util.Util = function(settings)
-    {
+    olexp.util.Util = function(settings) {
         var util = new Util(settings);
         return {
             addLayerVector  : util.addLayerVector.bind(util),

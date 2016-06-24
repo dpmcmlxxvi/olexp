@@ -9,6 +9,8 @@ olexp.item = olexp.item || {};
 //--------------------------------------------------
 (function(olexp) {
 
+    "use strict";
+
     /**
      * Item icons
      * @enum {string}
@@ -56,7 +58,7 @@ olexp.item = olexp.item || {};
      * @param {ol.layer.Layer|ol.Overlay} layer ol3 layer/overlay object
      * @private
      */
-    Item = function(id, name, layer)
+    var Item = function(id, name, layer)
     {
 
         /**
@@ -427,8 +429,7 @@ olexp.item = olexp.item || {};
      *        overlay object
      * @public
      */
-    olexp.item.Item = function(id, name, layer)
-    {
+    olexp.item.Item = function(id, name, layer) {
         var item = new Item(id, name, layer);
         return {
             getDetails       : item.getDetails.bind(item),

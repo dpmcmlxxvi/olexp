@@ -9,6 +9,8 @@ olexp.selection = olexp.selection || {};
 //--------------------------------------------------
 (function(olexp) {
 
+    "use strict";
+
     /**
      * Handles the selection of features on the map
      * @param {ol.Map} map Managed map
@@ -89,8 +91,7 @@ olexp.selection = olexp.selection || {};
      * @public
      * @returns {olexp.selection.Feature} Feature selector
      */
-    olexp.selection.Feature = function(map, details)
-    {
+    olexp.selection.Feature = function(map, details) {
 
         var selector = new Feature(map, details);
 

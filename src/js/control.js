@@ -9,6 +9,8 @@ olexp.control = olexp.control || {};
 //--------------------------------------------------
 (function(olexp) {
 
+    "use strict";
+
     /**
      * Control to edit settings
      * @param {ol.Map} map Source map
@@ -1540,8 +1542,8 @@ olexp = (function(olexp) {
          * @type {olexp.measure.Tool}
          */
         this.tool = new olexp.measure.Tool(explorer.map,
-                                           olexp.measure.Type.LINE,
-                                           settings);
+                                           {type: olexp.measure.Type.LINE,
+                                            settings: settings});
 
     };
 
@@ -1550,8 +1552,7 @@ olexp = (function(olexp) {
      * @memberOf Measurement.prototype
      * @private
      */
-    Measurement.prototype.area = function()
-    {
+    Measurement.prototype.area = function() {
         var enable = !this.explorer.toolbar.get(this.ids.area).checked;
         this.measure(olexp.measure.Type.AREA, enable);
     };
@@ -1652,105 +1653,104 @@ olexp = (function(olexp) {
 //--------------------------------------------------
 (function(olexp) {
 
- /**
-  * Control to hide toolbar
-  * @param {olexp.Explorer} explorer Source explorer
-  * @param {object} options Control options {hidden   : True if toolbar is
-  *                                                     initially hidden,
-  *                                          settings : olexp.ExplorerSettings}
-  * @private
-  */
- var ToolbarHide = function(explorer, options)
- {
+    /**
+     * Control to hide toolbar
+     * @param {olexp.Explorer} explorer Source explorer
+     * @param {object} options Control options {hidden   : True if toolbar is
+     *                                                     initially hidden,
+     *                                          settings : olexp.ExplorerSettings}
+     * @private
+     */
+    var ToolbarHide = function(explorer, options)
+    {
+    
+        //==================================================
+        // Override Toolbar Hide option defaults
+        // with user provided values. 
+        //--------------------------------------------------
+        var olexpSettings = $.extend(true, {control : {
+            ToolbarHide : {
+                hint : 'Hide toolbar'
+            }}}, options.settings);
+    
+        /**
+         * Button element id
+         * @field
+         * @private
+         * @type {string}
+         */
+        this.button = options.settings.prefix + '-control-toolbar-hide-button';
+    
+        /**
+         * Source explorer
+         * @field
+         * @private
+         * @type {olexp.Explorer}
+         */
+        this.explorer = explorer;
+    
+        /**
+         * Control icon
+         * @field
+         * @private
+         * @type {string}
+         */
+        this.icon = 'olexp-control-toolbar-hide';
+    
+        /**
+         * ToolbarHide control settings
+         * @field
+         * @private
+         * @param {Object} settings
+         */
+        this.settings = olexpSettings.control.ToolbarHide;
+    
+        /**
+         * ol.control to show toolbar when hidden
+         * @field
+         * @private
+         * @type {olexp.ol.ToolbarShow}
+         */
+        this.show = olexp.ol.ToolbarShow(this.explorer, options);
+    
+    };
 
-     //==================================================
-     // Override Toolbar Hide option defaults
-     // with user provided values. 
-     //--------------------------------------------------
-     var olexpSettings = $.extend(true, {control : {
-         ToolbarHide : {
-             hint : 'Hide toolbar'
-         }}}, options.settings);
-
+    /**
+     * Toolbar visibility
+     * @private
+     */
+    ToolbarHide.prototype.hide = function()
+    {
+        this.explorer.layout.hide(this.explorer.options.toolbar.type);
+        this.show.setMap(this.explorer.map);
+    };
+    
      /**
-      * Button element id
-      * @field
-      * @private
-      * @type {string}
+      * Control to set toolbar visibility
+      * @memberOf olexp.control
+      * @param {olexp.Explorer} explorer Source Explorer
+      * @param {object} options Control options
+      * @param {boolean} options.hidden True if toolbar is initially hidden
+      * @param {olexp.ExplorerSettings} options.settings Explorer settings
+      * @public
+      * @returns {external:jQuery.fn.w2toolbar.properties} ToolbarHide toolbar
+      *          control
       */
-     this.button = options.settings.prefix + '-control-toolbar-hide-button';
+    olexp.control.ToolbarHide = function(explorer, options) {
+    
+        var control = new ToolbarHide(explorer, options);
 
-     /**
-      * Source explorer
-      * @field
-      * @private
-      * @type {olexp.Explorer}
-      */
-     this.explorer = explorer;
+         return {
+             hint    : control.settings.hint,
+             id      : control.button,
+             img     : control.icon,
+             onClick : function (event) {
+                           control.hide();
+                       },
+             type    : 'button'
+         };
+    };
+    
+    return olexp;
 
-     /**
-      * Control icon
-      * @field
-      * @private
-      * @type {string}
-      */
-     this.icon = 'olexp-control-toolbar-hide';
-
-     /**
-      * ToolbarHide control settings
-      * @field
-      * @private
-      * @param {Object} settings
-      */
-     this.settings = olexpSettings.control.ToolbarHide;
-
-     /**
-      * ol.control to show toolbar when hidden
-      * @field
-      * @private
-      * @type {olexp.ol.ToolbarShow}
-      */
-     this.show = olexp.ol.ToolbarShow(this.explorer, options);
-
- };
-
- /**
-  * Toolbar visibility
-  * @private
-  */
- ToolbarHide.prototype.hide = function()
- {
-     this.explorer.layout.hide(this.explorer.options.toolbar.type);
-     this.show.setMap(this.explorer.map);
- };
-
-  /**
-   * Control to set toolbar visibility
-   * @memberOf olexp.control
-   * @param {olexp.Explorer} explorer Source Explorer
-   * @param {object} options Control options
-   * @param {boolean} options.hidden True if toolbar is initially hidden
-   * @param {olexp.ExplorerSettings} options.settings Explorer settings
-   * @public
-   * @returns {external:jQuery.fn.w2toolbar.properties} ToolbarHide toolbar
-   *          control
-   */
- olexp.control.ToolbarHide = function(explorer, options)
- {
-
-     var control = new ToolbarHide(explorer, options);
-     
-      return {
-          hint    : control.settings.hint,
-          id      : control.button,
-          img     : control.icon,
-          onClick : function (event) {
-                        control.hide();
-                    },
-          type    : 'button'
-      };
- };
-
- return olexp;
- 
 }(olexp || {}));

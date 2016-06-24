@@ -9,6 +9,8 @@ olexp.event = olexp.event || {};
 //--------------------------------------------------
 (function(olexp) {
 
+    "use strict";
+
     /**
      * Handles listening for registered events
      * @param {object} listeners Initial listeners
