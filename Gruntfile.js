@@ -3,7 +3,7 @@
 module.exports = function (grunt) {
 
     var pkg = grunt.file.readJSON('package.json');
-    var banner = '/* ' + pkg.name + ' ' + pkg.version + ' (c) ' + pkg.author + ' */\n';
+    var banner = '/* ' + pkg.name + ' ' + pkg.version + ' (c) ' + pkg.author.name + ' <' + pkg.author.email + '>' + ' */\n';
 
     grunt.initConfig({
 
