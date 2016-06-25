@@ -34,6 +34,15 @@ To build the library clone it, install it, then grunt it
     npm install
     grunt
 
+NPM
+------------------------------------------------------------
+
+The olexp library source and distribution is also available as a npm package
+[here](https://www.npmjs.com/package/olexp). The following installs the olexp
+package:
+
+    npm install olexp
+
 LICENSE
 ------------------------------------------------------------
 
