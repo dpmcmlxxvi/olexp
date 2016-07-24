@@ -1,4 +1,4 @@
-/* olexp 0.1.3 (c) Daniel Pulido <dpmcmlxxvi@gmail.com> */
+/* olexp 0.2.0 (c) Daniel Pulido <dpmcmlxxvi@gmail.com> */
 
 /* global ol, w2ui */
 
