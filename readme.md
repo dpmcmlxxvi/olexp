@@ -3,7 +3,7 @@ OpenLayers Explorer
 
 [![build](https://travis-ci.org/dpmcmlxxvi/olexp.svg?branch=istanbul-phantom)](https://travis-ci.org/dpmcmlxxvi/olexp)
 [![coverage](https://img.shields.io/coveralls/dpmcmlxxvi/olexp.svg)](https://coveralls.io/r/dpmcmlxxvi/olexp?branch=istanbul-phantom)
-[![codacy](https://api.codacy.com/project/badge/Grade/df098e3d833a44a3af028f712c4ee75e)](https://www.codacy.com/app/dpmcmlxxvi/olexp?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=dpmcmlxxvi/olexp&amp;utm_campaign=Badge_Grade)
+[![codacy](https://img.shields.io/codacy/grade/df098e3d833a44a3af028f712c4ee75e.svg)](https://www.codacy.com/app/dpmcmlxxvi/olexp?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=dpmcmlxxvi/olexp&amp;utm_campaign=Badge_Grade)
 [![npm](https://badge.fury.io/js/olexp.svg)](https://badge.fury.io/js/olexp)
 [![dependencies](https://img.shields.io/david/dpmcmlxxvi/olexp.svg)](https://david-dm.org/dpmcmlxxvi/olexp)
 [![devdependencies](https://img.shields.io/david/dev/dpmcmlxxvi/olexp/istanbul-phantom.svg)](https://david-dm.org/dpmcmlxxvi/olexp/istanbul-phantom#info=devDependencies)
