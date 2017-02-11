@@ -1,6 +1,15 @@
 OpenLayers Explorer
 ============================================================
 
+[![build](https://travis-ci.org/dpmcmlxxvi/olexp.svg?branch=master)](https://travis-ci.org/dpmcmlxxvi/olexp)
+[![coverage](https://img.shields.io/coveralls/dpmcmlxxvi/olexp.svg)](https://coveralls.io/r/dpmcmlxxvi/olexp?branch=master)
+[![codacy](https://img.shields.io/codacy/grade/44810a70e6a34122818dfa31e4304c50.svg)](https://www.codacy.com/app/dpmcmlxxvi/olexp?utm_source=github.com&utm_medium=referral&utm_content=dpmcmlxxvi/olexp&utm_campaign=badger)
+[![npm](https://badge.fury.io/js/olexp.svg)](https://badge.fury.io/js/olexp)
+[![dependencies](https://img.shields.io/david/dpmcmlxxvi/olexp.svg)](https://david-dm.org/dpmcmlxxvi/olexp)
+[![devdependencies](https://img.shields.io/david/dev/dpmcmlxxvi/olexp.svg)](https://david-dm.org/dpmcmlxxvi/olexp/#info=devDependencies)
+[![Greenkeeper](https://badges.greenkeeper.io/dpmcmlxxvi/olexp.svg)](https://greenkeeper.io/)
+[![grunt](https://cdn.gruntjs.com/builtwith.png)](http://gruntjs.com/)
+
 OpenLayers Explorer (olexp) is a Javascript library that combines the mapping
 power of [OpenLayers](http://openlayers.org/) and the layout management of
 [w2ui](http://w2ui.com). The olexp library can be used to create web
@@ -33,6 +42,15 @@ To build the library clone it, install it, then grunt it
     git clone https://github.com/dpmcmlxxvi/olexp.git
     npm install
     grunt
+
+TEST
+------------------------------------------------------------
+
+To run the unit tests
+
+    grunt test
+
+Then open the coverage report in the `coverage` directory in a browser.
 
 NPM
 ------------------------------------------------------------

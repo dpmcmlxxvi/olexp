@@ -5,7 +5,7 @@
 /**
  * @namespace olexp
  */
-var olexp = olexp || {};
+window.olexp = window.olexp || {};
 
 //==================================================
 // Documentation definitions
@@ -989,7 +989,7 @@ var olexp = olexp || {};
 /**
  * @namespace olexp.event
  */
-olexp.event = olexp.event || {};
+window.olexp.event = window.olexp.event || {};
 
 //==================================================
 // Event Handler
@@ -1128,7 +1128,7 @@ olexp.event = olexp.event || {};
 /**
  * @namespace olexp.control
  */
-olexp.control = olexp.control || {};
+window.olexp.control = window.olexp.control || {};
 
 //==================================================
 // Edit Settings Control
@@ -2885,7 +2885,7 @@ olexp = (function(olexp) {
 /**
  * @namespace olexp.item
  */
-olexp.item = olexp.item || {};
+window.olexp.item = window.olexp.item || {};
 
 //==================================================
 // Explorer managed item
@@ -3414,7 +3414,7 @@ olexp.item = olexp.item || {};
 /**
  * @namespace olexp.manager
  */
-olexp.manager = olexp.manager || {};
+window.olexp.manager = window.olexp.manager || {};
 
 //==================================================
 // Manager
@@ -4578,7 +4578,7 @@ olexp.manager = olexp.manager || {};
 /**
  * @namespace olexp.measure
  */
-olexp.measure = olexp.measure || {};
+window.olexp.measure = window.olexp.measure || {};
 
 //==================================================
 // Measuring Tool
@@ -5236,7 +5236,7 @@ olexp.measure = olexp.measure || {};
 /**
  * @namespace olexp.menu
  */
-olexp.menu = olexp.menu || {};
+window.olexp.menu = window.olexp.menu || {};
 
 //==================================================
 // Properties menu item
@@ -5652,7 +5652,7 @@ olexp.menu = olexp.menu || {};
  * @description olexp specific OpenLayers 3 classes 
  * @namespace olexp.ol
  */
-olexp.ol = olexp.ol || {};
+window.olexp.ol = window.olexp.ol || {};
 
 //==================================================
 // Toolbar show Control
@@ -5754,7 +5754,7 @@ olexp.ol = olexp.ol || {};
 /**
  * @namespace olexp.selection
  */
-olexp.selection = olexp.selection || {};
+window.olexp.selection = window.olexp.selection || {};
 
 //==================================================
 // Selection Tool
@@ -5870,7 +5870,7 @@ olexp.selection = olexp.selection || {};
 /**
  * @namespace olexp.util
  */
-olexp.util = olexp.util || {};
+window.olexp.util = window.olexp.util || {};
 
 //==================================================
 // Utility tools

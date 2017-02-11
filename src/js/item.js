@@ -2,7 +2,7 @@
 /**
  * @namespace olexp.item
  */
-olexp.item = olexp.item || {};
+window.olexp.item = window.olexp.item || {};
 
 //==================================================
 // Explorer managed item

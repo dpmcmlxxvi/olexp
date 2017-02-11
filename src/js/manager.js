@@ -2,7 +2,7 @@
 /**
  * @namespace olexp.manager
  */
-olexp.manager = olexp.manager || {};
+window.olexp.manager = window.olexp.manager || {};
 
 //==================================================
 // Manager

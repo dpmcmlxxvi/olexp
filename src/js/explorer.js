@@ -4,7 +4,7 @@
 /**
  * @namespace olexp
  */
-var olexp = olexp || {};
+window.olexp = window.olexp || {};
 
 //==================================================
 // Documentation definitions

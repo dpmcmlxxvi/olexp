@@ -2,7 +2,7 @@
 /**
  * @namespace olexp.selection
  */
-olexp.selection = olexp.selection || {};
+window.olexp.selection = window.olexp.selection || {};
 
 //==================================================
 // Selection Tool

@@ -2,7 +2,7 @@
 /**
  * @namespace olexp.menu
  */
-olexp.menu = olexp.menu || {};
+window.olexp.menu = window.olexp.menu || {};
 
 //==================================================
 // Properties menu item

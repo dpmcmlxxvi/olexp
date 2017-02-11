@@ -2,7 +2,7 @@
 /**
  * @namespace olexp.control
  */
-olexp.control = olexp.control || {};
+window.olexp.control = window.olexp.control || {};
 
 //==================================================
 // Edit Settings Control

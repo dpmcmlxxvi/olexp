@@ -1,5 +1,31 @@
 /*global module */
 
+var istanbul = require("browserify-istanbul");
+
+var olexpcss = [
+    'src/css/explorer.css',
+    'src/css/control.css',
+    'src/css/item.css',
+    'src/css/measure.css',
+    'src/css/menu.css',
+    'src/css/ol.css',
+    'src/css/olexp.ol3.css',
+    'src/css/olexp.w2ui.css'
+];
+
+var olexpjs = [
+    'src/js/explorer.js',
+    'src/js/event.js',
+    'src/js/control.js',
+    'src/js/item.js',
+    'src/js/manager.js',
+    'src/js/measure.js',
+    'src/js/menu.js',
+    'src/js/ol.js',
+    'src/js/selection.js',
+    'src/js/util.js'
+];
+
 module.exports = function (grunt) {
 
     var pkg = grunt.file.readJSON('package.json');
@@ -9,6 +35,26 @@ module.exports = function (grunt) {
 
         pkg: pkg,
 
+        browserify: {
+            options: {
+                browserifyOptions: {
+                    debug: true
+                },
+                postBundleCB: function (err, buffer, next) {
+                    var code = grunt.template.process(buffer.toString(), { data: grunt.file.readJSON("package.json") });
+                    next(err, code);
+                }
+            },
+            coverage: {
+                files: {
+                    "instrumented-code/olexp.js": olexpjs
+                },
+                options: {
+                    transform: [istanbul]
+                }
+            }
+        },
+ 
         clean: {
             api: [
                      'docs/api/*'
@@ -16,7 +62,11 @@ module.exports = function (grunt) {
             olexp: [
                        'dist/*.js',
                        'dist/*.css'
-                   ]
+                   ],
+            test: [
+                "coverage",
+                "instrumented-code"
+            ]
         },
 
         concat: {
@@ -25,34 +75,14 @@ module.exports = function (grunt) {
                 options: {
                     banner: banner
                 },
-                src: [
-                         'src/css/explorer.css',
-                         'src/css/control.css',
-                         'src/css/item.css',
-                         'src/css/measure.css',
-                         'src/css/menu.css',
-                         'src/css/ol.css',
-                         'src/css/olexp.ol3.css',
-                         'src/css/olexp.w2ui.css'
-                     ]
+                src: olexpcss
             },
             js: {
                 dest: 'dist/olexp.js',
                 options: {
                     banner: banner
                 },
-                src: [
-                         'src/js/explorer.js',
-                         'src/js/event.js',
-                         'src/js/control.js',
-                         'src/js/item.js',
-                         'src/js/manager.js',
-                         'src/js/measure.js',
-                         'src/js/menu.js',
-                         'src/js/ol.js',
-                         'src/js/selection.js',
-                         'src/js/util.js'
-                     ]
+                src: olexpjs
             },
             'css-sa': {
                 dest: 'dist/olexp.sa.min.css',
@@ -160,6 +190,23 @@ module.exports = function (grunt) {
             }
         },
 
+        mocha: {
+            options: {
+                coverage: {
+                    jsonReport: "coverage",
+                    coberturaReport: "coverage",
+                    lcovReport: "coverage",
+                    cloverReport: "coverage"
+                },
+                reporter: "Spec",
+                run: true,
+                timeout: 60000
+            },
+            test: {
+                src: ["test/index.html"]
+            }
+        },
+
         release: {
             options: {
                 afterBump: ['default', 'dist'],
@@ -183,6 +230,7 @@ module.exports = function (grunt) {
 
     });
 
+    grunt.loadNpmTasks("grunt-browserify");
     grunt.loadNpmTasks('grunt-contrib-clean');
     grunt.loadNpmTasks('grunt-contrib-csslint');
     grunt.loadNpmTasks('grunt-contrib-cssmin');
@@ -193,6 +241,7 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-gh-pages');
     grunt.loadNpmTasks('grunt-git');
     grunt.loadNpmTasks('grunt-jsdoc');
+    grunt.loadNpmTasks("grunt-mocha-phantom-istanbul");
     grunt.loadNpmTasks('grunt-release');
 
     grunt.registerTask('dist', ['gitadd:dist', 'gitcommit:dist']);
@@ -201,5 +250,6 @@ module.exports = function (grunt) {
     grunt.registerTask('concat-core', ['concat:css', 'concat:js']);
     grunt.registerTask('concat-sa', ['concat:css-sa', 'concat:js-sa']);
     grunt.registerTask('default', ['clean', 'lint', 'concat-core', 'minify', 'concat-sa', 'jsdoc', 'copy']);
+    grunt.registerTask("test", ["clean:test", "browserify:coverage", "mocha"]);
 
 };

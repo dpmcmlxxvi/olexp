@@ -3,7 +3,7 @@
  * @description olexp specific OpenLayers 3 classes 
  * @namespace olexp.ol
  */
-olexp.ol = olexp.ol || {};
+window.olexp.ol = window.olexp.ol || {};
 
 //==================================================
 // Toolbar show Control

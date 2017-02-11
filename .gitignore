@@ -1,5 +1,7 @@
+/.grunt
 /.project
 /.settings
-/.grunt
+coverage
 docs/api
+instrumented-code
 node_modules

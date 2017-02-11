@@ -2,7 +2,7 @@
 /**
  * @namespace olexp.util
  */
-olexp.util = olexp.util || {};
+window.olexp.util = window.olexp.util || {};
 
 //==================================================
 // Utility tools

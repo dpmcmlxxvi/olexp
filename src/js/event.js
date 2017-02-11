@@ -2,7 +2,7 @@
 /**
  * @namespace olexp.event
  */
-olexp.event = olexp.event || {};
+window.olexp.event = window.olexp.event || {};
 
 //==================================================
 // Event Handler

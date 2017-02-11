@@ -2,7 +2,7 @@
 /**
  * @namespace olexp.measure
  */
-olexp.measure = olexp.measure || {};
+window.olexp.measure = window.olexp.measure || {};
 
 //==================================================
 // Measuring Tool
