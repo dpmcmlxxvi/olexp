@@ -1,4 +1,6 @@
 
+/* global ol */
+
 /**
  * @namespace olexp.selection
  */
@@ -42,7 +44,7 @@ window.olexp.selection = window.olexp.selection || {};
         // Add callback for feature selection
         // --------------------------------------------------
         var me = this;
-        this.interaction.on('select', function(event) {
+        this.interaction.on("select", function(event) {
 
             if (event.selected.length === 1)
             {
@@ -50,9 +52,9 @@ window.olexp.selection = window.olexp.selection || {};
                 var properties = olexp.util.toProperties(feature);
                 for (var name in properties)
                 {
-                    if (typeof properties[name] !== 'boolean' &&
-                        typeof properties[name] !== 'number' &&
-                        typeof properties[name] !== 'string')
+                    if (typeof properties[name] !== "boolean" &&
+                        typeof properties[name] !== "number" &&
+                        typeof properties[name] !== "string")
                     {
                         delete properties[name];
                     }

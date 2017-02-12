@@ -1,4 +1,6 @@
 
+/* global ol, w2alert */
+
 /**
  * @namespace olexp.item
  */
@@ -23,32 +25,32 @@ window.olexp.item = window.olexp.item || {};
                              * Group icon css selector
                              * @type string
                              */
-                            group   : 'olexp-item-group',
+                            group   : "olexp-item-group",
                             /**
                              * Heat Map icon css selector
                              * @type string
                              */
-                            heatmap : 'olexp-item-heatmap',
+                            heatmap : "olexp-item-heatmap",
                             /**
                              * Image icon css selector
                              * @type string
                              */
-                            image   : 'olexp-item-image',
+                            image   : "olexp-item-image",
                             /**
                              * Overlay icon css selector
                              * @type string
                              */
-                            overlay : 'olexp-item-overlay',
+                            overlay : "olexp-item-overlay",
                             /**
                              * Tile Map icon css selector
                              * @type string
                              */
-                            tile    : 'olexp-item-tile',
+                            tile    : "olexp-item-tile",
                             /**
                              * Vector icon css selector
                              * @type string
                              */
-                            vector  : 'olexp-item-vector'
+                            vector  : "olexp-item-vector"
                        };
 
     /**
@@ -144,7 +146,7 @@ window.olexp.item = window.olexp.item || {};
         if (this.type === olexp.item.Type.GROUP)
         {
             var layers = this.layer.getLayers();
-            properties['Layer Count'] = layers.getLength();
+            properties["Layer Count"] = layers.getLength();
         }
 
         // ==================================================
@@ -154,7 +156,7 @@ window.olexp.item = window.olexp.item || {};
         {
             var source = this.layer.getSource();
             var features = source.getFeatures();
-            properties['Feature Count'] = features.length;
+            properties["Feature Count"] = features.length;
         }
 
         // ==================================================
@@ -236,7 +238,7 @@ window.olexp.item = window.olexp.item || {};
         {
             return olexp.item.icons.vector;
         }
-        return 'icon-page';
+        return "icon-page";
     };
 
     /**
@@ -253,7 +255,7 @@ window.olexp.item = window.olexp.item || {};
         // Check if layer has extent defined
         // --------------------------------------------------
         var extent = layer.getExtent();
-        if (typeof extent === 'undefined')
+        if (typeof extent === "undefined")
         {
             // ==================================================
             // Check if source has extent defined
@@ -267,7 +269,9 @@ window.olexp.item = window.olexp.item || {};
                 extent = source.getExtent();
             }
         }
-        if (typeof extent === 'undefined') return null;
+        if (typeof extent === "undefined") {
+            return null;
+        }
         return extent;
 
     };
@@ -301,10 +305,10 @@ window.olexp.item = window.olexp.item || {};
     {
         var properties = {name: this.name};
         var types = this.getPropertyTypes();
-        for (var key in types)
-        {
-            properties[key] = this.layer.get(key);
-        }
+        var me = this;
+        Object.keys(types).forEach(function (key) {
+            properties[key] = me.layer.get(key);
+        });
         return properties;
     };
 
@@ -352,12 +356,17 @@ window.olexp.item = window.olexp.item || {};
      */
     Item.prototype.setProperties = function(properties)
     {
-        if (properties.hasOwnProperty('name')) this.name = properties.name;
-        var types = this.getPropertyTypes();
-        for (var key in types)
-        {
-            if (properties.hasOwnProperty(key)) this.layer.set(key, properties[key]);
+        if (properties.hasOwnProperty("name")) {
+            this.name = properties.name;
         }
+        var types = this.getPropertyTypes();
+        var me = this;
+        Object.keys(types).forEach(function (key) {
+            if (properties.hasOwnProperty(key)) {
+                me.layer.set(key, properties[key]);
+            }
+        });
+
     };
 
     /**
@@ -369,8 +378,12 @@ window.olexp.item = window.olexp.item || {};
      */
     Item.prototype.property = function(name, value)
     {
-        if (typeof this[name] === 'undefined') return;
-        if (typeof value !== 'undefined') this[name] = value;
+        if (typeof this[name] === "undefined") {
+            return;
+        }
+        if (typeof value !== "undefined") {
+            this[name] = value;
+        }
         return this[name];
     };
 
@@ -392,13 +405,13 @@ window.olexp.item = window.olexp.item || {};
             // Check if overlay has position defined
             // --------------------------------------------------
             var position = this.layer.getPosition();
-            if (typeof position !== 'undefined')
+            if (typeof position !== "undefined")
             {
                 view.setCenter(position);
                 return;
             }
 
-            w2alert('Overlay has no position defined to which to zoom.', 'Warning');
+            w2alert("Overlay has no position defined to which to zoom.", "Warning");
 
         }
         else
@@ -414,7 +427,7 @@ window.olexp.item = window.olexp.item || {};
                 return;
             }
 
-            w2alert('Layer has no extent defined to which to zoom.', 'Warning');
+            w2alert("Layer has no extent defined to which to zoom.", "Warning");
 
         }
 
@@ -439,10 +452,10 @@ window.olexp.item = window.olexp.item || {};
             id               : item.id,
             layer            : item.layer,
             moving           : function(moving) {
-                                   return item.property('moving', moving);
+                                   return item.property("moving", moving);
                                },
             name             : function(name) {
-                                   return item.property('name', name);
+                                   return item.property("name", name);
                                 },
             setProperties    : item.setProperties.bind(item),
             type             : item.type,
@@ -479,7 +492,7 @@ window.olexp.item = window.olexp.item || {};
              * Opacity title
              * @type string
              */
-            title : 'Opacity'
+            title : "Opacity"
         }
     };
 

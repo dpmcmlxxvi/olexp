@@ -1,4 +1,6 @@
 
+/* global ol */
+
 /**
  * @namespace olexp.measure
  */
@@ -23,12 +25,12 @@ window.olexp.measure = window.olexp.measure || {};
                                      * Area measurement property name
                                      * @type string
                                      */
-                                    area: 'olexp-measure-property-area',
+                                    area: "olexp-measure-property-area",
                                     /**
                                      * Length measurement property name
                                      * @type string
                                      */
-                                    length: 'olexp-measure-property-length'
+                                    length: "olexp-measure-property-length"
                                };
 
     /**
@@ -59,47 +61,47 @@ window.olexp.measure = window.olexp.measure || {};
         //--------------------------------------------------
         var olexpSettings = $.extend(true, {measure : {
             Tool : {
-                continueLineMsg              : 'Click to continue drawing the line',
-                continuePolygonMsg           : 'Click to continue drawing the polygon',
+                continueLineMsg              : "Click to continue drawing the line",
+                continuePolygonMsg           : "Click to continue drawing the polygon",
                 helpTooltipOffset            : [20, 0],
-                helpTooltipPositioning       : 'center-left',
+                helpTooltipPositioning       : "center-left",
                 measuredStyle                : new ol.style.Style({
                                                    fill:   new ol.style.Fill({
-                                                               color: 'rgba(255, 255, 255, 0.2)'
+                                                               color: "rgba(255, 255, 255, 0.2)"
                                                            }),
                                                    stroke: new ol.style.Stroke({
-                                                               color: '#ffcc33',
+                                                               color: "#ffcc33",
                                                                width: 2
                                                            }),
                                                    image: new ol.style.Circle({
                                                               radius: 7,
                                                               fill: new ol.style.Fill({
-                                                                        color: '#ffcc33'
+                                                                        color: "#ffcc33"
                                                                     })
                                                           })
                                                   }),
                 measuringStyle               : new ol.style.Style({
                                                    fill: new ol.style.Fill({
-                                                             color: 'rgba(255, 255, 255, 0.2)'
+                                                             color: "rgba(255, 255, 255, 0.2)"
                                                          }),
                                                    stroke: new ol.style.Stroke({
-                                                               color: 'rgba(0, 0, 0, 0.5)',
+                                                               color: "rgba(0, 0, 0, 0.5)",
                                                                lineDash: [10, 10],
                                                                width: 2
                                                       }),
                                                    image: new ol.style.Circle({
                                                               radius: 5,
                                                               stroke: new ol.style.Stroke({
-                                                                          color: 'rgba(0, 0, 0, 0.7)'
+                                                                          color: "rgba(0, 0, 0, 0.7)"
                                                                       }),
                                                               fill: new ol.style.Fill({
-                                                                       color: 'rgba(255, 255, 255, 0.2)'
+                                                                       color: "rgba(255, 255, 255, 0.2)"
                                                                     })
                                                           })
                                                }),
                 measureTooltipOffset         : [0, -20],
-                measureTooltipPositioning    : 'bottom-center',
-                messageStart                 : 'Click to start drawing. Double click to stop.'
+                measureTooltipPositioning    : "bottom-center",
+                messageStart                 : "Click to start drawing. Double click to stop."
              }}}, settings);
 
         /**
@@ -233,8 +235,8 @@ window.olexp.measure = window.olexp.measure || {};
         // ==================================================
         // Create new help tooltip
         // --------------------------------------------------
-        this.helpTooltipElement = document.createElement('div');
-        this.helpTooltipElement.className = 'olexp-measure olexp-measure-hidden';
+        this.helpTooltipElement = document.createElement("div");
+        this.helpTooltipElement.className = "olexp-measure olexp-measure-hidden";
         this.helpTooltip = new olexp.measure.Overlay({
             element: this.helpTooltipElement,
             offset: this.settings.helpTooltipOffset,
@@ -260,7 +262,7 @@ window.olexp.measure = window.olexp.measure || {};
             source: this.source,
             style: this.settings.measuredStyle
         });
-        this.vector.set('name','Measurement #' + (this.count + 1));
+        this.vector.set("name","Measurement #" + (this.count + 1));
         this.map.addLayer(this.vector);
 
     };
@@ -284,14 +286,14 @@ window.olexp.measure = window.olexp.measure || {};
         // ==================================================
         // Create new measure tooltip
         // --------------------------------------------------
-        this.measureTooltipElement = document.createElement('div');
-        this.measureTooltipElement.className = 'olexp-measure olexp-measure-active';
+        this.measureTooltipElement = document.createElement("div");
+        this.measureTooltipElement.className = "olexp-measure olexp-measure-active";
         this.measureTooltip = new olexp.measure.Overlay({
             element: this.measureTooltipElement,
             offset: this.settings.measureTooltipOffset,
             positioning: this.settings.measureTooltipPositioning
         });
-        this.measureTooltip.set('name','Measurement #' + (this.count+1));
+        this.measureTooltip.set("name","Measurement #" + (this.count+1));
 
         // ==================================================
         // Add overlay to map
@@ -315,7 +317,7 @@ window.olexp.measure = window.olexp.measure || {};
         {
 
             var projection = this.map.getView().getProjection();
-            var geometry = polygon.clone().transform(projection, 'EPSG:4326');
+            var geometry = polygon.clone().transform(projection, "EPSG:4326");
             var coordinates = geometry.getLinearRing(0).getCoordinates();
             area = Math.abs(this.sphere.geodesicArea(coordinates));
 
@@ -325,14 +327,14 @@ window.olexp.measure = window.olexp.measure || {};
             area = polygon.getArea();
         }
         
-        var output = '';
+        var output = "";
         if (area > 10000)
         {
-            output = (Math.round(area / 1000000 * 100) / 100) + ' km<sup>2</sup>';
+            output = (Math.round(area / 1000000 * 100) / 100) + " km<sup>2</sup>";
         }
         else
         {
-            output = (Math.round(area * 100) / 100) + ' m<sup>2</sup>';
+            output = (Math.round(area * 100) / 100) + " m<sup>2</sup>";
         }
 
         return output;
@@ -356,8 +358,8 @@ window.olexp.measure = window.olexp.measure || {};
             var coordinates = line.getCoordinates();
             var numCoordinates = coordinates.length;
             for (var i = 0; i < numCoordinates - 1; ++i) {
-                var c1 = ol.proj.transform(coordinates[i], projection, 'EPSG:4326');
-                var c2 = ol.proj.transform(coordinates[i + 1], projection, 'EPSG:4326');
+                var c1 = ol.proj.transform(coordinates[i], projection, "EPSG:4326");
+                var c2 = ol.proj.transform(coordinates[i + 1], projection, "EPSG:4326");
                 length += this.sphere.haversineDistance(c1, c2);
             }
         }
@@ -369,11 +371,11 @@ window.olexp.measure = window.olexp.measure || {};
         var output;
         if (length > 100)
         {
-            output = (Math.round(length / 1000 * 100) / 100) + ' ' + 'km';
+            output = (Math.round(length / 1000 * 100) / 100) + " " + "km";
         }
         else
         {
-            output = (Math.round(length * 100) / 100) + ' ' + 'm';
+            output = (Math.round(length * 100) / 100) + " " + "m";
         }
 
         return output;
@@ -412,7 +414,7 @@ window.olexp.measure = window.olexp.measure || {};
         this.helpTooltipElement.innerHTML = message;
         this.helpTooltip.setPosition(event.coordinate);
 
-        $(this.helpTooltipElement).removeClass('olexp-measure-hidden');
+        $(this.helpTooltipElement).removeClass("olexp-measure-hidden");
 
     };
 
@@ -426,11 +428,11 @@ window.olexp.measure = window.olexp.measure || {};
     {
         if (enable)
         {
-            this.map.on('pointermove', this.pointerMoveCallback);
+            this.map.on("pointermove", this.pointerMoveCallback);
         }
         else
         {
-            this.map.un('pointermove', this.pointerMoveCallback);
+            this.map.un("pointermove", this.pointerMoveCallback);
         }
         this.setInteraction(enable);
     };
@@ -444,7 +446,9 @@ window.olexp.measure = window.olexp.measure || {};
     Tool.prototype.setInteraction = function (enable)
     {
 
-        if (typeof enable === 'undefined') enable = true;
+        if (typeof enable === "undefined") {
+            enable = true;
+        }
         
         var me = this;
         
@@ -458,11 +462,11 @@ window.olexp.measure = window.olexp.measure || {};
      
         if (enable)
         {
-            $(this.helpTooltipElement).removeClass('olexp-measure-hidden');
+            $(this.helpTooltipElement).removeClass("olexp-measure-hidden");
         }
         else
         {
-            $(this.helpTooltipElement).addClass('olexp-measure-hidden');
+            $(this.helpTooltipElement).addClass("olexp-measure-hidden");
             
             // If measure tool is disabled while drawing then clean up vector
             if (this.drawing)
@@ -502,7 +506,7 @@ window.olexp.measure = window.olexp.measure || {};
         // Define behavior when drawing starts and ends
         // --------------------------------------------------
         var listener = null;
-        this.draw.on('drawstart',
+        this.draw.on("drawstart",
             function(event)
             {
                 this.drawing = true;
@@ -517,13 +521,13 @@ window.olexp.measure = window.olexp.measure || {};
                 // --------------------------------------------------
                 var tooltipCoord = event.coordinate;
                 me.sketch = event.feature;
-                listener = me.sketch.getGeometry().on('change',
+                listener = me.sketch.getGeometry().on("change",
                     function(event)
                     {
                         // ==================================================
                         // Compute new measurement
                         // --------------------------------------------------
-                        var output = '';
+                        var output = "";
                         var geometry = event.target;
                         if (geometry instanceof ol.geom.Polygon)
                         {
@@ -540,7 +544,7 @@ window.olexp.measure = window.olexp.measure || {};
                     });
             }, this);
 
-        this.draw.on('drawend',
+        this.draw.on("drawend",
             function(event)
             {
                 this.drawing = false;
@@ -604,8 +608,8 @@ window.olexp.measure = window.olexp.measure || {};
      */
     olexp.measure.Tool = function(map, options) {
 
-        if (typeof options === 'undefined') options = {};
-        if (typeof options.type === 'undefined') options.type = olexp.measure.Type.LINE;
+        if (typeof options === "undefined") options = {};
+        if (typeof options.type === "undefined") options.type = olexp.measure.Type.LINE;
         if (typeof options.settings === "undefined") options.settings = {};
 
         var tool = new Tool(map, options.type, options.settings);
@@ -636,12 +640,12 @@ window.olexp.measure = window.olexp.measure || {};
          * Area measurement type
          * @type string
          */
-        AREA : 'Polygon',
+        AREA : "Polygon",
         /**
          * Line measurement type
          * @type string
          */
-        LINE : 'LineString'
+        LINE : "LineString"
     };
 
     /**

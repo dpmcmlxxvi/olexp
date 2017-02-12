@@ -383,13 +383,13 @@ window.olexp = window.olexp || {};
         // Parse arguments
         // --------------------------------------------------
 
-        if (typeof id === 'undefined')
+        if (typeof id === "undefined")
         {
-            throw new Error('olexp.Explorer: id not defined');
+            throw new Error("olexp.Explorer: id not defined");
         }
-        else if ($('#'+id).length === 0)
+        else if ($("#"+id).length === 0)
         {
-            throw new Error('olexp.Explorer: id not found');
+            throw new Error("olexp.Explorer: id not found");
         }
 
         // ==================================================
@@ -398,7 +398,7 @@ window.olexp = window.olexp || {};
         
         // Prefix is used to create DOM ids and w2ui names. This ensures they
         // are unique and can have multiple instances on the same page
-        var prefix = 'olexp-' + id;
+        var prefix = "olexp-" + id;
 
         /**
          * @description Explorer constructor options to override default
@@ -512,22 +512,22 @@ window.olexp = window.olexp || {};
             details : {
                 hidden    : true,
                 resizable : true,
-                size      : '25%',
-                type      : 'preview'
+                size      : "25%",
+                type      : "preview"
             },
             layers : {
                 expanded : true,
                 group    : true,
-                img      : 'icon-folder',
-                text     : 'Layers'
+                img      : "icon-folder",
+                text     : "Layers"
             },
             map : {
-                type    : 'main'
+                type    : "main"
             },
             navigation : {
                 resizable : true,
-                size      : '15%',
-                type      : 'left'
+                size      : "15%",
+                type      : "left"
             },
             olcontrols : {
                 fullscreen    : true,
@@ -547,19 +547,19 @@ window.olexp = window.olexp || {};
                 view     : new ol.View({center: [0,0], zoom: 3})
             },
             outline : {
-                type  : 'main'
+                type  : "main"
             },
             overlays : {
                 expanded : true,
                 group    : true,
-                img      : 'icon-folder',
-                text     : 'Overlays'
+                img      : "icon-folder",
+                text     : "Overlays"
             },
             settings: {},
             toolbar : {
-                size  : '40',
-                style : 'padding: 5px;',
-                type  : 'top'
+                size  : "40",
+                style : "padding: 5px;",
+                type  : "top"
             },
         };
 
@@ -612,26 +612,26 @@ window.olexp = window.olexp || {};
          */
         $.extend(true, this.options, {
             explorer : {
-                cls        : 'olexp-explorer-content',
-                id         : prefix + '-explorer-id-content',
-                details    : prefix + '-explorer-name-details',
-                layout     : prefix + '-explorer-name-layout',
-                navigation : prefix + '-explorer-name-navigation',
-                outline    : prefix + '-explorer-name-outline',
-                toolbar    : prefix + '-explorer-name-toolbar'
+                cls        : "olexp-explorer-content",
+                id         : prefix + "-explorer-id-content",
+                details    : prefix + "-explorer-name-details",
+                layout     : prefix + "-explorer-name-layout",
+                navigation : prefix + "-explorer-name-navigation",
+                outline    : prefix + "-explorer-name-outline",
+                toolbar    : prefix + "-explorer-name-toolbar"
             },
             layers : {
-                id : prefix + '-explorer-id-layers',
+                id : prefix + "-explorer-id-layers",
             },
             map : {
-                content : ('<div id="' + prefix + '-explorer-id-map"' +
-                           ' class="olexp-explorer-map"></div>'),
+                content : ("<div id=\"" + prefix + "-explorer-id-map\"" +
+                           " class=\"olexp-explorer-map\"></div>"),
             },
             olmap : {
-                target   : prefix + '-explorer-id-map',
+                target   : prefix + "-explorer-id-map",
             },
             overlays : {
-                id : prefix + '-explorer-id-overlays',
+                id : prefix + "-explorer-id-overlays",
             },
             settings : {
                 prefix : prefix
@@ -647,15 +647,15 @@ window.olexp = window.olexp || {};
         // Create main layout content div
         // --------------------------------------------------
 
-        var div = $('<div>', {'id': this.options.explorer.id,
-                              'class': this.options.explorer.cls});
-        $('#'+id).append(div);
+        var div = $("<div>", {"id": this.options.explorer.id,
+                              "class": this.options.explorer.cls});
+        $("#"+id).append(div);
 
         // ==================================================
         // Main Layout
         // --------------------------------------------------
 
-        this.layout = $('#'+this.options.explorer.id).w2layout({
+        this.layout = $("#"+this.options.explorer.id).w2layout({
             name   : this.options.explorer.layout,
             panels : [
                           this.options.navigation,
@@ -668,7 +668,7 @@ window.olexp = window.olexp || {};
         // Main Toolbar
         // --------------------------------------------------
 
-        this.toolbar = $('').w2toolbar({
+        this.toolbar = $("").w2toolbar({
             name: this.options.explorer.toolbar
         });
 
@@ -676,14 +676,14 @@ window.olexp = window.olexp || {};
         // Navigation pane Layout
         // --------------------------------------------------
 
-        this.navigation = $('').w2layout({
+        this.navigation = $("").w2layout({
             name     : this.options.explorer.navigation,
             onResize : function() {
-                           if (me.hasOwnProperty('map'))
+                           if (me.hasOwnProperty("map"))
                            {
                                me.map.updateSize();
                            }
-                           if (me.hasOwnProperty('details'))
+                           if (me.hasOwnProperty("details"))
                            {
                                me.details.resize();
                            }
@@ -698,7 +698,7 @@ window.olexp = window.olexp || {};
         // Outline sidebar
         // --------------------------------------------------
 
-        this.outline = $('').w2sidebar({
+        this.outline = $("").w2sidebar({
             name       : this.options.explorer.outline,
             nodes      : [
                               this.options.layers,
@@ -729,18 +729,18 @@ window.olexp = window.olexp || {};
         // Details table
         // --------------------------------------------------
 
-        this.details = $('').w2grid({
+        this.details = $("").w2grid({
             columns : [
                           {
-                              field    : 'property',
-                              caption  : 'Property',
-                              size     : '100%',
+                              field    : "property",
+                              caption  : "Property",
+                              size     : "100%",
                               sortable : true
                           },
                           {
-                               field    : 'value',
-                               caption  : 'Value',
-                               size     : '100%',
+                               field    : "value",
+                               caption  : "Value",
+                               size     : "100%",
                                sortable : true
                           }
                       ],
@@ -881,7 +881,7 @@ window.olexp = window.olexp || {};
             this.toolbar.add(olexp.control.ToolbarHide(this.api,
                                                        {hidden   : this.options.toolbar.hidden,
                                                         settings : this.options.settings}));
-            this.toolbar.add({id: 'break-toolbar-hide', type: 'break'});
+            this.toolbar.add({id: "break-toolbar-hide", type: "break"});
         }
 
         if (this.options.controls.layermanager)
@@ -891,7 +891,7 @@ window.olexp = window.olexp || {};
                                                         {details: {checked: !this.options.details.hidden},
                                                          navigation: {checked: !this.options.navigation.hidden},
                                                          settings : this.options.settings}));
-            this.toolbar.add({id: 'break-layer-manager', type: 'break'});
+            this.toolbar.add({id: "break-layer-manager", type: "break"});
         }
 
         if (this.options.controls.layermenu)
@@ -900,45 +900,45 @@ window.olexp = window.olexp || {};
                                                      this.manager,
                                                      this.menu,
                                                      {settings : this.options.settings}));
-            this.toolbar.add({id: 'break-item-menu', type: 'break'});
+            this.toolbar.add({id: "break-item-menu", type: "break"});
         }
 
         if (this.options.controls.layercontrol)
         {
             this.toolbar.add(olexp.control.LayerControl(this.api,
                                                         {settings : this.options.settings}));
-            this.toolbar.add({id: 'break-layer-control', type: 'break'});
+            this.toolbar.add({id: "break-layer-control", type: "break"});
         }
 
         if (this.options.controls.graticule)
         {
             this.toolbar.add(olexp.control.Graticule(this.api,
                                                      {settings : this.options.settings}));
-            this.toolbar.add({id: 'break-graticule', type: 'break'});
+            this.toolbar.add({id: "break-graticule", type: "break"});
         }
 
         if (this.options.controls.measure)
         {
             this.toolbar.add(olexp.control.Measure(this.api,
                                                    {settings : this.options.settings}));
-            this.toolbar.add({id: 'break-measure', type: 'break'});
+            this.toolbar.add({id: "break-measure", type: "break"});
         }
 
         if (this.options.controls.exportmap)
         {
             this.toolbar.add(olexp.control.ExportMap(this.api,
                                                      {settings : this.options.settings}));
-            this.toolbar.add({id: 'break-export-map', type: 'break'});
+            this.toolbar.add({id: "break-export-map", type: "break"});
         }
 
         if (this.options.controls.editsettings)
         {
             this.toolbar.add(olexp.control.EditSettings(this.api,
                                                         {settings : this.options.settings}));
-            this.toolbar.add({id: 'break-edit-settings', type: 'break'});
+            this.toolbar.add({id: "break-edit-settings", type: "break"});
         }
 
-        this.layout.set(this.options.toolbar.type, {content: '',
+        this.layout.set(this.options.toolbar.type, {content: "",
                                                     show : {toolbar : true},
                                                     toolbar: this.toolbar});
 

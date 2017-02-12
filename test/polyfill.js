@@ -6,10 +6,10 @@
 (function() {
     if (!Function.prototype.bind) {
         Function.prototype.bind = function(oThis) {
-            if (typeof this !== 'function') {
+            if (typeof this !== "function") {
                 // closest thing possible to the ECMAScript 5
                 // internal IsCallable function
-                throw new TypeError('Function.prototype.bind - what is trying to be bound is not callable');
+                throw new TypeError("Function.prototype.bind - what is trying to be bound is not callable");
             }
 
             var aArgs   = Array.prototype.slice.call(arguments, 1),
@@ -41,11 +41,11 @@
  */
 (function() {
     var lastTime = 0;
-    var vendors = ['ms', 'moz', 'webkit', 'o'];
+    var vendors = ["ms", "moz", "webkit", "o"];
     for(var x = 0; x < vendors.length && !window.requestAnimationFrame; ++x) {
-        window.requestAnimationFrame = window[vendors[x]+'RequestAnimationFrame'];
-        window.cancelAnimationFrame = window[vendors[x]+'CancelAnimationFrame'] 
-                                   || window[vendors[x]+'CancelRequestAnimationFrame'];
+        window.requestAnimationFrame = window[vendors[x]+"RequestAnimationFrame"];
+        window.cancelAnimationFrame = window[vendors[x]+"CancelAnimationFrame"] 
+                                   || window[vendors[x]+"CancelRequestAnimationFrame"];
     }
     if (!window.requestAnimationFrame) {
         window.requestAnimationFrame = function(callback, element) {

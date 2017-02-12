@@ -27,14 +27,14 @@ window.olexp.control = window.olexp.control || {};
         var olexpSettings = $.extend(true, {control : {
             EditSettings : {
                 form   : {
-                             header : '',
-                             style  : 'border: 0px; background-color: transparent;'
+                             header : "",
+                             style  : "border: 0px; background-color: transparent;"
                          },
-                hint   : 'Edit Controls',
+                hint   : "Edit Controls",
                 popup  : {
                              height : 380,
-                             style  : 'width: 100%; height: 100%;',
-                             title  : 'Edit Controls',
+                             style  : "width: 100%; height: 100%;",
+                             title  : "Edit Controls",
                              width  : 225
                          },
                 span   : 6
@@ -54,7 +54,7 @@ window.olexp.control = window.olexp.control || {};
          * @private
          * @type {string}
          */
-        this.button = settings.prefix + '-control-edit-settings-button';
+        this.button = settings.prefix + "-control-edit-settings-button";
 
         /**
          * Control icon
@@ -62,7 +62,7 @@ window.olexp.control = window.olexp.control || {};
          * @private
          * @type {string}
          */
-        this.icon = 'olexp-control-edit-settings';
+        this.icon = "olexp-control-edit-settings";
 
         /**
          * Control element id
@@ -70,7 +70,7 @@ window.olexp.control = window.olexp.control || {};
          * @private
          * @type {string}
          */
-        this.id = settings.prefix + '-control-edit-settings-form';
+        this.id = settings.prefix + "-control-edit-settings-form";
 
         /**
          * Map on which to edit controls
@@ -86,7 +86,7 @@ window.olexp.control = window.olexp.control || {};
          * @private
          * @type {string}
          */
-        this.name = settings.prefix + '-control-edit-settings-form';
+        this.name = settings.prefix + "-control-edit-settings-form";
 
     };
 
@@ -104,67 +104,67 @@ window.olexp.control = window.olexp.control || {};
         var fields = [
             {
                 html : {
-                    caption : 'Full Screen',
+                    caption : "Full Screen",
                     span    : this.settings.span
                 },
-                name : 'fullscreen',
-                type : 'checkbox'
+                name : "fullscreen",
+                type : "checkbox"
             },
             {
                 html : {
-                    caption : 'Mouse Position',
+                    caption : "Mouse Position",
                     span    : this.settings.span
                 },
-                name : 'mouseposition',
-                type : 'checkbox'
+                name : "mouseposition",
+                type : "checkbox"
             },
             {
                 html : {
-                           caption : 'Overview Map',
+                           caption : "Overview Map",
                            span    : this.settings.span
                        },
-                name : 'overviewmap',
-                type : 'checkbox'
+                name : "overviewmap",
+                type : "checkbox"
             },
             {
                 html : {
-                    caption : 'Rotate',
+                    caption : "Rotate",
                     span    : this.settings.span
                 },
-                name : 'rotate',
-                type: 'checkbox'
+                name : "rotate",
+                type: "checkbox"
             },
             {
                 html : {
-                    caption : 'Scale Line',
+                    caption : "Scale Line",
                     span    : this.settings.span
                 },
-                name : 'scaleline',
-                type : 'checkbox'
+                name : "scaleline",
+                type : "checkbox"
             },
             {
                 html : {
-                    caption : 'Zoom',
+                    caption : "Zoom",
                     span    : this.settings.span
                 },
-                name : 'zoom',
-                type : 'checkbox'
+                name : "zoom",
+                type : "checkbox"
             },
             {
                 html : {
-                    caption : 'Zoom Slider',
+                    caption : "Zoom Slider",
                     span    : this.settings.span
                 },
-                name : 'zoomslider',
-                type : 'checkbox'
+                name : "zoomslider",
+                type : "checkbox"
             },
             {
                 html : {
-                    caption : 'Zoom To Extent',
+                    caption : "Zoom To Extent",
                     span    : this.settings.span
                 },
-                name : 'zoomtoextent',
-                type : 'checkbox'
+                name : "zoomtoextent",
+                type : "checkbox"
             }
         ];
         
@@ -172,14 +172,14 @@ window.olexp.control = window.olexp.control || {};
         // Extract controls to be edited
         // --------------------------------------------------
         var record = {
-            fullscreen    : this.isControlActive('fullscreen'),
-            mouseposition : this.isControlActive('mouseposition'),
-            overviewmap   : this.isControlActive('overviewmap'),
-            rotate        : this.isControlActive('rotate'),
-            scaleline     : this.isControlActive('scaleline'),
-            zoom          : this.isControlActive('zoom'),
-            zoomslider    : this.isControlActive('zoomslider'),
-            zoomtoextent  : this.isControlActive('zoomtoextent')
+            fullscreen    : this.isControlActive("fullscreen"),
+            mouseposition : this.isControlActive("mouseposition"),
+            overviewmap   : this.isControlActive("overviewmap"),
+            rotate        : this.isControlActive("rotate"),
+            scaleline     : this.isControlActive("scaleline"),
+            zoom          : this.isControlActive("zoom"),
+            zoomslider    : this.isControlActive("zoomslider"),
+            zoomtoextent  : this.isControlActive("zoomtoextent")
         };
 
         // ==================================================
@@ -187,11 +187,10 @@ window.olexp.control = window.olexp.control || {};
         // --------------------------------------------------
         var onChanges = function(changes)
         {
-            for (var name in changes)
-            {
+            Object.keys(changes).forEach(function (name) {
                 var enable = changes[name];
                 me.setControl(name, enable);
-            }
+            });
         };
 
         // ==================================================
@@ -222,14 +221,30 @@ window.olexp.control = window.olexp.control || {};
         for (var i = 0; i < controls.length; i++)
         {
             var control = controls[i];
-            if (name === 'fullscreen' && control instanceof ol.control.FullScreen) return control;
-            if (name === 'mouseposition' && control instanceof ol.control.MousePosition) return control;
-            if (name === 'overviewmap' && control instanceof ol.control.OverviewMap) return control;
-            if (name === 'rotate' && control instanceof ol.control.Rotate) return control;
-            if (name === 'scaleline' && control instanceof ol.control.ScaleLine) return control;
-            if (name === 'zoom' && control instanceof ol.control.Zoom) return control;
-            if (name === 'zoomslider' && control instanceof ol.control.ZoomSlider) return control;
-            if (name === 'zoomtoextent' && control instanceof ol.control.ZoomToExtent) return control;
+            if (name === "fullscreen" && control instanceof ol.control.FullScreen) {
+                return control;
+            }
+            if (name === "mouseposition" && control instanceof ol.control.MousePosition) {
+                return control;
+            }
+            if (name === "overviewmap" && control instanceof ol.control.OverviewMap) {
+                return control;
+            }
+            if (name === "rotate" && control instanceof ol.control.Rotate) {
+                return control;
+            }
+            if (name === "scaleline" && control instanceof ol.control.ScaleLine) {
+                return control;
+            }
+            if (name === "zoom" && control instanceof ol.control.Zoom) {
+                return control;
+            }
+            if (name === "zoomslider" && control instanceof ol.control.ZoomSlider) {
+                return control;
+            }
+            if (name === "zoomtoextent" && control instanceof ol.control.ZoomToExtent) {
+                return control;
+            }
         }
         return null;
     };
@@ -282,7 +297,7 @@ window.olexp.control = window.olexp.control || {};
             onClick : function (event) {
                           control.display();
                       },
-            type    : 'button'
+            type    : "button"
         };
 
     };
@@ -311,8 +326,8 @@ window.olexp.control = window.olexp.control || {};
         //--------------------------------------------------
         var olexpSettings = $.extend(true, {control : {
             ExportMap : {
-                filename : 'map.png',
-                hint     : 'Export map'
+                filename : "map.png",
+                hint     : "Export map"
             }}}, settings);
 
         /**
@@ -329,7 +344,7 @@ window.olexp.control = window.olexp.control || {};
          * @private
          * @type {string}
          */
-        this.anchor = settings.prefix + '-control-export-map-anchor';
+        this.anchor = settings.prefix + "-control-export-map-anchor";
 
         /**
          * Button element id
@@ -337,7 +352,7 @@ window.olexp.control = window.olexp.control || {};
          * @private
          * @type {string}
          */
-        this.button = settings.prefix + '-control-export-map-button';
+        this.button = settings.prefix + "-control-export-map-button";
 
         /**
          * Filename of map to download
@@ -353,7 +368,7 @@ window.olexp.control = window.olexp.control || {};
          * @private
          * @type {string}
          */
-        this.icon = 'olexp-control-export-map';
+        this.icon = "olexp-control-export-map";
 
         /**
          * Map on which to render measurements
@@ -380,21 +395,21 @@ window.olexp.control = window.olexp.control || {};
         // Create callback when anchor is clicked
         var callback = function(e)
             {
-                this.map.once('postcompose', function(event)
+                this.map.once("postcompose", function(event)
                 {
-                    anchor.href = event.context.canvas.toDataURL('image/png');
+                    anchor.href = event.context.canvas.toDataURL("image/png");
                 });
                 this.map.renderSync();
              };
 
         // Create anchor
-        $('body').append('<a id="' + id + '" download="' + filename + '"></a>');
+        $("body").append("<a id=\"" + id + "\" download=\"" + filename + "\"></a>");
         var anchor = document.getElementById(id);
-        anchor.addEventListener('click', callback.bind(this), false);
+        anchor.addEventListener("click", callback.bind(this), false);
 
         // Click then remove
-        $('#' + id)[0].click();
-        $('#' + id).remove();
+        $("#" + id)[0].click();
+        $("#" + id).remove();
     };
 
     /**
@@ -418,7 +433,7 @@ window.olexp.control = window.olexp.control || {};
             onClick : function (event) {
                           control.toImage();
                       },
-            type    : 'button'
+            type    : "button"
         };
 
     };
@@ -449,19 +464,19 @@ window.olexp.control = window.olexp.control || {};
             Graticule : {
                 enable  : false,
                 form    : {
-                              header : '',
-                              style  : 'border: 0px; background-color: transparent;'
+                              header : "",
+                              style  : "border: 0px; background-color: transparent;"
                           },
-                hint    : 'Edit Grid Lines',
+                hint    : "Edit Grid Lines",
                 options : {
-                              color    : '000000',
+                              color    : "000000",
                               lineDash : [0.5, 4],
                               width    : 2
                           },
                 popup   : {
                               height : 225,
-                              style  : 'border: 0px; background-color: transparent;',
-                              title  : 'Edit Grid Lines',
+                              style  : "border: 0px; background-color: transparent;",
+                              title  : "Edit Grid Lines",
                               width  : 300
                           },
                 span    : 3
@@ -481,7 +496,7 @@ window.olexp.control = window.olexp.control || {};
          * @private
          * @type {string}
          */
-        this.button = settings.prefix + '-control-graticule-button';
+        this.button = settings.prefix + "-control-graticule-button";
 
         /**
          * Control icon
@@ -489,7 +504,7 @@ window.olexp.control = window.olexp.control || {};
          * @private
          * @type {string}
          */
-        this.icon = 'olexp-control-graticule';
+        this.icon = "olexp-control-graticule";
 
         /**
          * Form element id
@@ -497,7 +512,7 @@ window.olexp.control = window.olexp.control || {};
          * @private
          * @type {string}
          */
-        this.id = settings.prefix + '-control-graticule';
+        this.id = settings.prefix + "-control-graticule";
 
         /**
          * Parent explorer
@@ -513,7 +528,7 @@ window.olexp.control = window.olexp.control || {};
          * @private
          * @type {string}
          */
-        this.name = settings.prefix + '-control-graticule-form';
+        this.name = settings.prefix + "-control-graticule-form";
 
         /**
          * Utility tool
@@ -549,41 +564,41 @@ window.olexp.control = window.olexp.control || {};
         var fields = [
             {
                 html     : {
-                    caption : 'Enable',
+                    caption : "Enable",
                     span    : this.settings.span
                 },
-                name     : 'enable',
+                name     : "enable",
                 required : true,
-                type     : 'checkbox'
+                type     : "checkbox"
             },
             {
                 html     : {
-                    caption : 'Color',
+                    caption : "Color",
                     span    : this.settings.span
                 },
-                name     : 'color',
+                name     : "color",
                 options  : {
                     silent: false
                 },
                 required : true, 
-                type     : 'color',
+                type     : "color",
             },
             {
                 html     : {
-                    caption : 'Width',
+                    caption : "Width",
                     span    : this.settings.span
                 },
-                name     : 'width',
+                name     : "width",
                 options  : {
                     arrows      : true,
                     max         : 4,
                     min         : 0.25,
-                    placeholder : '0.25 - 4',
+                    placeholder : "0.25 - 4",
                     silent      : false,
                     step        : 0.25
                 },
                 required : true, 
-                type     : 'float',
+                type     : "float",
             }
         ];
 
@@ -647,7 +662,7 @@ window.olexp.control = window.olexp.control || {};
              onClick : function (event) {
                            control.display();
                        },
-             type    : 'button'
+             type    : "button"
          };
 
     };
@@ -677,29 +692,29 @@ window.olexp.control = window.olexp.control || {};
         var olexpSettings = $.extend(true, {control : {
             LayerControlTile : {
                 form   : {
-                    header : '',
-                    style  : 'border: 0px; background-color: transparent;'
+                    header : "",
+                    style  : "border: 0px; background-color: transparent;"
                 },
-                hint   : 'Add Tile Layer',
+                hint   : "Add Tile Layer",
                 popup  : {
                     height : 165,
-                    style  : 'border: 0px; background-color: transparent;',
-                    title  : 'Add Tile Layer',
+                    style  : "border: 0px; background-color: transparent;",
+                    title  : "Add Tile Layer",
                     width  : 290
                 },
                 span   : 3
             },
             LayerControlVector : {
                 form   : {
-                    header : ('File Types: ' + $.map(olexp.util.FileTypes,
-                             function(o) { return ' ' + o.name; })),
-                    style  : 'border: 0px; background-color: transparent;'
+                    header : ("File Types: " + $.map(olexp.util.FileTypes,
+                             function(o) { return " " + o.name; })),
+                    style  : "border: 0px; background-color: transparent;"
                 },
-                hint   : 'Add Vector Layer',
+                hint   : "Add Vector Layer",
                 popup  : {
                     height : 195,
-                    style  : 'border: 0px; background-color: transparent;',
-                    title  : 'Add Vector Layer',
+                    style  : "border: 0px; background-color: transparent;",
+                    title  : "Add Vector Layer",
                     width  : 350
                 },
                 span   : 4
@@ -728,8 +743,8 @@ window.olexp.control = window.olexp.control || {};
          * @type {string}
          */
         this.icons = {
-            tile   : 'olexp-control-layer-control-add-tile',
-            vector : 'olexp-control-layer-control-add-vector'
+            tile   : "olexp-control-layer-control-add-tile",
+            vector : "olexp-control-layer-control-add-vector"
         };
 
         /**
@@ -739,8 +754,8 @@ window.olexp.control = window.olexp.control || {};
          * @type {string}
          */
         this.buttons = {
-            tile   : settings.prefix + '-control-layer-control-add-tile-button',
-            vector : settings.prefix + '-control-layer-control-add-vector-button'
+            tile   : settings.prefix + "-control-layer-control-add-tile-button",
+            vector : settings.prefix + "-control-layer-control-add-vector-button"
         };
 
         /**
@@ -750,8 +765,8 @@ window.olexp.control = window.olexp.control || {};
          * @type {string}
          */
         this.ids = {
-            tile   : settings.prefix + '-control-layer-control-add-tile',
-            vector : settings.prefix + '-control-layer-control-add-vector'
+            tile   : settings.prefix + "-control-layer-control-add-tile",
+            vector : settings.prefix + "-control-layer-control-add-vector"
         };
 
         /**
@@ -769,8 +784,8 @@ window.olexp.control = window.olexp.control || {};
          * @type {object}
          */
         this.names = {
-            tile   : settings.prefix + '-control-tile-form',
-            vector : settings.prefix + '-control-vector-form'
+            tile   : settings.prefix + "-control-tile-form",
+            vector : settings.prefix + "-control-vector-form"
         };
 
         /**
@@ -802,16 +817,16 @@ window.olexp.control = window.olexp.control || {};
         // --------------------------------------------------
         var fields = [
             {
-                field    : 'tile_source',
+                field    : "tile_source",
                 html     : {
-                               caption : 'Source',
+                               caption : "Source",
                                span    : this.settingsTile.span
                            },
                 options  : {
                                items: items
                            },
                 required : true, 
-                type     : 'list'
+                type     : "list"
              }
          ];
 
@@ -836,11 +851,11 @@ window.olexp.control = window.olexp.control || {};
                     {
                         if (typeName !== tileTypes[key].name) continue;
                         var tileType = tileTypes[key];
-                        var tileClass = tileType['class'];
+                        var tileClass = tileType["class"];
                         var tile = new ol.layer.Tile({
                             source: new tileClass(tileType.settings)
                         });
-                        tile.set('name', typeName);
+                        tile.set("name", typeName);
                         me.map.addLayer(tile);
                     }
                 }
@@ -876,17 +891,17 @@ window.olexp.control = window.olexp.control || {};
         // --------------------------------------------------
         var fields = [
             {
-                field    : 'vector_source',
+                field    : "vector_source",
                 html     : {
-                               caption : 'Source',
+                               caption : "Source",
                                span    : this.settingsVector.span
                            },
                 options  : {
-                               placeholder : 'Click to add file',
+                               placeholder : "Click to add file",
                                silent      : false
                            },
                 required : true, 
-                type     : 'file'
+                type     : "file"
             }
         ];
 
@@ -911,7 +926,7 @@ window.olexp.control = window.olexp.control || {};
 
                         // Check that file contents are valid
                         var content = changes[fieldName][change].content;
-                        if (typeof content === 'undefined' || content === null) continue;
+                        if (typeof content === "undefined" || content === null) continue;
 
                         // Extract filename and contents
                         var filename = changes[fieldName][change].name;
@@ -921,7 +936,7 @@ window.olexp.control = window.olexp.control || {};
                         var reader = olexp.util.getReader(filename);
                         if (reader === null)
                         {
-                            w2alert('Unable to open file ' + filename, 'Error');
+                            w2alert("Unable to open file " + filename, "Error");
                             return;
                         }
 
@@ -929,7 +944,7 @@ window.olexp.control = window.olexp.control || {};
                         // Read features and convert to map coordinates
                         var text = atob(content);
                         var projection = me.map.getView().getProjection();
-                        var options = {'featureProjection' : projection};
+                        var options = {"featureProjection" : projection};
                         var features = reader.readFeatures(text, options);
 
                         // Add features to map
@@ -986,7 +1001,7 @@ window.olexp.control = window.olexp.control || {};
                 onClick : function (event) {
                               tool.tile();
                           },
-                type    : 'button'
+                type    : "button"
             });
         }
         if (options.vector)
@@ -998,7 +1013,7 @@ window.olexp.control = window.olexp.control || {};
                 onClick : function (event) {
                               tool.vector();
                           },
-                type    : 'button'
+                type    : "button"
             });
         }
 
@@ -1031,12 +1046,12 @@ olexp = (function(olexp) {
         //--------------------------------------------------
         var olexpSettings = $.extend(true, {control : {
             LayerManager : {
-                hintDetailsHide : 'Hide details',
-                hintDetailsShow : 'Show details',
-                hintMoveDown    : 'Move item down',
-                hintMoveUp      : 'Move item up',
-                hintOutlineHide : 'Hide outline',
-                hintOutlineShow : 'Show outline'
+                hintDetailsHide : "Hide details",
+                hintDetailsShow : "Show details",
+                hintMoveDown    : "Move item down",
+                hintMoveUp      : "Move item up",
+                hintOutlineHide : "Hide outline",
+                hintOutlineShow : "Show outline"
             }}}, settings);
 
         /**
@@ -1046,10 +1061,10 @@ olexp = (function(olexp) {
          * @type {string}
          */
         this.buttons = {
-            details    : settings.prefix + '-control-layer-manager-button-details',
-            down       : settings.prefix + '-control-layer-manager-button-down',
-            navigation : settings.prefix + '-control-layer-manager-button-navigation',
-            up         : settings.prefix + '-control-layer-manager-button-up'
+            details    : settings.prefix + "-control-layer-manager-button-details",
+            down       : settings.prefix + "-control-layer-manager-button-down",
+            navigation : settings.prefix + "-control-layer-manager-button-navigation",
+            up         : settings.prefix + "-control-layer-manager-button-up"
         };
 
         /**
@@ -1067,10 +1082,10 @@ olexp = (function(olexp) {
          * @type {string}
          */
         this.icons = {
-            details    : 'olexp-control-layer-manager-details',
-            down       : 'olexp-control-layer-manager-down',
-            navigation : 'olexp-control-layer-manager-navigation',
-            up         : 'olexp-control-layer-manager-up'
+            details    : "olexp-control-layer-manager-details",
+            down       : "olexp-control-layer-manager-down",
+            navigation : "olexp-control-layer-manager-navigation",
+            up         : "olexp-control-layer-manager-up"
         };
 
         /**
@@ -1092,8 +1107,8 @@ olexp = (function(olexp) {
         // ==================================================
         // Add layer callback events
         // --------------------------------------------------
-        this.manager.on('remove:item', this.onItemRemoved, this);
-        this.manager.on('select:item', this.onItemSelected, this);
+        this.manager.on("remove:item", this.onItemRemoved, this);
+        this.manager.on("select:item", this.onItemSelected, this);
 
     };
 
@@ -1177,7 +1192,7 @@ olexp = (function(olexp) {
      */
     LayerManager.prototype.onItemSelected = function(id)
     {
-        if (typeof id === 'undefined') return;
+        if (typeof id === "undefined") return;
         var item = this.manager.getById(id);
         if (item === null) return;
         var node = this.manager.getNode(item.id);
@@ -1248,7 +1263,7 @@ olexp = (function(olexp) {
                 onClick : function (event) {
                               tool.navigation();
                           },
-                type    : 'check'
+                type    : "check"
             });
         }
         if (options.details.enabled)
@@ -1262,7 +1277,7 @@ olexp = (function(olexp) {
                 onClick : function (event) {
                               tool.details();
                           },
-                type    : 'check'
+                type    : "check"
             });
         }
         if (options.up)
@@ -1275,7 +1290,7 @@ olexp = (function(olexp) {
                 onClick  : function (event) {
                               tool.up();
                           },
-                type     : 'button'
+                type     : "button"
             });
         }
         if (options.down)
@@ -1288,7 +1303,7 @@ olexp = (function(olexp) {
                 onClick  : function (event) {
                                tool.down();
                            },
-                type     : 'button'
+                type     : "button"
             });
         }
 
@@ -1324,8 +1339,8 @@ olexp = (function(olexp) {
         var olexpSettings = $.extend(true, {control : {
             LayerMenu : {
                 arrow    : true,
-                hint     : 'Item Options',
-                text     : ''
+                hint     : "Item Options",
+                text     : ""
             }}}, settings);
 
         /**
@@ -1334,7 +1349,7 @@ olexp = (function(olexp) {
          * @private
          * @type {string}
          */
-        this.button = settings.prefix + '-control-layer-menu';
+        this.button = settings.prefix + "-control-layer-menu";
 
         /**
          * Explorer
@@ -1350,7 +1365,7 @@ olexp = (function(olexp) {
          * @private
          * @type {string}
          */
-        this.icon = 'olexp-control-layer-menu';
+        this.icon = "olexp-control-layer-menu";
 
         /**
          * Explorer manager
@@ -1379,8 +1394,8 @@ olexp = (function(olexp) {
         // ==================================================
         // Add layer callback events
         // --------------------------------------------------
-        this.manager.on('remove:item', this.onItemRemoved, this);
-        this.manager.on('select:item', this.onItemSelected, this);
+        this.manager.on("remove:item", this.onItemRemoved, this);
+        this.manager.on("select:item", this.onItemSelected, this);
 
     };
 
@@ -1406,7 +1421,7 @@ olexp = (function(olexp) {
      */
     LayerMenu.prototype.onItemSelected = function(id)
     {
-        if (typeof id === 'undefined') return;
+        if (typeof id === "undefined") return;
         var item = this.manager.getById(id);
         if (item === null) return;
         var node = this.manager.getNode(item.id);
@@ -1438,13 +1453,13 @@ olexp = (function(olexp) {
 
         var control = new LayerMenu(explorer, manager, menu, options.settings);
 
-        explorer.toolbar.on('click', function(event) {
+        explorer.toolbar.on("click", function(event) {
 
             // Check if any item is selected
             if (explorer.outline.selected === null) return;
 
             // Check if layer menu item was selected
-            var id = control.button + ':';
+            var id = control.button + ":";
             if (event.target.indexOf(id) < 0) return;
             var menuid = event.target.replace(id, "");
 
@@ -1464,7 +1479,7 @@ olexp = (function(olexp) {
             img      : control.icon,
             items    : control.menu.items,
             text     : control.settings.text,
-            type     : 'menu'
+            type     : "menu"
         };
 
     };
@@ -1493,8 +1508,8 @@ olexp = (function(olexp) {
         //--------------------------------------------------
         var olexpSettings = $.extend(true, {control : {
             Measurement : {
-                hintArea   : 'Measure area',
-                hintLength : 'Measure length'
+                hintArea   : "Measure area",
+                hintLength : "Measure length"
             }}}, settings);
 
         /**
@@ -1512,8 +1527,8 @@ olexp = (function(olexp) {
          * @type {string}
          */
         this.icons = {
-            area   : 'olexp-control-measure-area',
-            length : 'olexp-control-measure-length'
+            area   : "olexp-control-measure-area",
+            length : "olexp-control-measure-length"
         };
 
         /**
@@ -1523,8 +1538,8 @@ olexp = (function(olexp) {
          * @type {string}
          */
         this.ids = {
-            area   : settings.prefix + '-control-measure-area-button',
-            length : settings.prefix + '-control-measure-length-button'
+            area   : settings.prefix + "-control-measure-area-button",
+            length : settings.prefix + "-control-measure-length-button"
         };
 
         /**
@@ -1620,7 +1635,7 @@ olexp = (function(olexp) {
                               }
                               tool.area();
                           },
-                type    : 'check'
+                type    : "check"
             });
         }
         if (options.length)
@@ -1636,7 +1651,7 @@ olexp = (function(olexp) {
                               }
                               tool.length();
                            },
-                type    : 'check'
+                type    : "check"
             });
         }
 
@@ -1670,7 +1685,7 @@ olexp = (function(olexp) {
         //--------------------------------------------------
         var olexpSettings = $.extend(true, {control : {
             ToolbarHide : {
-                hint : 'Hide toolbar'
+                hint : "Hide toolbar"
             }}}, options.settings);
     
         /**
@@ -1679,7 +1694,7 @@ olexp = (function(olexp) {
          * @private
          * @type {string}
          */
-        this.button = options.settings.prefix + '-control-toolbar-hide-button';
+        this.button = options.settings.prefix + "-control-toolbar-hide-button";
     
         /**
          * Source explorer
@@ -1695,7 +1710,7 @@ olexp = (function(olexp) {
          * @private
          * @type {string}
          */
-        this.icon = 'olexp-control-toolbar-hide';
+        this.icon = "olexp-control-toolbar-hide";
     
         /**
          * ToolbarHide control settings
@@ -1747,7 +1762,7 @@ olexp = (function(olexp) {
              onClick : function (event) {
                            control.hide();
                        },
-             type    : 'button'
+             type    : "button"
          };
     };
     

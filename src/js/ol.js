@@ -1,4 +1,6 @@
 
+/* global ol */
+
 /**
  * @description olexp specific OpenLayers 3 classes 
  * @namespace olexp.ol
@@ -27,8 +29,8 @@ window.olexp.ol = window.olexp.ol || {};
         //--------------------------------------------------
         var olexpSettings = $.extend(true, {ol : {
             ToolbarShow : {
-                html  : 'T',
-                title : 'Show toolbar'
+                html  : "T",
+                title : "Show toolbar"
             }}}, settings);
 
         /**
@@ -48,16 +50,16 @@ window.olexp.ol = window.olexp.ol || {};
         this.explorer = explorer;
     
         // Define control button
-        var button = document.createElement('button');
+        var button = document.createElement("button");
         button.innerHTML = this.settings.html;
         button.title = this.settings.title;
-        button.addEventListener('click', this.show.bind(this), false);
-        button.addEventListener('touchstart', this.show.bind(this), false);
+        button.addEventListener("click", this.show.bind(this), false);
+        button.addEventListener("touchstart", this.show.bind(this), false);
     
         // Define control button wrapper div
-        var element = document.createElement('div');
-        element.id = settings.prefix + '-ol-toolbar-show';
-        element.className = 'olexp-ol-toolbar-show ol-unselectable ol-control';
+        var element = document.createElement("div");
+        element.id = settings.prefix + "-ol-toolbar-show";
+        element.className = "olexp-ol-toolbar-show ol-unselectable ol-control";
         element.appendChild(button);
     
         ol.control.Control.call(this, {element: element});
@@ -92,7 +94,9 @@ window.olexp.ol = window.olexp.ol || {};
         var opts = $.extend({hidden: false}, options);
         
         var control = new ToolbarShow(explorer, opts.settings);
-        if (opts.hidden) control.setMap(explorer.map);
+        if (opts.hidden) {
+            control.setMap(explorer.map);
+        }
         return control;
     
     };

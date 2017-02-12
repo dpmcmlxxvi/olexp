@@ -1,4 +1,6 @@
 
+/*globals ol*/
+
 /**
  * @namespace olexp.util
  */
@@ -30,16 +32,16 @@ window.olexp.util = window.olexp.util || {};
                                                image : new ol.style.Circle({
                                                            radius : 10,
                                                            stroke : new ol.style.Stroke({
-                                                                        color : '#ffffff'
+                                                                        color : "#ffffff"
                                                                     }),
                                                            fill : new ol.style.Fill({
-                                                                      color : '#3399CC'
+                                                                      color : "#3399CC"
                                                                   })
                                                        }),
                                                text  : new ol.style.Text({
                                                            text : size.toString(),
                                                            fill : new ol.style.Fill({
-                                                                      color : '#ffffff'
+                                                                      color : "#ffffff"
                                                                   })
                                                        })
                                           })];
@@ -48,52 +50,52 @@ window.olexp.util = window.olexp.util || {};
             Point           : [new ol.style.Style({
                                   image : new ol.style.Circle({
                                               fill   : new ol.style.Fill({
-                                                           color : 'rgba(255,255,0,0.5)'
+                                                           color : "rgba(255,255,0,0.5)"
                                                        }),
                                               radius : 5,
-                                              stroke : new ol.style.Stroke({color : '#ff0',
+                                              stroke : new ol.style.Stroke({color : "#ff0",
                                                                             width : 1})
                                           })
                               })],
             LineString      : [new ol.style.Style({
                                   stroke : new ol.style.Stroke({
-                                               color : '#f00',
+                                               color : "#f00",
                                                width : 3
                                            })
                                })],
             Polygon         : [new ol.style.Style({
                                   fill   : new ol.style.Fill({
-                                               color : 'rgba(0,255,255,0.5)'
+                                               color : "rgba(0,255,255,0.5)"
                                            }),
                                   stroke : new ol.style.Stroke({
-                                               color : '#0ff',
+                                               color : "#0ff",
                                                width : 1
                                            })
                                })],
             MultiPoint      : [new ol.style.Style({
                                    image : new ol.style.Circle({
                                                fill   : new ol.style.Fill({
-                                                            color : 'rgba(255,0,255,0.5)'
+                                                            color : "rgba(255,0,255,0.5)"
                                                         }),
                                                radius : 5,
                                                stroke : new ol.style.Stroke({
-                                                            color : '#f0f',
+                                                            color : "#f0f",
                                                             width : 1
                                                         })
                                            })
                                })],
             MultiLineString : [new ol.style.Style({
                                    stroke : new ol.style.Stroke({
-                                                color : '#0f0',
+                                                color : "#0f0",
                                                 width : 3
                                             })
                                })],
             MultiPolygon    : [new ol.style.Style({
                                    fill : new ol.style.Fill({
-                                              color : 'rgba(0,0,255,0.5)'
+                                              color : "rgba(0,0,255,0.5)"
                                           }),
                                    stroke : new ol.style.Stroke({
-                                                color : '#00f',
+                                                color : "#00f",
                                                 width : 1
                                             })
                                })]
@@ -115,12 +117,12 @@ window.olexp.util = window.olexp.util || {};
          */
         this.defaultStyle =
         {
-            'Point'           : this.settings.Point,
-            'LineString'      : this.settings.LineString,
-            'Polygon'         : this.settings.Polygon,
-            'MultiPoint'      : this.settings.MultiPoint,
-            'MultiLineString' : this.settings.MultiLineString,
-            'MultiPolygon'    : this.settings.MultiPolygon
+            "Point"           : this.settings.Point,
+            "LineString"      : this.settings.LineString,
+            "Polygon"         : this.settings.Polygon,
+            "MultiPoint"      : this.settings.MultiPoint,
+            "MultiLineString" : this.settings.MultiLineString,
+            "MultiPolygon"    : this.settings.MultiPolygon
         };
         
         /**
@@ -148,16 +150,18 @@ window.olexp.util = window.olexp.util || {};
                                              cluster)
     {
 
-        if (typeof cluster === 'undefined') cluster = true;
-        
+        if (typeof cluster === "undefined") {
+            cluster = true;
+        }
+
         var me = this;
         
         // Detect if clustering is on for non-points and disable clustering
         for (var i = 0; i < features.length; i++)
         {
             var geometry = features[i].getGeometry();
-            if (typeof geometry === 'undefined' ||
-                geometry.getType() !== 'Point')
+            if (typeof geometry === "undefined" ||
+                geometry.getType() !== "Point")
             {
                 cluster = false;
                 break;
@@ -203,7 +207,7 @@ window.olexp.util = window.olexp.util || {};
             source : source,
             style  : style
         });
-        layer.set('name', name);
+        layer.set("name", name);
         map.getLayers().push(layer);
 
     };
@@ -218,7 +222,7 @@ window.olexp.util = window.olexp.util || {};
     Util.prototype.getClusterStyle = function(feature)
     {
 
-        var size = feature.get('features').length;
+        var size = feature.get("features").length;
         var style = this.clusterStyleCache[size];
         if (!style)
         {
@@ -243,7 +247,7 @@ window.olexp.util = window.olexp.util || {};
             fullscreen    : new ol.control.FullScreen(),
             mouseposition : new ol.control.MousePosition({
                                 coordinateFormat : ol.coordinate.createStringXY(6),
-                                projection       : 'EPSG:4326'}),
+                                projection       : "EPSG:4326"}),
             overviewmap   : new ol.control.OverviewMap(),
             rotate        : new ol.control.Rotate(),
             scaleline     : new ol.control.ScaleLine(),
@@ -274,7 +278,7 @@ window.olexp.util = window.olexp.util || {};
                 })
         });
 
-        interaction.on('addfeatures', function(event) {
+        interaction.on("addfeatures", function(event) {
                                                                
             // Get filename and remove any extensions
             var filename = event.file.name.replace(/\.[^/.]+$/, "");
@@ -299,7 +303,7 @@ window.olexp.util = window.olexp.util || {};
     {
 
         var opts = $.extend($.extend({}, options),
-                            {color : '#' + options.color});
+                            {color : "#" + options.color});
         var graticule = new ol.Graticule({
             map         : map,
             strokeStyle : new ol.style.Stroke(opts)
@@ -349,8 +353,8 @@ window.olexp.util = window.olexp.util || {};
 
         tileTypes.osm =
         {
-            'class'  : ol.source.OSM,
-            name     : 'OpenStreetMap',
+            "class"  : ol.source.OSM,
+            name     : "OpenStreetMap",
             settings : {}
         };
 
@@ -360,31 +364,31 @@ window.olexp.util = window.olexp.util || {};
 
         tileTypes.stamenTerrain =
         {
-            'class'  : ol.source.Stamen,
-            name     : 'Stamen (Terrain)',
+            "class"  : ol.source.Stamen,
+            name     : "Stamen (Terrain)",
             settings :
             {
-                layer: 'terrain'
+                layer: "terrain"
             }
         };
 
         tileTypes.stamenToner =
         {
-            'class'  : ol.source.Stamen,
-            name     : 'Stamen (Toner)',
+            "class"  : ol.source.Stamen,
+            name     : "Stamen (Toner)",
             settings :
             {
-                layer: 'toner'
+                layer: "toner"
             }
         };
 
         tileTypes.stamenWater =
         {
-            'class'  : ol.source.Stamen,
-            name     : 'Stamen (Water Color)',
+            "class"  : ol.source.Stamen,
+            name     : "Stamen (Water Color)",
             settings :
             {
-                layer : 'watercolor'
+                layer : "watercolor"
             }
         };
 
@@ -401,24 +405,24 @@ window.olexp.util = window.olexp.util || {};
      */
     olexp.util.FileTypes = {
             gpx  : {
-                       extensions: ['gpx'],
+                       extensions: ["gpx"],
                        format : ol.format.GPX,
-                       name : 'GPX'
+                       name : "GPX"
                    },
             igc  : {
-                       extensions: ['igc'],
+                       extensions: ["igc"],
                        format : ol.format.IGC,
-                       name : 'IGC'
+                       name : "IGC"
                    },
             json : {
-                       extensions: ['json', 'geojson'],
+                       extensions: ["json", "geojson"],
                        format : ol.format.GeoJSON,
-                       name : 'GeoJSON'
+                       name : "GeoJSON"
                    },
             kml  : {
-                       extensions: ['kml'],
+                       extensions: ["kml"],
                        format : ol.format.KML,
-                       name : 'KML'
+                       name : "KML"
                    }
         };
 
@@ -527,10 +531,10 @@ window.olexp.util = window.olexp.util || {};
         // Display form in popup
         // --------------------------------------------------
         w2popup.open($.extend(popupOptions, {
-            body     : ('<div id="' + id + '"></div>'),
+            body     : ("<div id=\"" + id + "\"></div>"),
             onOpen   : function (event) {
                            event.onComplete = function () {
-                               $('#w2ui-popup #' + id).w2render(name);
+                               $("#w2ui-popup #" + id).w2render(name);
                            };
                        },
             onToggle : function (event) {
@@ -559,7 +563,7 @@ window.olexp.util = window.olexp.util || {};
         // ==================================================
         // Check if this is a cluster feature
         // --------------------------------------------------
-        if (properties.hasOwnProperty('features'))
+        if (properties.hasOwnProperty("features"))
         {
             var features = properties.features;
             if (features instanceof Array)
@@ -585,7 +589,7 @@ window.olexp.util = window.olexp.util || {};
                         if (features[i] instanceof ol.Feature)
                         {
                             count += 1;
-                            properties['Cluster Size'] = count;
+                            properties["Cluster Size"] = count;
                         }
                     }
                 }

@@ -1,4 +1,6 @@
 
+/* global w2confirm */
+
 /**
  * @namespace olexp.menu
  */
@@ -26,12 +28,12 @@ window.olexp.menu = window.olexp.menu || {};
                 form   : {},
                 popup  : {
                     height : 130,
-                    style  : 'width: 100%; height: 100%;',
-                    title  : 'Edit Layer',
+                    style  : "width: 100%; height: 100%;",
+                    title  : "Edit Layer",
                     width  : 365
                 },
                 span   : 4,
-                text   : 'Properties'
+                text   : "Properties"
             }}}, settings);
 
         /**
@@ -40,7 +42,7 @@ window.olexp.menu = window.olexp.menu || {};
          * @private
          * @type {string}
          */
-        this.icon = 'olexp-menu-properties';
+        this.icon = "olexp-menu-properties";
 
         /**
          * Form DOM id
@@ -48,7 +50,7 @@ window.olexp.menu = window.olexp.menu || {};
          * @private
          * @type {string}
          */
-        this.form = settings.prefix + '-menu-properties-form';
+        this.form = settings.prefix + "-menu-properties-form";
 
         /**
          * Menu DOM id
@@ -56,7 +58,7 @@ window.olexp.menu = window.olexp.menu || {};
          * @private
          * @type {string}
          */
-        this.id = settings.prefix + '-menu-properties';
+        this.id = settings.prefix + "-menu-properties";
 
         /**
          * Explorer manager
@@ -72,7 +74,7 @@ window.olexp.menu = window.olexp.menu || {};
          * @private
          * @type {string}
          */
-        this.name = 'layerform';
+        this.name = "layerform";
 
         /**
          * Properties menu settings
@@ -116,14 +118,14 @@ window.olexp.menu = window.olexp.menu || {};
         // Add item name field
         formHeight += fieldHeight;
         fields.push({
-            field: 'name',
+            field: "name",
             html:
             {
-                caption : 'Name',
+                caption : "Name",
                 span    : this.settings.span
             },
             required: true,
-            type: 'text'
+            type: "text"
         });
 
         // Add numeric fields
@@ -142,7 +144,7 @@ window.olexp.menu = window.olexp.menu || {};
                     span    : this.settings.span
                 },
                 required: true,
-                type: 'float'
+                type: "float"
             });
         }
 
@@ -216,7 +218,7 @@ window.olexp.menu = window.olexp.menu || {};
 
         var olexpSettings = $.extend(true, {menu : {
             Remove : {
-                text : 'Remove'
+                text : "Remove"
             }}}, settings);
 
         /**
@@ -225,7 +227,7 @@ window.olexp.menu = window.olexp.menu || {};
          * @private
          * @type {string}
          */
-        this.icon = 'olexp-menu-remove';
+        this.icon = "olexp-menu-remove";
 
         /**
          * Menu DOM id
@@ -233,7 +235,7 @@ window.olexp.menu = window.olexp.menu || {};
          * @private
          * @type {string}
          */
-        this.id = settings.prefix + '-menu-remove';
+        this.id = settings.prefix + "-menu-remove";
 
         /**
          * Explorer manager
@@ -276,7 +278,7 @@ window.olexp.menu = window.olexp.menu || {};
 
         // Confirm user wants to delete item
         // Remove item from map and manager
-        w2confirm('Do you want to delete "' + item.name() + '"?')
+        w2confirm("Do you want to delete \"" + item.name() + "\"?")
             .yes(function () {
                 me.manager.removeFromMap(item);
             });
@@ -327,7 +329,7 @@ window.olexp.menu = window.olexp.menu || {};
         
         var olexpSettings = $.extend(true, {menu : {
             Zoom : {
-                text : 'Zoom'
+                text : "Zoom"
             }}}, settings);
 
         /**
@@ -336,7 +338,7 @@ window.olexp.menu = window.olexp.menu || {};
          * @private
          * @type {string}
          */
-        this.icon = 'olexp-menu-zoom';
+        this.icon = "olexp-menu-zoom";
 
         /**
          * Menu DOM id
@@ -344,7 +346,7 @@ window.olexp.menu = window.olexp.menu || {};
          * @private
          * @type {string}
          */
-        this.id = settings.prefix + '-menu-zoom';
+        this.id = settings.prefix + "-menu-zoom";
 
         /**
          * Explorer
