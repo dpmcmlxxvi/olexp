@@ -599,7 +599,7 @@ describe("NodeManager", function()
         overlays.insertAt(0, overlayTwoBefore);
   
         // Get overlay items
-        var nodes = data.explorer.outline.find({parent : overlayNode});
+        nodes = data.explorer.outline.find({parent : overlayNode});
         var idOneAfter = nodes[0].id;
         var idTwoAfter = nodes[1].id;
         var overlays = data.explorer.map.getOverlays();
@@ -638,10 +638,10 @@ describe("NodeManager", function()
         overlays.insertAt(1, overlayOneBefore);
 
         // Get overlay items
-        var nodes = data.explorer.outline.find({parent : overlayNode});
+        nodes = data.explorer.outline.find({parent : overlayNode});
         var idOneAfter = nodes[0].id;
         var idTwoAfter = nodes[1].id;
-        var overlays = data.explorer.map.getOverlays();
+        overlays = data.explorer.map.getOverlays();
         var overlayTwoAfter = overlays.getArray()[0];
         var overlayOneAfter = overlays.getArray()[1];
 

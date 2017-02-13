@@ -2617,9 +2617,13 @@ window.olexp.control = window.olexp.control || {};
      */
     LayerMenu.prototype.onItemSelected = function(id)
     {
-        if (typeof id === "undefined") return;
+        if (typeof id === "undefined") {
+            return;
+        }
         var item = this.manager.getById(id);
-        if (item === null) return;
+        if (item === null) {
+            return;
+        }
         var node = this.manager.getNode(item.id);
         if (node.disabled)
         {
@@ -4668,7 +4672,9 @@ window.olexp.manager = window.olexp.manager || {};
             if (this.items[i].type === olexp.item.Type.GROUP)
             {
                 var layerChild = this.managers[this.items[i].id].removeFromMap(item);
-                if (layerChild !== null) return layerChild;
+                if (layerChild !== null) {
+                    return layerChild;
+                }
             }
         }
         

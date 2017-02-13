@@ -1146,7 +1146,9 @@ window.olexp.manager = window.olexp.manager || {};
             if (this.items[i].type === olexp.item.Type.GROUP)
             {
                 var layerChild = this.managers[this.items[i].id].removeFromMap(item);
-                if (layerChild !== null) return layerChild;
+                if (layerChild !== null) {
+                    return layerChild;
+                }
             }
         }
         
