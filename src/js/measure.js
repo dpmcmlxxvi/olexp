@@ -1,5 +1,5 @@
 
-/* global ol */
+/* global ol, olexp */
 
 /**
  * @namespace olexp.measure
@@ -608,9 +608,15 @@ window.olexp.measure = window.olexp.measure || {};
      */
     olexp.measure.Tool = function(map, options) {
 
-        if (typeof options === "undefined") options = {};
-        if (typeof options.type === "undefined") options.type = olexp.measure.Type.LINE;
-        if (typeof options.settings === "undefined") options.settings = {};
+        if (typeof options === "undefined") {
+            options = {};
+        }
+        if (typeof options.type === "undefined") {
+            options.type = olexp.measure.Type.LINE;
+        }
+        if (typeof options.settings === "undefined") {
+            options.settings = {};
+        }
 
         var tool = new Tool(map, options.type, options.settings);
 

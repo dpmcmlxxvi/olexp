@@ -525,10 +525,10 @@ describe("NodeManager", function()
         layers.insertAt(0, layerTwoBefore);
  
         // Get layer items
-        var nodes = data.explorer.outline.find({parent : layersNode});
+        nodes = data.explorer.outline.find({parent : layersNode});
         var idOneAfter = nodes[0].id;
         var idTwoAfter = nodes[1].id;
-        var layers = data.explorer.map.getLayers();
+        layers = data.explorer.map.getLayers();
         var layerTwoAfter = layers.getArray()[0];
         var layerOneAfter = layers.getArray()[1];
  
@@ -560,10 +560,10 @@ describe("NodeManager", function()
         layers.insertAt(1, layerOneBefore);
  
         // Get layer items
-        var nodes = data.explorer.outline.find({parent : layersNode});
+        nodes = data.explorer.outline.find({parent : layersNode});
         var idOneAfter = nodes[0].id;
         var idTwoAfter = nodes[1].id;
-        var layers = data.explorer.map.getLayers();
+        layers = data.explorer.map.getLayers();
         var layerTwoAfter = layers.getArray()[0];
         var layerOneAfter = layers.getArray()[1];
  
@@ -701,12 +701,11 @@ describe("Util", function()
     {
         var util = olexp.util.Util();
         var types = util.getTileTypes();
-        for (var name in types)
-        {
+        Object.keys(types).forEach(function (name) {
             expect(types[name].class.prototype instanceof ol.source.TileImage).to.be.ok;
             expect(typeof types[name].name === "string").to.be.ok;
             expect(typeof types[name].settings === "object").to.be.ok;
-        }
+        });
     });
 
 });

@@ -1,5 +1,5 @@
 
-/* global ol, w2alert */
+/* global ol, olexp, w2alert */
 
 /**
  * @namespace olexp.item

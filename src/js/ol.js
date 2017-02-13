@@ -1,5 +1,5 @@
 
-/* global ol */
+/* global ol, olexp */
 
 /**
  * @description olexp specific OpenLayers 3 classes 

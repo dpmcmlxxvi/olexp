@@ -1,5 +1,5 @@
 
-/* global ol, w2ui */
+/* global ol, olexp, w2ui */
 
 /**
  * @namespace olexp
@@ -808,20 +808,20 @@ window.olexp = window.olexp || {};
 
         // Add map interactions
         var interactions = this.util.getInteractions(this.map);
-        for (var iname in this.options.olinteractions)
-        {
+        Object.keys(this.options.olinteractions).forEach(function (iname) {
             var interaction = interactions[iname];
-            if (this.options.olinteractions[iname]) this.map.addInteraction(interaction);
-        }
+            if (me.options.olinteractions[iname]) {
+                me.map.addInteraction(interaction);
+            }
+        });
 
         // Add map controls
         var controls = this.util.getControls();
-        for (var cname in this.options.olcontrols)
-        {
+        Object.keys(this.options.olcontrols).forEach(function (cname) {
             var control = controls[cname];
-            this.map.addControl(control);
-            control.setMap((this.options.olcontrols[cname] ? this.map : null));
-        }
+            me.map.addControl(control);
+            control.setMap((me.options.olcontrols[cname] ? me.map : null));
+        });
 
         // ==================================================
         // Feature selector
@@ -954,12 +954,24 @@ window.olexp = window.olexp || {};
     olexp.destroy = function(explorer)
     {
 
-        if (explorer.map !== undefined) explorer.map.setTarget(null);
-        if (explorer.details !== undefined) explorer.details.destroy();
-        if (explorer.outline !== undefined) explorer.outline.destroy();
-        if (explorer.navigation !== undefined) explorer.navigation.destroy();
-        if (explorer.toolbar !== undefined) explorer.toolbar.destroy();
-        if (explorer.layout !== undefined) explorer.layout.destroy();
+        if (typeof explorer.map !== "undefined") {
+            explorer.map.setTarget(null);
+        }
+        if (typeof explorer.details !== "undefined") {
+            explorer.details.destroy();
+        }
+        if (typeof explorer.outline !== "undefined") {
+            explorer.outline.destroy();
+        }
+        if (typeof explorer.navigation !== "undefined") {
+            explorer.navigation.destroy();
+        }
+        if (typeof explorer.toolbar !== "undefined") {
+            explorer.toolbar.destroy();
+        }
+        if (typeof explorer.layout !== "undefined") {
+            explorer.layout.destroy();
+        }
 
     };
 

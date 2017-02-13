@@ -1,4 +1,6 @@
 
+/* global olexp */
+
 /**
  * @namespace olexp.event
  */
@@ -40,7 +42,9 @@ window.olexp.event = window.olexp.event || {};
     Event.prototype.on = function(type, listener, optThis)
     {
 
-        if (!(type in this.listeners)) return;
+        if (!(type in this.listeners)) {
+            return;
+        }
 
         var callback = listener;
         if (typeof optThis !== "undefined") {

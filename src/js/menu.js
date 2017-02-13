@@ -1,5 +1,5 @@
 
-/* global w2confirm */
+/* global olexp, w2confirm */
 
 /**
  * @namespace olexp.menu

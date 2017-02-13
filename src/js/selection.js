@@ -1,5 +1,5 @@
 
-/* global ol */
+/* global ol, olexp */
 
 /**
  * @namespace olexp.selection

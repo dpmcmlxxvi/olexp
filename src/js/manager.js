@@ -1,4 +1,6 @@
 
+/* global olexp */
+
 /**
  * @namespace olexp.manager
  */
@@ -110,7 +112,9 @@ window.olexp.manager = window.olexp.manager || {};
      */
     ManagerAPI.prototype.isIdOverlayNode = function(id)
     {
-        if (typeof id !== "string") return false;
+        if (typeof id !== "string") {
+            return false;
+        }
         return id.indexOf(this.overlaysId) === 0;
     };
 
@@ -241,7 +245,9 @@ window.olexp.manager = window.olexp.manager || {};
     {
 
         // If no id provided use selected
-        if (typeof id === "undefined") id = this.outline.selected;
+        if (typeof id === "undefined") {
+            id = this.outline.selected;
+        }
 
         // Check if this is a layer node
         if (this.isIdLayerNode(id))
@@ -1043,7 +1049,9 @@ window.olexp.manager = window.olexp.manager || {};
         for (var i = 0; i < numLayers; i++)
         {
             var layer = changes.item(i);
-            if (this.isHidden(layer)) continue;
+            if (this.isHidden(layer)) {
+                continue;
+            }
             var itemMap = this.getByLayer(layer);
             if (itemMap === null)
             {
@@ -1062,7 +1070,9 @@ window.olexp.manager = window.olexp.manager || {};
             var itemManager = items[j];
 
             // Check if item is just being moved by user
-            if (itemManager.moving()) continue;
+            if (itemManager.moving()) {
+                continue;
+            }
 
             var index = olexp.util.indexOf(this.layers, itemManager.layer);
             if (index === -1)
@@ -1102,8 +1112,10 @@ window.olexp.manager = window.olexp.manager || {};
         {
             if (this.items[i].type === olexp.item.Type.GROUP)
             {
-                var removed = this.managers[this.items[i].id].remove(id);
-                if (removed) return true;
+                var removed = this.managers[this.items[i].id].remove(item);
+                if (removed) {
+                    return true;
+                }
             }
         }
 
@@ -1121,7 +1133,9 @@ window.olexp.manager = window.olexp.manager || {};
     NodeManager.prototype.removeFromMap = function(item)
     {
         var layerMap = this.layers.remove(item.layer);
-        if (typeof layerMap !== "undefined") return layerMap;
+        if (typeof layerMap !== "undefined") {
+            return layerMap;
+        }
 
         // ==================================================
         // Check if item in child managers and remove

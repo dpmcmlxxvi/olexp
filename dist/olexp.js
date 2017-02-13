@@ -1,6 +1,6 @@
 /* olexp 0.2.0 (c) Daniel Pulido <dpmcmlxxvi@gmail.com> */
 
-/* global ol, w2ui */
+/* global ol, olexp, w2ui */
 
 /**
  * @namespace olexp
@@ -809,20 +809,20 @@ window.olexp = window.olexp || {};
 
         // Add map interactions
         var interactions = this.util.getInteractions(this.map);
-        for (var iname in this.options.olinteractions)
-        {
+        Object.keys(this.options.olinteractions).forEach(function (iname) {
             var interaction = interactions[iname];
-            if (this.options.olinteractions[iname]) this.map.addInteraction(interaction);
-        }
+            if (me.options.olinteractions[iname]) {
+                me.map.addInteraction(interaction);
+            }
+        });
 
         // Add map controls
         var controls = this.util.getControls();
-        for (var cname in this.options.olcontrols)
-        {
+        Object.keys(this.options.olcontrols).forEach(function (cname) {
             var control = controls[cname];
-            this.map.addControl(control);
-            control.setMap((this.options.olcontrols[cname] ? this.map : null));
-        }
+            me.map.addControl(control);
+            control.setMap((me.options.olcontrols[cname] ? me.map : null));
+        });
 
         // ==================================================
         // Feature selector
@@ -955,12 +955,24 @@ window.olexp = window.olexp || {};
     olexp.destroy = function(explorer)
     {
 
-        if (explorer.map !== undefined) explorer.map.setTarget(null);
-        if (explorer.details !== undefined) explorer.details.destroy();
-        if (explorer.outline !== undefined) explorer.outline.destroy();
-        if (explorer.navigation !== undefined) explorer.navigation.destroy();
-        if (explorer.toolbar !== undefined) explorer.toolbar.destroy();
-        if (explorer.layout !== undefined) explorer.layout.destroy();
+        if (typeof explorer.map !== "undefined") {
+            explorer.map.setTarget(null);
+        }
+        if (typeof explorer.details !== "undefined") {
+            explorer.details.destroy();
+        }
+        if (typeof explorer.outline !== "undefined") {
+            explorer.outline.destroy();
+        }
+        if (typeof explorer.navigation !== "undefined") {
+            explorer.navigation.destroy();
+        }
+        if (typeof explorer.toolbar !== "undefined") {
+            explorer.toolbar.destroy();
+        }
+        if (typeof explorer.layout !== "undefined") {
+            explorer.layout.destroy();
+        }
 
     };
 
@@ -985,6 +997,8 @@ window.olexp = window.olexp || {};
 
 }(olexp || {}));
 
+
+/* global olexp */
 
 /**
  * @namespace olexp.event
@@ -1027,7 +1041,9 @@ window.olexp.event = window.olexp.event || {};
     Event.prototype.on = function(type, listener, optThis)
     {
 
-        if (!(type in this.listeners)) return;
+        if (!(type in this.listeners)) {
+            return;
+        }
 
         var callback = listener;
         if (typeof optThis !== "undefined") {
@@ -1138,6 +1154,8 @@ window.olexp.event = window.olexp.event || {};
 
 }(olexp || {}));
 
+
+/* global ol, olexp, w2alert */
 
 /**
  * @namespace olexp.control
@@ -1398,7 +1416,9 @@ window.olexp.control = window.olexp.control || {};
     EditSettings.prototype.isControlActive = function(name)
     {
         var control = this.getControl(name);
-        if (control !== null && control.getMap() !== null) return true;
+        if (control !== null && control.getMap() !== null) {
+            return true;
+        }
         return false;
     };
 
@@ -1411,7 +1431,9 @@ window.olexp.control = window.olexp.control || {};
     EditSettings.prototype.setControl = function(name, enable)
     {
         var control = this.getControl(name);
-        if (control === null) return;
+        if (control === null) {
+            return;
+        }
         var map = (enable ? this.map : null);
         control.setMap(map);
     };
@@ -1532,19 +1554,16 @@ window.olexp.control = window.olexp.control || {};
         var id = this.anchor;
         var filename = this.filename;
 
-        // Create callback when anchor is clicked
-        var callback = function(e)
-            {
-                this.map.once("postcompose", function(event)
-                {
-                    anchor.href = event.context.canvas.toDataURL("image/png");
-                });
-                this.map.renderSync();
-             };
-
-        // Create anchor
+        // Create anchor and callback when anchor is clicked
         $("body").append("<a id=\"" + id + "\" download=\"" + filename + "\"></a>");
         var anchor = document.getElementById(id);
+        var callback = function(e) {
+            this.map.once("postcompose", function(event)
+            {
+                anchor.href = event.context.canvas.toDataURL("image/png");
+            });
+            this.map.renderSync();
+        };
         anchor.addEventListener("click", callback.bind(this), false);
 
         // Click then remove
@@ -1745,17 +1764,16 @@ window.olexp.control = window.olexp.control || {};
         // ==================================================
         // Define allowable tile types
         // --------------------------------------------------
-        var record = this.graticule.olexp_record;
+        var record = this.graticule.olexpRecord;
 
         // ==================================================
         // Function to process form changes
         // --------------------------------------------------
         var onChanges = function(changes)
         {
-            for (var name in changes)
-            {
+            Object.keys(changes).forEach(function (name) {
                 record[name] = changes[name];
-            }
+            });
             var options = $.extend({}, record);
             delete options.enable;
             me.graticule.setMap(null);
@@ -1790,8 +1808,12 @@ window.olexp.control = window.olexp.control || {};
       */
      olexp.control.Graticule = function(explorer, options) {
 
-         if (typeof options === "undefined") options = {};
-         if (typeof options.settings === "undefined") options.settings = {};
+         if (typeof options === "undefined") {
+             options = {};
+         }
+         if (typeof options.settings === "undefined") {
+             options.settings = {};
+         }
 
          var control = new Graticule(explorer.map, options.settings);
         
@@ -1989,11 +2011,13 @@ window.olexp.control = window.olexp.control || {};
                     var typeName = changes[fieldName].id;
                     for (var key in tileTypes)
                     {
-                        if (typeName !== tileTypes[key].name) continue;
+                        if (typeName !== tileTypes[key].name) {
+                            continue;
+                        }
                         var tileType = tileTypes[key];
-                        var tileClass = tileType["class"];
+                        var TileClass = tileType["class"];
                         var tile = new ol.layer.Tile({
-                            source: new tileClass(tileType.settings)
+                            source: new TileClass(tileType.settings)
                         });
                         tile.set("name", typeName);
                         me.map.addLayer(tile);
@@ -2056,17 +2080,18 @@ window.olexp.control = window.olexp.control || {};
         // --------------------------------------------------
         var onChanges = function(changes)
         {
-            for (var fieldName in changes)
-            {
+            Object.keys(changes).forEach(function (fieldName) {
+
                 if (fieldName === fields[0].field)
                 {
                     // Search for selected tile in list
-                    for (var change in changes[fieldName])
-                    {
+                    Object.keys(changes[fieldName]).forEach(function (change) {
 
                         // Check that file contents are valid
                         var content = changes[fieldName][change].content;
-                        if (typeof content === "undefined" || content === null) continue;
+                        if (typeof content === "undefined" || content === null) {
+                            return;
+                        }
 
                         // Extract filename and contents
                         var filename = changes[fieldName][change].name;
@@ -2089,9 +2114,10 @@ window.olexp.control = window.olexp.control || {};
 
                         // Add features to map
                         me.util.addLayerVector(me.map, name, features);
-                    }
+
+                    });
                 }
-            }
+            });
         };
 
         // ==================================================
@@ -2123,10 +2149,18 @@ window.olexp.control = window.olexp.control || {};
      */
     olexp.control.LayerControl = function(explorer, options) {
         
-        if (typeof options === "undefined") options = {};
-        if (typeof options.tile === "undefined") options.tile = true;
-        if (typeof options.vector === "undefined") options.vector = true;
-        if (typeof options.settings === "undefined") options.settings = {};
+        if (typeof options === "undefined") {
+            options = {};
+        }
+        if (typeof options.tile === "undefined") {
+            options.tile = true;
+        }
+        if (typeof options.vector === "undefined") {
+            options.vector = true;
+        }
+        if (typeof options.settings === "undefined") {
+            options.settings = {};
+        }
 
         var tool = new LayerControl(explorer.map, options.settings);
         
@@ -2168,7 +2202,7 @@ window.olexp.control = window.olexp.control || {};
 //==================================================
 // Layer Manager Controls
 //--------------------------------------------------
-olexp = (function(olexp) {
+(function(olexp) {
 
     /**
      * Control to manage layers
@@ -2332,9 +2366,13 @@ olexp = (function(olexp) {
      */
     LayerManager.prototype.onItemSelected = function(id)
     {
-        if (typeof id === "undefined") return;
+        if (typeof id === "undefined") {
+            return;
+        }
         var item = this.manager.getById(id);
-        if (item === null) return;
+        if (item === null) {
+            return;
+        }
         var node = this.manager.getNode(item.id);
         if (node.disabled)
         {
@@ -2377,16 +2415,34 @@ olexp = (function(olexp) {
      */
     olexp.control.LayerManager = function(explorer, manager, options) {
         
-        if (typeof options === "undefined") options = {};
+        if (typeof options === "undefined") {
+            options = {};
+        }
         
-        if (typeof options.details === "undefined") options.details = {};
-        if (typeof options.details.enabled === "undefined") options.details.enabled = true;
-        if (typeof options.details.checked === "undefined") options.details.checked = true;
-        if (typeof options.down === "undefined") options.down = true;
-        if (typeof options.navigation === "undefined") options.navigation = {};
-        if (typeof options.navigation.enabled === "undefined") options.navigation.enabled = true;
-        if (typeof options.navigation.checked === "undefined") options.navigation.checked = true;
-        if (typeof options.up === "undefined") options.up = true;
+        if (typeof options.details === "undefined") {
+            options.details = {};
+        }
+        if (typeof options.details.enabled === "undefined") {
+            options.details.enabled = true;
+        }
+        if (typeof options.details.checked === "undefined") {
+            options.details.checked = true;
+        }
+        if (typeof options.down === "undefined") {
+            options.down = true;
+        }
+        if (typeof options.navigation === "undefined") {
+            options.navigation = {};
+        }
+        if (typeof options.navigation.enabled === "undefined") {
+            options.navigation.enabled = true;
+        }
+        if (typeof options.navigation.checked === "undefined") {
+            options.navigation.checked = true;
+        }
+        if (typeof options.up === "undefined") {
+            options.up = true;
+        }
 
         var tool = new LayerManager(explorer, manager, options.settings);
         
@@ -2596,11 +2652,15 @@ olexp = (function(olexp) {
         explorer.toolbar.on("click", function(event) {
 
             // Check if any item is selected
-            if (explorer.outline.selected === null) return;
+            if (explorer.outline.selected === null) {
+                return;
+            }
 
             // Check if layer menu item was selected
             var id = control.button + ":";
-            if (event.target.indexOf(id) < 0) return;
+            if (event.target.indexOf(id) < 0) {
+                return;
+            }
             var menuid = event.target.replace(id, "");
 
             // Create dummy menu event
@@ -2753,10 +2813,18 @@ olexp = (function(olexp) {
      */
     olexp.control.Measure = function(explorer, options) {
         
-        if (typeof options === "undefined") options = {};
-        if (typeof options.area === "undefined") options.area = true;
-        if (typeof options.length === "undefined") options.length = true;
-        if (typeof options.settings === "undefined") options.settings = {};
+        if (typeof options === "undefined") {
+            options = {};
+        }
+        if (typeof options.area === "undefined") {
+            options.area = true;
+        }
+        if (typeof options.length === "undefined") {
+            options.length = true;
+        }
+        if (typeof options.settings === "undefined") {
+            options.settings = {};
+        }
 
         var tool = new Measurement(explorer, options.settings);
         
@@ -2911,7 +2979,7 @@ olexp = (function(olexp) {
 }(olexp || {}));
 
 
-/* global ol, w2alert */
+/* global ol, olexp, w2alert */
 
 /**
  * @namespace olexp.item
@@ -3453,6 +3521,8 @@ window.olexp.item = window.olexp.item || {};
 }(olexp || {}));
 
 
+/* global olexp */
+
 /**
  * @namespace olexp.manager
  */
@@ -3564,7 +3634,9 @@ window.olexp.manager = window.olexp.manager || {};
      */
     ManagerAPI.prototype.isIdOverlayNode = function(id)
     {
-        if (typeof id !== "string") return false;
+        if (typeof id !== "string") {
+            return false;
+        }
         return id.indexOf(this.overlaysId) === 0;
     };
 
@@ -3695,7 +3767,9 @@ window.olexp.manager = window.olexp.manager || {};
     {
 
         // If no id provided use selected
-        if (typeof id === "undefined") id = this.outline.selected;
+        if (typeof id === "undefined") {
+            id = this.outline.selected;
+        }
 
         // Check if this is a layer node
         if (this.isIdLayerNode(id))
@@ -4497,7 +4571,9 @@ window.olexp.manager = window.olexp.manager || {};
         for (var i = 0; i < numLayers; i++)
         {
             var layer = changes.item(i);
-            if (this.isHidden(layer)) continue;
+            if (this.isHidden(layer)) {
+                continue;
+            }
             var itemMap = this.getByLayer(layer);
             if (itemMap === null)
             {
@@ -4516,7 +4592,9 @@ window.olexp.manager = window.olexp.manager || {};
             var itemManager = items[j];
 
             // Check if item is just being moved by user
-            if (itemManager.moving()) continue;
+            if (itemManager.moving()) {
+                continue;
+            }
 
             var index = olexp.util.indexOf(this.layers, itemManager.layer);
             if (index === -1)
@@ -4556,8 +4634,10 @@ window.olexp.manager = window.olexp.manager || {};
         {
             if (this.items[i].type === olexp.item.Type.GROUP)
             {
-                var removed = this.managers[this.items[i].id].remove(id);
-                if (removed) return true;
+                var removed = this.managers[this.items[i].id].remove(item);
+                if (removed) {
+                    return true;
+                }
             }
         }
 
@@ -4575,7 +4655,9 @@ window.olexp.manager = window.olexp.manager || {};
     NodeManager.prototype.removeFromMap = function(item)
     {
         var layerMap = this.layers.remove(item.layer);
-        if (typeof layerMap !== "undefined") return layerMap;
+        if (typeof layerMap !== "undefined") {
+            return layerMap;
+        }
 
         // ==================================================
         // Check if item in child managers and remove
@@ -4669,7 +4751,7 @@ window.olexp.manager = window.olexp.manager || {};
 }(olexp || {}));
 
 
-/* global ol */
+/* global ol, olexp */
 
 /**
  * @namespace olexp.measure
@@ -5278,9 +5360,15 @@ window.olexp.measure = window.olexp.measure || {};
      */
     olexp.measure.Tool = function(map, options) {
 
-        if (typeof options === "undefined") options = {};
-        if (typeof options.type === "undefined") options.type = olexp.measure.Type.LINE;
-        if (typeof options.settings === "undefined") options.settings = {};
+        if (typeof options === "undefined") {
+            options = {};
+        }
+        if (typeof options.type === "undefined") {
+            options.type = olexp.measure.Type.LINE;
+        }
+        if (typeof options.settings === "undefined") {
+            options.settings = {};
+        }
 
         var tool = new Tool(map, options.type, options.settings);
 
@@ -5331,7 +5419,7 @@ window.olexp.measure = window.olexp.measure || {};
 }(olexp || {}));
 
 
-/* global w2confirm */
+/* global olexp, w2confirm */
 
 /**
  * @namespace olexp.menu
@@ -5748,7 +5836,7 @@ window.olexp.menu = window.olexp.menu || {};
 }(olexp || {}));
 
 
-/* global ol */
+/* global ol, olexp */
 
 /**
  * @description olexp specific OpenLayers 3 classes 
@@ -5855,7 +5943,7 @@ window.olexp.ol = window.olexp.ol || {};
 }(olexp || {}));
 
 
-/* global ol */
+/* global ol, olexp */
 
 /**
  * @namespace olexp.selection
@@ -5973,7 +6061,7 @@ window.olexp.selection = window.olexp.selection || {};
 }(olexp || {}));
 
 
-/*globals ol*/
+/*globals ol, olexp, w2popup, w2ui */
 
 /**
  * @namespace olexp.util
@@ -6282,7 +6370,7 @@ window.olexp.util = window.olexp.util || {};
             map         : map,
             strokeStyle : new ol.style.Stroke(opts)
         });
-        graticule.olexp_record = $.extend({enable : (map===null ? false : true)},
+        graticule.olexpRecord = $.extend({enable : (map===null ? false : true)},
                                            options);
 
         return graticule;
@@ -6492,10 +6580,9 @@ window.olexp.util = window.olexp.util || {};
                           reset : function () {
                                       // Reset properties to original item values
                                       var form = w2ui[name];
-                                      for (var rname in record)
-                                      {
+                                      Object.keys(record).forEach(function (rname) {
                                           form.record[rname] = record[rname];
-                                      }
+                                      });
                                       form.refresh();
                                   }
                       }
@@ -6589,12 +6676,11 @@ window.olexp.util = window.olexp.util || {};
         // ==================================================
         // Push properties into record
         // --------------------------------------------------
-        for (var name in properties)
-        {
+        Object.keys(properties).forEach(function (name) {
             var value = properties[name];
             recid += 1;
             records.push({recid: recid, property: name, value: value});
-        }
+        });
 
         return records;
     };

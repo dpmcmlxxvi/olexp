@@ -1,4 +1,6 @@
 
+/* global ol, olexp, w2alert */
+
 /**
  * @namespace olexp.control
  */
@@ -258,7 +260,9 @@ window.olexp.control = window.olexp.control || {};
     EditSettings.prototype.isControlActive = function(name)
     {
         var control = this.getControl(name);
-        if (control !== null && control.getMap() !== null) return true;
+        if (control !== null && control.getMap() !== null) {
+            return true;
+        }
         return false;
     };
 
@@ -271,7 +275,9 @@ window.olexp.control = window.olexp.control || {};
     EditSettings.prototype.setControl = function(name, enable)
     {
         var control = this.getControl(name);
-        if (control === null) return;
+        if (control === null) {
+            return;
+        }
         var map = (enable ? this.map : null);
         control.setMap(map);
     };
@@ -392,19 +398,16 @@ window.olexp.control = window.olexp.control || {};
         var id = this.anchor;
         var filename = this.filename;
 
-        // Create callback when anchor is clicked
-        var callback = function(e)
-            {
-                this.map.once("postcompose", function(event)
-                {
-                    anchor.href = event.context.canvas.toDataURL("image/png");
-                });
-                this.map.renderSync();
-             };
-
-        // Create anchor
+        // Create anchor and callback when anchor is clicked
         $("body").append("<a id=\"" + id + "\" download=\"" + filename + "\"></a>");
         var anchor = document.getElementById(id);
+        var callback = function(e) {
+            this.map.once("postcompose", function(event)
+            {
+                anchor.href = event.context.canvas.toDataURL("image/png");
+            });
+            this.map.renderSync();
+        };
         anchor.addEventListener("click", callback.bind(this), false);
 
         // Click then remove
@@ -605,17 +608,16 @@ window.olexp.control = window.olexp.control || {};
         // ==================================================
         // Define allowable tile types
         // --------------------------------------------------
-        var record = this.graticule.olexp_record;
+        var record = this.graticule.olexpRecord;
 
         // ==================================================
         // Function to process form changes
         // --------------------------------------------------
         var onChanges = function(changes)
         {
-            for (var name in changes)
-            {
+            Object.keys(changes).forEach(function (name) {
                 record[name] = changes[name];
-            }
+            });
             var options = $.extend({}, record);
             delete options.enable;
             me.graticule.setMap(null);
@@ -650,8 +652,12 @@ window.olexp.control = window.olexp.control || {};
       */
      olexp.control.Graticule = function(explorer, options) {
 
-         if (typeof options === "undefined") options = {};
-         if (typeof options.settings === "undefined") options.settings = {};
+         if (typeof options === "undefined") {
+             options = {};
+         }
+         if (typeof options.settings === "undefined") {
+             options.settings = {};
+         }
 
          var control = new Graticule(explorer.map, options.settings);
         
@@ -849,11 +855,13 @@ window.olexp.control = window.olexp.control || {};
                     var typeName = changes[fieldName].id;
                     for (var key in tileTypes)
                     {
-                        if (typeName !== tileTypes[key].name) continue;
+                        if (typeName !== tileTypes[key].name) {
+                            continue;
+                        }
                         var tileType = tileTypes[key];
-                        var tileClass = tileType["class"];
+                        var TileClass = tileType["class"];
                         var tile = new ol.layer.Tile({
-                            source: new tileClass(tileType.settings)
+                            source: new TileClass(tileType.settings)
                         });
                         tile.set("name", typeName);
                         me.map.addLayer(tile);
@@ -916,17 +924,18 @@ window.olexp.control = window.olexp.control || {};
         // --------------------------------------------------
         var onChanges = function(changes)
         {
-            for (var fieldName in changes)
-            {
+            Object.keys(changes).forEach(function (fieldName) {
+
                 if (fieldName === fields[0].field)
                 {
                     // Search for selected tile in list
-                    for (var change in changes[fieldName])
-                    {
+                    Object.keys(changes[fieldName]).forEach(function (change) {
 
                         // Check that file contents are valid
                         var content = changes[fieldName][change].content;
-                        if (typeof content === "undefined" || content === null) continue;
+                        if (typeof content === "undefined" || content === null) {
+                            return;
+                        }
 
                         // Extract filename and contents
                         var filename = changes[fieldName][change].name;
@@ -949,9 +958,10 @@ window.olexp.control = window.olexp.control || {};
 
                         // Add features to map
                         me.util.addLayerVector(me.map, name, features);
-                    }
+
+                    });
                 }
-            }
+            });
         };
 
         // ==================================================
@@ -983,10 +993,18 @@ window.olexp.control = window.olexp.control || {};
      */
     olexp.control.LayerControl = function(explorer, options) {
         
-        if (typeof options === "undefined") options = {};
-        if (typeof options.tile === "undefined") options.tile = true;
-        if (typeof options.vector === "undefined") options.vector = true;
-        if (typeof options.settings === "undefined") options.settings = {};
+        if (typeof options === "undefined") {
+            options = {};
+        }
+        if (typeof options.tile === "undefined") {
+            options.tile = true;
+        }
+        if (typeof options.vector === "undefined") {
+            options.vector = true;
+        }
+        if (typeof options.settings === "undefined") {
+            options.settings = {};
+        }
 
         var tool = new LayerControl(explorer.map, options.settings);
         
@@ -1028,7 +1046,7 @@ window.olexp.control = window.olexp.control || {};
 //==================================================
 // Layer Manager Controls
 //--------------------------------------------------
-olexp = (function(olexp) {
+(function(olexp) {
 
     /**
      * Control to manage layers
@@ -1192,9 +1210,13 @@ olexp = (function(olexp) {
      */
     LayerManager.prototype.onItemSelected = function(id)
     {
-        if (typeof id === "undefined") return;
+        if (typeof id === "undefined") {
+            return;
+        }
         var item = this.manager.getById(id);
-        if (item === null) return;
+        if (item === null) {
+            return;
+        }
         var node = this.manager.getNode(item.id);
         if (node.disabled)
         {
@@ -1237,16 +1259,34 @@ olexp = (function(olexp) {
      */
     olexp.control.LayerManager = function(explorer, manager, options) {
         
-        if (typeof options === "undefined") options = {};
+        if (typeof options === "undefined") {
+            options = {};
+        }
         
-        if (typeof options.details === "undefined") options.details = {};
-        if (typeof options.details.enabled === "undefined") options.details.enabled = true;
-        if (typeof options.details.checked === "undefined") options.details.checked = true;
-        if (typeof options.down === "undefined") options.down = true;
-        if (typeof options.navigation === "undefined") options.navigation = {};
-        if (typeof options.navigation.enabled === "undefined") options.navigation.enabled = true;
-        if (typeof options.navigation.checked === "undefined") options.navigation.checked = true;
-        if (typeof options.up === "undefined") options.up = true;
+        if (typeof options.details === "undefined") {
+            options.details = {};
+        }
+        if (typeof options.details.enabled === "undefined") {
+            options.details.enabled = true;
+        }
+        if (typeof options.details.checked === "undefined") {
+            options.details.checked = true;
+        }
+        if (typeof options.down === "undefined") {
+            options.down = true;
+        }
+        if (typeof options.navigation === "undefined") {
+            options.navigation = {};
+        }
+        if (typeof options.navigation.enabled === "undefined") {
+            options.navigation.enabled = true;
+        }
+        if (typeof options.navigation.checked === "undefined") {
+            options.navigation.checked = true;
+        }
+        if (typeof options.up === "undefined") {
+            options.up = true;
+        }
 
         var tool = new LayerManager(explorer, manager, options.settings);
         
@@ -1456,11 +1496,15 @@ olexp = (function(olexp) {
         explorer.toolbar.on("click", function(event) {
 
             // Check if any item is selected
-            if (explorer.outline.selected === null) return;
+            if (explorer.outline.selected === null) {
+                return;
+            }
 
             // Check if layer menu item was selected
             var id = control.button + ":";
-            if (event.target.indexOf(id) < 0) return;
+            if (event.target.indexOf(id) < 0) {
+                return;
+            }
             var menuid = event.target.replace(id, "");
 
             // Create dummy menu event
@@ -1613,10 +1657,18 @@ olexp = (function(olexp) {
      */
     olexp.control.Measure = function(explorer, options) {
         
-        if (typeof options === "undefined") options = {};
-        if (typeof options.area === "undefined") options.area = true;
-        if (typeof options.length === "undefined") options.length = true;
-        if (typeof options.settings === "undefined") options.settings = {};
+        if (typeof options === "undefined") {
+            options = {};
+        }
+        if (typeof options.area === "undefined") {
+            options.area = true;
+        }
+        if (typeof options.length === "undefined") {
+            options.length = true;
+        }
+        if (typeof options.settings === "undefined") {
+            options.settings = {};
+        }
 
         var tool = new Measurement(explorer, options.settings);
         

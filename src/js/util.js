@@ -1,5 +1,5 @@
 
-/*globals ol*/
+/*globals ol, olexp, w2popup, w2ui */
 
 /**
  * @namespace olexp.util
@@ -308,7 +308,7 @@ window.olexp.util = window.olexp.util || {};
             map         : map,
             strokeStyle : new ol.style.Stroke(opts)
         });
-        graticule.olexp_record = $.extend({enable : (map===null ? false : true)},
+        graticule.olexpRecord = $.extend({enable : (map===null ? false : true)},
                                            options);
 
         return graticule;
@@ -518,10 +518,9 @@ window.olexp.util = window.olexp.util || {};
                           reset : function () {
                                       // Reset properties to original item values
                                       var form = w2ui[name];
-                                      for (var rname in record)
-                                      {
+                                      Object.keys(record).forEach(function (rname) {
                                           form.record[rname] = record[rname];
-                                      }
+                                      });
                                       form.refresh();
                                   }
                       }
@@ -615,12 +614,11 @@ window.olexp.util = window.olexp.util || {};
         // ==================================================
         // Push properties into record
         // --------------------------------------------------
-        for (var name in properties)
-        {
+        Object.keys(properties).forEach(function (name) {
             var value = properties[name];
             recid += 1;
             records.push({recid: recid, property: name, value: value});
-        }
+        });
 
         return records;
     };
