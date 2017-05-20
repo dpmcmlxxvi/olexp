@@ -7,6 +7,9 @@
     "email": "dpmcmlxxvi@gmail.com"
   },
   "main": "dist/olexp.js",
+  "scripts": {
+    "test": "grunt test"
+  },
   "repository": {
     "type": "git",
     "url": "https://github.com/dpmcmlxxvi/olexp"
@@ -22,23 +25,26 @@
     "explorer"
   ],
   "devDependencies": {
-    "blanket": "^1.2.3",
+    "browserify-istanbul": "^2.0.0",
     "chai": "^3.5.0",
+    "coveralls": "^2.11.16",
     "grunt": "^1.0.1",
+    "grunt-browserify": "^5.0.0",
     "grunt-contrib-clean": "^1.0.0",
     "grunt-contrib-concat": "^1.0.1",
     "grunt-contrib-copy": "^1.0.0",
-    "grunt-contrib-csslint": "^1.0.0",
+    "grunt-contrib-csslint": "^2.0.0",
     "grunt-contrib-cssmin": "^1.0.1",
     "grunt-contrib-jshint": "^1.0.0",
-    "grunt-contrib-uglify": "^1.0.1",
-    "grunt-gh-pages": "^1.0.0",
+    "grunt-contrib-uglify": "^2.1.0",
+    "grunt-gh-pages": "^2.0.0",
     "grunt-git": "^1.0.0",
     "grunt-jsdoc": "^2.0.0",
-    "grunt-release": "^0.13.0",
+    "grunt-mocha-phantom-istanbul": "^0.2.1",
+    "grunt-release": "^0.14.0",
     "ink-docstrap": "^1.1.2",
     "jsdoc": "^3.4.0",
-    "mocha": "^2.3.3"
+    "mocha": "^3.2.0"
   },
   "preferGlobal": false,
   "private": false,

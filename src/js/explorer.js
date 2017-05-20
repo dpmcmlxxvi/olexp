@@ -1,10 +1,11 @@
 
-/* global ol, w2ui */
+/*globals $, ol, olexp, w2ui, window */
+/*jslint vars: true */
 
 /**
  * @namespace olexp
  */
-var olexp = olexp || {};
+window.olexp = window.olexp || {};
 
 //==================================================
 // Documentation definitions
@@ -366,7 +367,7 @@ var olexp = olexp || {};
 /**
  * olexp main module
  */
-(function(olexp) {
+(function (olexp) {
     "use strict";
 
     /**
@@ -376,29 +377,26 @@ var olexp = olexp || {};
      * @param {olexp.ExplorerOptions} [options] Explorer options
      * @throws {Error} id must be defined and exist
      */
-    var Explorer = function(id, options)
-    {
+    var Explorer = function (id, options) {
 
         // ==================================================
         // Parse arguments
         // --------------------------------------------------
 
-        if (typeof id === 'undefined')
-        {
-            throw new Error('olexp.Explorer: id not defined');
+        if (id === undefined) {
+            throw new Error("olexp.Explorer: id not defined");
         }
-        else if ($('#'+id).length === 0)
-        {
-            throw new Error('olexp.Explorer: id not found');
+        if ($("#" + id).length === 0) {
+            throw new Error("olexp.Explorer: id not found");
         }
 
         // ==================================================
         // Default options
         // --------------------------------------------------
-        
+
         // Prefix is used to create DOM ids and w2ui names. This ensures they
         // are unique and can have multiple instances on the same page
-        var prefix = 'olexp-' + id;
+        var prefix = "olexp-" + id;
 
         /**
          * @description Explorer constructor options to override default
@@ -512,22 +510,22 @@ var olexp = olexp || {};
             details : {
                 hidden    : true,
                 resizable : true,
-                size      : '25%',
-                type      : 'preview'
+                size      : "25%",
+                type      : "preview"
             },
             layers : {
                 expanded : true,
                 group    : true,
-                img      : 'icon-folder',
-                text     : 'Layers'
+                img      : "icon-folder",
+                text     : "Layers"
             },
             map : {
-                type    : 'main'
+                type    : "main"
             },
             navigation : {
                 resizable : true,
-                size      : '15%',
-                type      : 'left'
+                size      : "15%",
+                type      : "left"
             },
             olcontrols : {
                 fullscreen    : true,
@@ -544,23 +542,23 @@ var olexp = olexp || {};
             },
             olmap : {
                 controls : [],
-                view     : new ol.View({center: [0,0], zoom: 3})
+                view     : new ol.View({center: [0, 0], zoom: 3})
             },
             outline : {
-                type  : 'main'
+                type  : "main"
             },
             overlays : {
                 expanded : true,
                 group    : true,
-                img      : 'icon-folder',
-                text     : 'Overlays'
+                img      : "icon-folder",
+                text     : "Overlays"
             },
             settings: {},
             toolbar : {
-                size  : '40',
-                style : 'padding: 5px;',
-                type  : 'top'
-            },
+                size  : "40",
+                style : "padding: 5px;",
+                type  : "top"
+            }
         };
 
         // Override default options with user options
@@ -612,26 +610,26 @@ var olexp = olexp || {};
          */
         $.extend(true, this.options, {
             explorer : {
-                cls        : 'olexp-explorer-content',
-                id         : prefix + '-explorer-id-content',
-                details    : prefix + '-explorer-name-details',
-                layout     : prefix + '-explorer-name-layout',
-                navigation : prefix + '-explorer-name-navigation',
-                outline    : prefix + '-explorer-name-outline',
-                toolbar    : prefix + '-explorer-name-toolbar'
+                cls        : "olexp-explorer-content",
+                id         : prefix + "-explorer-id-content",
+                details    : prefix + "-explorer-name-details",
+                layout     : prefix + "-explorer-name-layout",
+                navigation : prefix + "-explorer-name-navigation",
+                outline    : prefix + "-explorer-name-outline",
+                toolbar    : prefix + "-explorer-name-toolbar"
             },
             layers : {
-                id : prefix + '-explorer-id-layers',
+                id : prefix + "-explorer-id-layers"
             },
             map : {
-                content : ('<div id="' + prefix + '-explorer-id-map"' +
-                           ' class="olexp-explorer-map"></div>'),
+                content : ("<div id=\"" + prefix + "-explorer-id-map\"" +
+                           " class=\"olexp-explorer-map\"></div>")
             },
             olmap : {
-                target   : prefix + '-explorer-id-map',
+                target   : prefix + "-explorer-id-map"
             },
             overlays : {
-                id : prefix + '-explorer-id-overlays',
+                id : prefix + "-explorer-id-overlays"
             },
             settings : {
                 prefix : prefix
@@ -647,28 +645,28 @@ var olexp = olexp || {};
         // Create main layout content div
         // --------------------------------------------------
 
-        var div = $('<div>', {'id': this.options.explorer.id,
-                              'class': this.options.explorer.cls});
-        $('#'+id).append(div);
+        var div = $("<div>", {"id": this.options.explorer.id,
+                              "class": this.options.explorer.cls});
+        $("#" + id).append(div);
 
         // ==================================================
         // Main Layout
         // --------------------------------------------------
 
-        this.layout = $('#'+this.options.explorer.id).w2layout({
+        this.layout = $("#" + this.options.explorer.id).w2layout({
             name   : this.options.explorer.layout,
             panels : [
-                          this.options.navigation,
-                          this.options.map,
-                          this.options.toolbar
-                     ]
+                this.options.navigation,
+                this.options.map,
+                this.options.toolbar
+            ]
         });
 
         // ==================================================
         // Main Toolbar
         // --------------------------------------------------
 
-        this.toolbar = $('').w2toolbar({
+        this.toolbar = $("").w2toolbar({
             name: this.options.explorer.toolbar
         });
 
@@ -676,75 +674,69 @@ var olexp = olexp || {};
         // Navigation pane Layout
         // --------------------------------------------------
 
-        this.navigation = $('').w2layout({
+        this.navigation = $("").w2layout({
             name     : this.options.explorer.navigation,
-            onResize : function() {
-                           if (me.hasOwnProperty('map'))
-                           {
-                               me.map.updateSize();
-                           }
-                           if (me.hasOwnProperty('details'))
-                           {
-                               me.details.resize();
-                           }
-                       },
+            onResize : function () {
+                if (me.hasOwnProperty("map")) {
+                    me.map.updateSize();
+                }
+                if (me.hasOwnProperty("details")) {
+                    me.details.resize();
+                }
+            },
             panels   : [
-                        this.options.outline,
-                        this.options.details
-                       ]
+                this.options.outline,
+                this.options.details
+            ]
         });
 
         // ==================================================
         // Outline sidebar
         // --------------------------------------------------
 
-        this.outline = $('').w2sidebar({
+        this.outline = $("").w2sidebar({
             name       : this.options.explorer.outline,
             nodes      : [
-                              this.options.layers,
-                              this.options.overlays
-                         ],
+                this.options.layers,
+                this.options.overlays
+            ],
             onClick    : function (event) {
-                             var id = event.target;
-                             var records = me.manager.getDetails(id);
-                             me.details.clear();
-                             me.details.add(records);
-                             me.manager.onItemSelected(id);
-                         },
+                var targetId = event.target;
+                var records = me.manager.getDetails(targetId);
+                me.details.clear();
+                me.details.add(records);
+                me.manager.onItemSelected(targetId);
+            },
             onDblClick : function (event) {
-                             var id = event.target;
-                             me.manager.toggleNode(id);
-                             me.manager.onItemSelected(id);
-                         },
-            onRender   : function(event) {
-                             event.onComplete = function()
-                             {
-                                 var id = me.outline.selected;
-                                 me.manager.onItemSelected(id);
-                             };
-                         }
+                var targetId = event.target;
+                me.manager.toggleNode(targetId);
+                me.manager.onItemSelected(targetId);
+            },
+            onRender   : function (event) {
+                event.onComplete = function () {
+                    var targetId = me.outline.selected;
+                    me.manager.onItemSelected(targetId);
+                };
+            }
         });
 
         // ==================================================
         // Details table
         // --------------------------------------------------
 
-        this.details = $('').w2grid({
-            columns : [
-                          {
-                              field    : 'property',
-                              caption  : 'Property',
-                              size     : '100%',
-                              sortable : true
-                          },
-                          {
-                               field    : 'value',
-                               caption  : 'Value',
-                               size     : '100%',
-                               sortable : true
-                          }
-                      ],
-            name    : this.options.explorer.details,
+        this.details = $("").w2grid({
+            columns : [{
+                field    : "property",
+                caption  : "Property",
+                size     : "100%",
+                sortable : true
+            }, {
+                field    : "value",
+                caption  : "Value",
+                size     : "100%",
+                sortable : true
+            }],
+            name    : this.options.explorer.details
         });
 
         // ==================================================
@@ -791,12 +783,10 @@ var olexp = olexp || {};
 
         // Add menu items and callbacks to outline
         this.outline.menu = this.menu.items;
-        this.outline.onMenuClick = function (event)
-        {
-            var id = event.menuItem.id;
-            if (id in me.menu.callbacks)
-            {
-                me.menu.callbacks[id](event);
+        this.outline.onMenuClick = function (event) {
+            var targetId = event.menuItem.id;
+            if (me.menu.callbacks[targetId] !== undefined) {
+                me.menu.callbacks[targetId](event);
             }
         };
 
@@ -808,20 +798,20 @@ var olexp = olexp || {};
 
         // Add map interactions
         var interactions = this.util.getInteractions(this.map);
-        for (var iname in this.options.olinteractions)
-        {
+        Object.keys(this.options.olinteractions).forEach(function (iname) {
             var interaction = interactions[iname];
-            if (this.options.olinteractions[iname]) this.map.addInteraction(interaction);
-        }
+            if (me.options.olinteractions[iname]) {
+                me.map.addInteraction(interaction);
+            }
+        });
 
         // Add map controls
         var controls = this.util.getControls();
-        for (var cname in this.options.olcontrols)
-        {
+        Object.keys(this.options.olcontrols).forEach(function (cname) {
             var control = controls[cname];
-            this.map.addControl(control);
-            control.setMap((this.options.olcontrols[cname] ? this.map : null));
-        }
+            me.map.addControl(control);
+            control.setMap((me.options.olcontrols[cname] ? me.map : null));
+        });
 
         // ==================================================
         // Feature selector
@@ -862,83 +852,75 @@ var olexp = olexp || {};
          *           that contains map and layers controls.
          */
         this.api = {
-                        details    : this.details,
-                        layout     : this.layout,
-                        manager    : this.manager,
-                        map        : this.map,
-                        navigation : this.navigation,
-                        options    : this.options,
-                        outline    : this.outline,
-                        toolbar    : this.toolbar
-                    };
+            details    : this.details,
+            layout     : this.layout,
+            manager    : this.manager,
+            map        : this.map,
+            navigation : this.navigation,
+            options    : this.options,
+            outline    : this.outline,
+            toolbar    : this.toolbar
+        };
 
         // ==================================================
         // Add built-in controls to toolbar
         // --------------------------------------------------
 
-        if (this.options.controls.toolbarhide)
-        {
+        if (this.options.controls.toolbarhide) {
             this.toolbar.add(olexp.control.ToolbarHide(this.api,
                                                        {hidden   : this.options.toolbar.hidden,
                                                         settings : this.options.settings}));
-            this.toolbar.add({id: 'break-toolbar-hide', type: 'break'});
+            this.toolbar.add({id: "break-toolbar-hide", type: "break"});
         }
 
-        if (this.options.controls.layermanager)
-        {
+        if (this.options.controls.layermanager) {
             this.toolbar.add(olexp.control.LayerManager(this.api,
                                                         this.manager,
                                                         {details: {checked: !this.options.details.hidden},
                                                          navigation: {checked: !this.options.navigation.hidden},
                                                          settings : this.options.settings}));
-            this.toolbar.add({id: 'break-layer-manager', type: 'break'});
+            this.toolbar.add({id: "break-layer-manager", type: "break"});
         }
 
-        if (this.options.controls.layermenu)
-        {
+        if (this.options.controls.layermenu) {
             this.toolbar.add(olexp.control.LayerMenu(this.api,
                                                      this.manager,
                                                      this.menu,
                                                      {settings : this.options.settings}));
-            this.toolbar.add({id: 'break-item-menu', type: 'break'});
+            this.toolbar.add({id: "break-item-menu", type: "break"});
         }
 
-        if (this.options.controls.layercontrol)
-        {
+        if (this.options.controls.layercontrol) {
             this.toolbar.add(olexp.control.LayerControl(this.api,
                                                         {settings : this.options.settings}));
-            this.toolbar.add({id: 'break-layer-control', type: 'break'});
+            this.toolbar.add({id: "break-layer-control", type: "break"});
         }
 
-        if (this.options.controls.graticule)
-        {
+        if (this.options.controls.graticule) {
             this.toolbar.add(olexp.control.Graticule(this.api,
                                                      {settings : this.options.settings}));
-            this.toolbar.add({id: 'break-graticule', type: 'break'});
+            this.toolbar.add({id: "break-graticule", type: "break"});
         }
 
-        if (this.options.controls.measure)
-        {
+        if (this.options.controls.measure) {
             this.toolbar.add(olexp.control.Measure(this.api,
                                                    {settings : this.options.settings}));
-            this.toolbar.add({id: 'break-measure', type: 'break'});
+            this.toolbar.add({id: "break-measure", type: "break"});
         }
 
-        if (this.options.controls.exportmap)
-        {
+        if (this.options.controls.exportmap) {
             this.toolbar.add(olexp.control.ExportMap(this.api,
                                                      {settings : this.options.settings}));
-            this.toolbar.add({id: 'break-export-map', type: 'break'});
+            this.toolbar.add({id: "break-export-map", type: "break"});
         }
 
-        if (this.options.controls.editsettings)
-        {
+        if (this.options.controls.editsettings) {
             this.toolbar.add(olexp.control.EditSettings(this.api,
                                                         {settings : this.options.settings}));
-            this.toolbar.add({id: 'break-edit-settings', type: 'break'});
+            this.toolbar.add({id: "break-edit-settings", type: "break"});
         }
 
-        this.layout.set(this.options.toolbar.type, {content: '',
+        this.layout.set(this.options.toolbar.type, {content: "",
                                                     show : {toolbar : true},
                                                     toolbar: this.toolbar});
 
@@ -951,15 +933,26 @@ var olexp = olexp || {};
      * @param {olexp.ExplorerAPI} explorer Explorer API object
      * @public
      */
-    olexp.destroy = function(explorer)
-    {
+    olexp.destroy = function (explorer) {
 
-        if (explorer.map !== undefined) explorer.map.setTarget(null);
-        if (explorer.details !== undefined) explorer.details.destroy();
-        if (explorer.outline !== undefined) explorer.outline.destroy();
-        if (explorer.navigation !== undefined) explorer.navigation.destroy();
-        if (explorer.toolbar !== undefined) explorer.toolbar.destroy();
-        if (explorer.layout !== undefined) explorer.layout.destroy();
+        if (explorer.map !== undefined) {
+            explorer.map.setTarget(null);
+        }
+        if (explorer.details !== undefined) {
+            explorer.details.destroy();
+        }
+        if (explorer.outline !== undefined) {
+            explorer.outline.destroy();
+        }
+        if (explorer.navigation !== undefined) {
+            explorer.navigation.destroy();
+        }
+        if (explorer.toolbar !== undefined) {
+            explorer.toolbar.destroy();
+        }
+        if (explorer.layout !== undefined) {
+            explorer.layout.destroy();
+        }
 
     };
 
@@ -977,7 +970,7 @@ var olexp = olexp || {};
      * @returns {olexp.ExplorerAPI} Explorer API
      * @throws {Error} DOM id must be defined and exist
      */
-    olexp.Explorer = function(id, options) {
+    olexp.Explorer = function (id, options) {
         var explorer = new Explorer(id, options);
         return explorer.api;
     };

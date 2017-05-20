@@ -1,13 +1,16 @@
 
+/*globals $, ol, olexp, w2popup, w2ui, window */
+/*jslint vars: true */
+
 /**
  * @namespace olexp.util
  */
-olexp.util = olexp.util || {};
+window.olexp.util = window.olexp.util || {};
 
 //==================================================
 // Utility tools
 //--------------------------------------------------
-(function(olexp) {
+(function (olexp) {
 
     "use strict";
 
@@ -16,87 +19,98 @@ olexp.util = olexp.util || {};
      * @param {olexp.ExplorerSettings} settings olexp settings
      * @private
      */
-    var Util = function(settings)
-    {
+    var Util = function (settings) {
 
         //==================================================
         // Override Util option defaults
         // with user provided values. 
         //--------------------------------------------------
         var olexpSettings = $.extend(true, {util : {Util : {
-            Cluster         : function(size)
-                              {
-                                  var style = [new ol.style.Style({
-                                               image : new ol.style.Circle({
-                                                           radius : 10,
-                                                           stroke : new ol.style.Stroke({
-                                                                        color : '#ffffff'
-                                                                    }),
-                                                           fill : new ol.style.Fill({
-                                                                      color : '#3399CC'
-                                                                  })
-                                                       }),
-                                               text  : new ol.style.Text({
-                                                           text : size.toString(),
-                                                           fill : new ol.style.Fill({
-                                                                      color : '#ffffff'
-                                                                  })
-                                                       })
-                                          })];
-                                  return style;
-                              },
-            Point           : [new ol.style.Style({
-                                  image : new ol.style.Circle({
-                                              fill   : new ol.style.Fill({
-                                                           color : 'rgba(255,255,0,0.5)'
-                                                       }),
-                                              radius : 5,
-                                              stroke : new ol.style.Stroke({color : '#ff0',
-                                                                            width : 1})
-                                          })
-                              })],
-            LineString      : [new ol.style.Style({
-                                  stroke : new ol.style.Stroke({
-                                               color : '#f00',
-                                               width : 3
-                                           })
-                               })],
-            Polygon         : [new ol.style.Style({
-                                  fill   : new ol.style.Fill({
-                                               color : 'rgba(0,255,255,0.5)'
-                                           }),
-                                  stroke : new ol.style.Stroke({
-                                               color : '#0ff',
-                                               width : 1
-                                           })
-                               })],
-            MultiPoint      : [new ol.style.Style({
-                                   image : new ol.style.Circle({
-                                               fill   : new ol.style.Fill({
-                                                            color : 'rgba(255,0,255,0.5)'
-                                                        }),
-                                               radius : 5,
-                                               stroke : new ol.style.Stroke({
-                                                            color : '#f0f',
-                                                            width : 1
-                                                        })
-                                           })
-                               })],
-            MultiLineString : [new ol.style.Style({
-                                   stroke : new ol.style.Stroke({
-                                                color : '#0f0',
-                                                width : 3
-                                            })
-                               })],
-            MultiPolygon    : [new ol.style.Style({
-                                   fill : new ol.style.Fill({
-                                              color : 'rgba(0,0,255,0.5)'
-                                          }),
-                                   stroke : new ol.style.Stroke({
-                                                color : '#00f',
-                                                width : 1
-                                            })
-                               })]
+            Cluster : function (size) {
+                var style = [
+                    new ol.style.Style({
+                        image : new ol.style.Circle({
+                            radius : 10,
+                            stroke : new ol.style.Stroke({
+                                color : "#ffffff"
+                            }),
+                            fill : new ol.style.Fill({
+                                color : "#3399CC"
+                            })
+                        }),
+                        text  : new ol.style.Text({
+                            text : size.toString(),
+                            fill : new ol.style.Fill({
+                                color : "#ffffff"
+                            })
+                        })
+                    })];
+                return style;
+            },
+            Point : [
+                new ol.style.Style({
+                    image : new ol.style.Circle({
+                        fill   : new ol.style.Fill({
+                            color : "rgba(255,255,0,0.5)"
+                        }),
+                        radius : 5,
+                        stroke : new ol.style.Stroke({color : "#ff0",
+                                                      width : 1})
+                    })
+                })
+            ],
+            LineString : [
+                new ol.style.Style({
+                    stroke : new ol.style.Stroke({
+                        color : "#f00",
+                        width : 3
+                    })
+                })
+            ],
+            Polygon : [
+                new ol.style.Style({
+                    fill   : new ol.style.Fill({
+                        color : "rgba(0,255,255,0.5)"
+                    }),
+                    stroke : new ol.style.Stroke({
+                        color : "#0ff",
+                        width : 1
+                    })
+                })
+            ],
+            MultiPoint : [
+                new ol.style.Style({
+                    image : new ol.style.Circle({
+                        fill : new ol.style.Fill({
+                            color : "rgba(255,0,255,0.5)"
+                        }),
+                        radius : 5,
+                        stroke : new ol.style.Stroke({
+                            color : "#f0f",
+                            width : 1
+                        })
+                    })
+                })
+            ],
+            MultiLineString : [
+                new ol.style.Style({
+                    stroke : new ol.style.Stroke({
+                        color : "#0f0",
+                        width : 3
+                    })
+                })
+            ],
+            MultiPolygon : [
+                new ol.style.Style({
+                    fill : new ol.style.Fill({
+                        color : "rgba(0,0,255,0.5)"
+                    }),
+                    stroke : new ol.style.Stroke({
+                        color : "#00f",
+                        width : 1
+                    })
+                })
+            ]
         }}}, settings);
 
         /**
@@ -113,16 +127,15 @@ olexp.util = olexp.util || {};
          * @private
          * @param {Object} defaultStyle
          */
-        this.defaultStyle =
-        {
-            'Point'           : this.settings.Point,
-            'LineString'      : this.settings.LineString,
-            'Polygon'         : this.settings.Polygon,
-            'MultiPoint'      : this.settings.MultiPoint,
-            'MultiLineString' : this.settings.MultiLineString,
-            'MultiPolygon'    : this.settings.MultiPolygon
+        this.defaultStyle = {
+            "Point"           : this.settings.Point,
+            "LineString"      : this.settings.LineString,
+            "Polygon"         : this.settings.Polygon,
+            "MultiPoint"      : this.settings.MultiPoint,
+            "MultiLineString" : this.settings.MultiLineString,
+            "MultiPolygon"    : this.settings.MultiPolygon
         };
-        
+
         /**
          * Cache for cluster styles
          * @field
@@ -130,7 +143,7 @@ olexp.util = olexp.util || {};
          * @param {Object} clusterStyleCache
          */
         this.clusterStyleCache = {};
-        
+
     };
 
     /**
@@ -142,58 +155,50 @@ olexp.util = olexp.util || {};
      * @param {boolean} cluster True if features should be clustered otherwise false
      * @public
      */
-    Util.prototype.addLayerVector = function(map,
-                                             name,
-                                             features,
-                                             cluster)
-    {
+    Util.prototype.addLayerVector = function (map,
+                                              name,
+                                              features,
+                                              cluster) {
 
-        if (typeof cluster === 'undefined') cluster = true;
-        
-        var me = this;
-        
-        // Detect if clustering is on for non-points and disable clustering
-        for (var i = 0; i < features.length; i++)
-        {
-            var geometry = features[i].getGeometry();
-            if (typeof geometry === 'undefined' ||
-                geometry.getType() !== 'Point')
-            {
-                cluster = false;
-                break;
-            }
+        if (cluster === undefined) {
+            cluster = true;
         }
-        
+
+        var me = this;
+
+        // Detect if clustering is on for non-points and disable clustering
+        features.forEach(function (feature) {
+            if (cluster === false) {
+                return;
+            }
+            var geometry = feature.getGeometry();
+            if (geometry === undefined || geometry.getType() !== "Point") {
+                cluster = false;
+            }
+        });
+
         // Build layer source
         var source = new ol.source.Vector({
             features: features
         });
-        
-        if (cluster)
-        {
+
+        if (cluster) {
             source = new ol.source.Cluster({
                 source: source
             });
         }
 
         // Build layer style
-        var style = function(feature, resolution)
-        {
+        var style = function (feature, resolution) {
             var styleFunction = feature.getStyleFunction();
-            if (styleFunction)
-            {
+            if (styleFunction) {
                 return styleFunction.call(feature, resolution);
             }
-            else
-            {
-                return me.defaultStyle[feature.getGeometry().getType()];
-            }
+            return me.defaultStyle[feature.getGeometry().getType()];
         };
 
-        if (cluster)
-        {
-            style = function(feature, resolution)
-            {
+        if (cluster) {
+            style = function (feature) {
                 return me.getClusterStyle(feature);
             };
         }
@@ -203,7 +208,7 @@ olexp.util = olexp.util || {};
             source : source,
             style  : style
         });
-        layer.set('name', name);
+        layer.set("name", name);
         map.getLayers().push(layer);
 
     };
@@ -215,13 +220,11 @@ olexp.util = olexp.util || {};
      * @public
      * @returns {ol.Style} Cluster style
      */
-    Util.prototype.getClusterStyle = function(feature)
-    {
+    Util.prototype.getClusterStyle = function (feature) {
 
-        var size = feature.get('features').length;
+        var size = feature.get("features").length;
         var style = this.clusterStyleCache[size];
-        if (!style)
-        {
+        if (!style) {
             style = this.settings.Cluster(size);
             this.clusterStyleCache[size] = style;
         }
@@ -236,14 +239,14 @@ olexp.util = olexp.util || {};
      * @public
      * @returns {object} Object of ol.control objects by key name
      */
-    Util.prototype.getControls = function()
-    {
+    Util.prototype.getControls = function () {
 
         var controls = {
             fullscreen    : new ol.control.FullScreen(),
             mouseposition : new ol.control.MousePosition({
-                                coordinateFormat : ol.coordinate.createStringXY(6),
-                                projection       : 'EPSG:4326'}),
+                coordinateFormat : ol.coordinate.createStringXY(6),
+                projection       : "EPSG:4326"
+            }),
             overviewmap   : new ol.control.OverviewMap(),
             rotate        : new ol.control.Rotate(),
             scaleline     : new ol.control.ScaleLine(),
@@ -263,21 +266,20 @@ olexp.util = olexp.util || {};
      * @public
      * @returns {ol.interaction.DragAndDrop} ol3 drag and drop interaction
      */
-    Util.prototype.getDragAndDrop = function(map)
-    {
+    Util.prototype.getDragAndDrop = function (map) {
 
         var me = this;
 
         var interaction = new ol.interaction.DragAndDrop({
-            formatConstructors: $.map(olexp.util.FileTypes, function(o) {
-                    return o.format;
-                })
+            formatConstructors: $.map(olexp.util.FileTypes, function (o) {
+                return o.format;
+            })
         });
 
-        interaction.on('addfeatures', function(event) {
-                                                               
+        interaction.on("addfeatures", function (event) {
+
             // Get filename and remove any extensions
-            var filename = event.file.name.replace(/\.[^/.]+$/, "");
+            var filename = olexp.util.setExtension(event.file.name, "");
 
             me.addLayerVector(map, filename, event.features);
 
@@ -295,16 +297,15 @@ olexp.util = olexp.util || {};
      * @public
      * @returns {external:ol.Graticule} New graticule based on settings
      */
-    Util.prototype.getGraticule = function(map, options)
-    {
+    Util.prototype.getGraticule = function (map, options) {
 
         var opts = $.extend($.extend({}, options),
-                            {color : '#' + options.color});
+                            {color : "#" + options.color});
         var graticule = new ol.Graticule({
             map         : map,
             strokeStyle : new ol.style.Stroke(opts)
         });
-        graticule.olexp_record = $.extend({enable : (map===null ? false : true)},
+        graticule.olexpRecord = $.extend({enable : (map === null ? false : true)},
                                            options);
 
         return graticule;
@@ -318,8 +319,7 @@ olexp.util = olexp.util || {};
      * @public
      * @returns {object} Object of ol.interaction objects by key name
      */
-    Util.prototype.getInteractions = function(map)
-    {
+    Util.prototype.getInteractions = function (map) {
 
         var interactions = {
             draganddrop : this.getDragAndDrop(map)
@@ -335,8 +335,7 @@ olexp.util = olexp.util || {};
      * @public
      * @returns {object} Object of ol.source objects
      */
-    Util.prototype.getTileTypes = function()
-    {
+    Util.prototype.getTileTypes = function () {
 
         // ==================================================
         // Define tile types object
@@ -347,10 +346,9 @@ olexp.util = olexp.util || {};
         // Define OpenStreetMap tiles
         // --------------------------------------------------
 
-        tileTypes.osm =
-        {
-            'class'  : ol.source.OSM,
-            name     : 'OpenStreetMap',
+        tileTypes.osm = {
+            "class"  : ol.source.OSM,
+            name     : "OpenStreetMap",
             settings : {}
         };
 
@@ -358,33 +356,27 @@ olexp.util = olexp.util || {};
         // Define Stamen tiles
         // --------------------------------------------------
 
-        tileTypes.stamenTerrain =
-        {
-            'class'  : ol.source.Stamen,
-            name     : 'Stamen (Terrain)',
-            settings :
-            {
-                layer: 'terrain'
+        tileTypes.stamenTerrain = {
+            "class"  : ol.source.Stamen,
+            name     : "Stamen (Terrain)",
+            settings : {
+                layer: "terrain"
             }
         };
 
-        tileTypes.stamenToner =
-        {
-            'class'  : ol.source.Stamen,
-            name     : 'Stamen (Toner)',
-            settings :
-            {
-                layer: 'toner'
+        tileTypes.stamenToner = {
+            "class"  : ol.source.Stamen,
+            name     : "Stamen (Toner)",
+            settings : {
+                layer: "toner"
             }
         };
 
-        tileTypes.stamenWater =
-        {
-            'class'  : ol.source.Stamen,
-            name     : 'Stamen (Water Color)',
-            settings :
-            {
-                layer : 'watercolor'
+        tileTypes.stamenWater = {
+            "class"  : ol.source.Stamen,
+            name     : "Stamen (Water Color)",
+            settings : {
+                layer : "watercolor"
             }
         };
 
@@ -400,53 +392,54 @@ olexp.util = olexp.util || {};
      * @returns {object} ol3 file types
      */
     olexp.util.FileTypes = {
-            gpx  : {
-                       extensions: ['gpx'],
-                       format : ol.format.GPX,
-                       name : 'GPX'
-                   },
-            igc  : {
-                       extensions: ['igc'],
-                       format : ol.format.IGC,
-                       name : 'IGC'
-                   },
-            json : {
-                       extensions: ['json', 'geojson'],
-                       format : ol.format.GeoJSON,
-                       name : 'GeoJSON'
-                   },
-            kml  : {
-                       extensions: ['kml'],
-                       format : ol.format.KML,
-                       name : 'KML'
-                   }
-        };
+        gpx  : {
+            extensions: ["gpx"],
+            format : ol.format.GPX,
+            name : "GPX"
+        },
+        igc  : {
+            extensions: ["igc"],
+            format : ol.format.IGC,
+            name : "IGC"
+        },
+        json : {
+            extensions: ["json", "geojson"],
+            format : ol.format.GeoJSON,
+            name : "GeoJSON"
+        },
+        kml  : {
+            extensions: ["kml"],
+            format : ol.format.KML,
+            name : "KML"
+        }
+    };
 
     /**
      * Find feature reader based on filename extension
      * @memberOf olexp.util
      * @param {string} filename Filename to be read
      * @public
-     * @returns {external:ol.format.Feature} File reader
+     * @returns {external:ol.format.Feature|null} File reader
      */
-    olexp.util.getReader = function(filename)
-    {
+    olexp.util.getReader = function (filename) {
 
-        var extension = filename.substring(filename.lastIndexOf(".")+1).toLowerCase();
-        var types = Object.keys(olexp.util.FileTypes);
-        for (var i = 0; i < types.length; i++)
-        {
-            var type = olexp.util.FileTypes[types[i]];
-            var extensions = type.extensions;
-            for (var j = 0; j < extensions.length; j++)
-            {
-                if (extension === extensions[j])
-                {
-                    return new type.format();
-                }
+        var extension = filename.substring(filename.lastIndexOf(".") + 1).toLowerCase();
+        var formatFound = null;
+        Object.keys(olexp.util.FileTypes).forEach(function (key) {
+            if (formatFound !== null) {
+                return;
             }
-        }
-        return null;
+            var type = olexp.util.FileTypes[key];
+            type.extensions.forEach(function (ext) {
+                if (formatFound !== null) {
+                    return;
+                }
+                if (extension === ext) {
+                    formatFound = new type.format();
+                }
+            });
+        });
+        return formatFound;
 
     };
 
@@ -459,13 +452,11 @@ olexp.util = olexp.util || {};
      * @public
      * @returns {number} Index of layer
      */
-    olexp.util.indexOf = function(layers, layer)
-    {
+    olexp.util.indexOf = function (layers, layer) {
+        var i = 0;
         var length = layers.getLength();
-        for (var i = 0; i < length; i++)
-        {
-            if (layer === layers.item(i))
-            {
+        for (i = 0; i < length; i += 1) {
+            if (layer === layers.item(i)) {
                 return i;
             }
         }
@@ -484,8 +475,7 @@ olexp.util = olexp.util || {};
      *        properties
      * @public
      */
-    olexp.util.popup = function(id, onChanges, formOptions, popupOptions)
-    {
+    olexp.util.popup = function (id, onChanges, formOptions, popupOptions) {
 
         var name = formOptions.name;
         var record = formOptions.record;
@@ -493,56 +483,70 @@ olexp.util = olexp.util || {};
         // ==================================================
         // Create form
         // --------------------------------------------------
-        if (w2ui.hasOwnProperty(name))
-        {
+        if (w2ui.hasOwnProperty(name)) {
             w2ui[name].destroy();
         }
         $().w2form($.extend(formOptions, {
             actions : {
-                          save :  function () {
-                                      // Check for errors
-                                      var errors = this.validate();
-                                      if (errors.length === 0)
-                                      {
-                                          // Close popup and update with changes
-                                          w2popup.close();
-                                          var form = w2ui[name];
-                                          var changes = form.getChanges();
-                                          onChanges(changes);
-                                      }
-                                  },
-                          reset : function () {
-                                      // Reset properties to original item values
-                                      var form = w2ui[name];
-                                      for (var rname in record)
-                                      {
-                                          form.record[rname] = record[rname];
-                                      }
-                                      form.refresh();
-                                  }
-                      }
+                save :  function () {
+                    // Check for errors
+                    var errors = this.validate();
+                    if (errors.length === 0) {
+                        // Close popup and update with changes
+                        w2popup.close();
+                        var form = w2ui[name];
+                        var changes = form.getChanges();
+                        onChanges(changes);
+                    }
+                },
+                reset : function () {
+                    // Reset properties to original item values
+                    var form = w2ui[name];
+                    Object.keys(record).forEach(function (rname) {
+                        form.record[rname] = record[rname];
+                    });
+                    form.refresh();
+                }
+            }
         }));
 
         // ==================================================
         // Display form in popup
         // --------------------------------------------------
         w2popup.open($.extend(popupOptions, {
-            body     : ('<div id="' + id + '"></div>'),
+            body     : ("<div id=\"" + id + "\"></div>"),
             onOpen   : function (event) {
-                           event.onComplete = function () {
-                               $('#w2ui-popup #' + id).w2render(name);
-                           };
-                       },
+                event.onComplete = function () {
+                    $("#w2ui-popup #" + id).w2render(name);
+                };
+            },
             onToggle : function (event) {
-                           var form = w2ui[name];
-                           $(form.box).hide();
-                           event.onComplete = function () {
-                               $(form.box).show();
-                               form.resize();
-                           };
-                       }
+                var form = w2ui[name];
+                $(form.box).hide();
+                event.onComplete = function () {
+                    $(form.box).show();
+                    form.resize();
+                };
+            }
         }));
 
+    };
+
+    /**
+     * Set new extension of filename
+     * @memberOf olexp.util
+     * @param {string} filename Filename whose extension will be replaced
+     * @param {string} extension New extension (including dot)
+     * @public
+     * @returns {string} New filename with extension replaced
+     */
+    olexp.util.setExtension = function (filename, extension) {
+        var parts = filename.split(".");
+        if (parts.length === 1) {
+            return parts[0];
+        }
+        parts.pop();
+        return parts.join(".") + extension;
     };
 
     /**
@@ -552,48 +556,39 @@ olexp.util = olexp.util || {};
      * @public
      * @returns {object} Feature properties
      */
-    olexp.util.toProperties = function(feature)
-    {
+    olexp.util.toProperties = function (feature) {
         var properties = feature.getProperties();
-        
+
         // ==================================================
         // Check if this is a cluster feature
         // --------------------------------------------------
-        if (properties.hasOwnProperty('features'))
-        {
+        if (properties.hasOwnProperty("features")) {
             var features = properties.features;
-            if (features instanceof Array)
-            {
-                if (features.length === 1)
-                {
+            if (features instanceof Array) {
+                if (features.length === 1) {
                     // ==================================================
                     // If just one feature get its properties
                     // --------------------------------------------------
-                    if (features[0] instanceof ol.Feature)
-                    {
+                    if (features[0] instanceof ol.Feature) {
                         properties = features[0].getProperties();
                     }
-                }
-                else
-                {
+                } else {
                     // ==================================================
                     // If more than one feature get feature count
                     // --------------------------------------------------
                     var count = 0;
-                    for (var i = 0; i < features.length; i++)
-                    {
-                        if (features[i] instanceof ol.Feature)
-                        {
+                    features.forEach(function (feature) {
+                        if (feature instanceof ol.Feature) {
                             count += 1;
-                            properties['Cluster Size'] = count;
+                            properties["Cluster Size"] = count;
                         }
-                    }
+                    });
                 }
             }
         }
-        
-        return  properties;
-        
+
+        return properties;
+
     };
 
     /**
@@ -603,20 +598,18 @@ olexp.util = olexp.util || {};
      * @public
      * @returns {array} Properties in record format
      */
-    olexp.util.toRecords = function(properties)
-    {
+    olexp.util.toRecords = function (properties) {
         var records = [];
         var recid = 0;
 
         // ==================================================
         // Push properties into record
         // --------------------------------------------------
-        for (var name in properties)
-        {
+        Object.keys(properties).forEach(function (name) {
             var value = properties[name];
             recid += 1;
             records.push({recid: recid, property: name, value: value});
-        }
+        });
 
         return records;
     };
@@ -627,7 +620,7 @@ olexp.util = olexp.util || {};
      * @param {olexp.ExplorerSettings} settings olexp settings
      * @public
      */
-    olexp.util.Util = function(settings) {
+    olexp.util.Util = function (settings) {
         var util = new Util(settings);
         return {
             addLayerVector  : util.addLayerVector.bind(util),

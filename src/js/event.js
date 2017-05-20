@@ -1,13 +1,16 @@
 
+/*globals $, olexp, window */
+/*jslint vars: true */
+
 /**
  * @namespace olexp.event
  */
-olexp.event = olexp.event || {};
+window.olexp.event = window.olexp.event || {};
 
 //==================================================
 // Event Handler
 //--------------------------------------------------
-(function(olexp) {
+(function (olexp) {
 
     "use strict";
 
@@ -16,8 +19,7 @@ olexp.event = olexp.event || {};
      * @param {object} listeners Initial listeners
      * @private
      */
-    var Event = function(listeners)
-    {
+    var Event = function (listeners) {
 
         // ==================================================
         // Collection of event listeners that are keyed by
@@ -33,17 +35,20 @@ olexp.event = olexp.event || {};
      * @memberOf Event.prototype
      * @param {string} type The event type.
      * @param {function} listener The listener function.
-     * @param {object} opt_this The object to use as this in listener.
+     * @param {object} optThis The object to use as this in listener.
      * @private
      * @warning If event type is not already registered then listener is not. 
      */
-    Event.prototype.on = function(type, listener, opt_this)
-    {
+    Event.prototype.on = function (type, listener, optThis) {
 
-        if (!(type in this.listeners)) return;
+        if (this.listeners[type] === undefined) {
+            return;
+        }
 
         var callback = listener;
-        if (typeof opt_this !== 'undefined') callback = listener.bind(opt_this);
+        if (optThis !== undefined) {
+            callback = listener.bind(optThis);
+        }
         this.listeners[type].push(callback);
 
     };
@@ -55,10 +60,11 @@ olexp.event = olexp.event || {};
      * @private
      * @warning If event type is already registered then nothing is done.
      */
-    Event.prototype.register = function(type)
-    {
+    Event.prototype.register = function (type) {
 
-        if (type in this.listeners) return;
+        if (this.listeners[type] !== undefined) {
+            return;
+        }
         this.listeners[type] = [];
 
     };
@@ -69,17 +75,18 @@ olexp.event = olexp.event || {};
      * @param {string} type The event type.
      * @private
      */
-    Event.prototype.trigger = function()
-    {
+    Event.prototype.trigger = function () {
         var args = Array.prototype.slice.call(arguments);
         var type = args.shift();
-        if (!(type in this.listeners)) return;
-        
-        // Call listeners with remaining arguments
-        for (var i = 0; i < this.listeners[type].length; i++)
-        {
-            this.listeners[type][i].apply(this, args);
+        if (this.listeners[type] === undefined) {
+            return;
         }
+
+        // Call listeners with remaining arguments
+        var me = this;
+        this.listeners[type].forEach(function (listener) {
+            listener.apply(me, args);
+        });
     };
 
     /**
@@ -90,10 +97,11 @@ olexp.event = olexp.event || {};
      * @returns Listeners registered with given type
      * @warning If event type is already registered then nothing is done.
      */
-    Event.prototype.unregister = function(type)
-    {
+    Event.prototype.unregister = function (type) {
 
-        if (!(type in this.listeners)) return;
+        if (this.listeners[type] === undefined) {
+            return [];
+        }
         var listeners = this.listeners[type];
         delete this.listeners[type];
         return listeners;
@@ -105,18 +113,23 @@ olexp.event = olexp.event || {};
      * @memberOf Event.prototype
      * @param {string} type The event type.
      * @param {function} listener The listener function.
-     * @param {object} opt_this The object to use as this in listener.
+     * @param {object} optThis The object to use as this in listener.
      * @private
      */
-    Event.prototype.off = function(type, listener, opt_this)
-    {
+    Event.prototype.off = function (type, listener, optThis) {
 
-        if (!(type in this.listeners)) return;
+        if (this.listeners[type] === undefined) {
+            return;
+        }
 
         var callback = listener;
-        if (typeof opt_this !== 'undefined') callback = listener.bind(opt_this);
+        if (optThis !== undefined) {
+            callback = listener.bind(optThis);
+        }
         var index = this.listeners[type].indexOf(callback);
-        if (index > -1) this.listeners[type].splice(index, 1);
+        if (index > -1) {
+            this.listeners[type].splice(index, 1);
+        }
 
     };
 
@@ -126,7 +139,7 @@ olexp.event = olexp.event || {};
      * @param {object} listeners Initial listeners
      * @public
      */
-    olexp.event.Event = function(listeners) {
+    olexp.event.Event = function (listeners) {
 
         var handler = new Event(listeners);
         return handler;

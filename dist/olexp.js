@@ -1,11 +1,12 @@
 /* olexp 0.2.0 (c) Daniel Pulido <dpmcmlxxvi@gmail.com> */
 
-/* global ol, w2ui */
+/*globals $, ol, olexp, w2ui, window */
+/*jslint vars: true */
 
 /**
  * @namespace olexp
  */
-var olexp = olexp || {};
+window.olexp = window.olexp || {};
 
 //==================================================
 // Documentation definitions
@@ -367,7 +368,7 @@ var olexp = olexp || {};
 /**
  * olexp main module
  */
-(function(olexp) {
+(function (olexp) {
     "use strict";
 
     /**
@@ -377,29 +378,26 @@ var olexp = olexp || {};
      * @param {olexp.ExplorerOptions} [options] Explorer options
      * @throws {Error} id must be defined and exist
      */
-    var Explorer = function(id, options)
-    {
+    var Explorer = function (id, options) {
 
         // ==================================================
         // Parse arguments
         // --------------------------------------------------
 
-        if (typeof id === 'undefined')
-        {
-            throw new Error('olexp.Explorer: id not defined');
+        if (id === undefined) {
+            throw new Error("olexp.Explorer: id not defined");
         }
-        else if ($('#'+id).length === 0)
-        {
-            throw new Error('olexp.Explorer: id not found');
+        if ($("#" + id).length === 0) {
+            throw new Error("olexp.Explorer: id not found");
         }
 
         // ==================================================
         // Default options
         // --------------------------------------------------
-        
+
         // Prefix is used to create DOM ids and w2ui names. This ensures they
         // are unique and can have multiple instances on the same page
-        var prefix = 'olexp-' + id;
+        var prefix = "olexp-" + id;
 
         /**
          * @description Explorer constructor options to override default
@@ -513,22 +511,22 @@ var olexp = olexp || {};
             details : {
                 hidden    : true,
                 resizable : true,
-                size      : '25%',
-                type      : 'preview'
+                size      : "25%",
+                type      : "preview"
             },
             layers : {
                 expanded : true,
                 group    : true,
-                img      : 'icon-folder',
-                text     : 'Layers'
+                img      : "icon-folder",
+                text     : "Layers"
             },
             map : {
-                type    : 'main'
+                type    : "main"
             },
             navigation : {
                 resizable : true,
-                size      : '15%',
-                type      : 'left'
+                size      : "15%",
+                type      : "left"
             },
             olcontrols : {
                 fullscreen    : true,
@@ -545,23 +543,23 @@ var olexp = olexp || {};
             },
             olmap : {
                 controls : [],
-                view     : new ol.View({center: [0,0], zoom: 3})
+                view     : new ol.View({center: [0, 0], zoom: 3})
             },
             outline : {
-                type  : 'main'
+                type  : "main"
             },
             overlays : {
                 expanded : true,
                 group    : true,
-                img      : 'icon-folder',
-                text     : 'Overlays'
+                img      : "icon-folder",
+                text     : "Overlays"
             },
             settings: {},
             toolbar : {
-                size  : '40',
-                style : 'padding: 5px;',
-                type  : 'top'
-            },
+                size  : "40",
+                style : "padding: 5px;",
+                type  : "top"
+            }
         };
 
         // Override default options with user options
@@ -613,26 +611,26 @@ var olexp = olexp || {};
          */
         $.extend(true, this.options, {
             explorer : {
-                cls        : 'olexp-explorer-content',
-                id         : prefix + '-explorer-id-content',
-                details    : prefix + '-explorer-name-details',
-                layout     : prefix + '-explorer-name-layout',
-                navigation : prefix + '-explorer-name-navigation',
-                outline    : prefix + '-explorer-name-outline',
-                toolbar    : prefix + '-explorer-name-toolbar'
+                cls        : "olexp-explorer-content",
+                id         : prefix + "-explorer-id-content",
+                details    : prefix + "-explorer-name-details",
+                layout     : prefix + "-explorer-name-layout",
+                navigation : prefix + "-explorer-name-navigation",
+                outline    : prefix + "-explorer-name-outline",
+                toolbar    : prefix + "-explorer-name-toolbar"
             },
             layers : {
-                id : prefix + '-explorer-id-layers',
+                id : prefix + "-explorer-id-layers"
             },
             map : {
-                content : ('<div id="' + prefix + '-explorer-id-map"' +
-                           ' class="olexp-explorer-map"></div>'),
+                content : ("<div id=\"" + prefix + "-explorer-id-map\"" +
+                           " class=\"olexp-explorer-map\"></div>")
             },
             olmap : {
-                target   : prefix + '-explorer-id-map',
+                target   : prefix + "-explorer-id-map"
             },
             overlays : {
-                id : prefix + '-explorer-id-overlays',
+                id : prefix + "-explorer-id-overlays"
             },
             settings : {
                 prefix : prefix
@@ -648,28 +646,28 @@ var olexp = olexp || {};
         // Create main layout content div
         // --------------------------------------------------
 
-        var div = $('<div>', {'id': this.options.explorer.id,
-                              'class': this.options.explorer.cls});
-        $('#'+id).append(div);
+        var div = $("<div>", {"id": this.options.explorer.id,
+                              "class": this.options.explorer.cls});
+        $("#" + id).append(div);
 
         // ==================================================
         // Main Layout
         // --------------------------------------------------
 
-        this.layout = $('#'+this.options.explorer.id).w2layout({
+        this.layout = $("#" + this.options.explorer.id).w2layout({
             name   : this.options.explorer.layout,
             panels : [
-                          this.options.navigation,
-                          this.options.map,
-                          this.options.toolbar
-                     ]
+                this.options.navigation,
+                this.options.map,
+                this.options.toolbar
+            ]
         });
 
         // ==================================================
         // Main Toolbar
         // --------------------------------------------------
 
-        this.toolbar = $('').w2toolbar({
+        this.toolbar = $("").w2toolbar({
             name: this.options.explorer.toolbar
         });
 
@@ -677,75 +675,69 @@ var olexp = olexp || {};
         // Navigation pane Layout
         // --------------------------------------------------
 
-        this.navigation = $('').w2layout({
+        this.navigation = $("").w2layout({
             name     : this.options.explorer.navigation,
-            onResize : function() {
-                           if (me.hasOwnProperty('map'))
-                           {
-                               me.map.updateSize();
-                           }
-                           if (me.hasOwnProperty('details'))
-                           {
-                               me.details.resize();
-                           }
-                       },
+            onResize : function () {
+                if (me.hasOwnProperty("map")) {
+                    me.map.updateSize();
+                }
+                if (me.hasOwnProperty("details")) {
+                    me.details.resize();
+                }
+            },
             panels   : [
-                        this.options.outline,
-                        this.options.details
-                       ]
+                this.options.outline,
+                this.options.details
+            ]
         });
 
         // ==================================================
         // Outline sidebar
         // --------------------------------------------------
 
-        this.outline = $('').w2sidebar({
+        this.outline = $("").w2sidebar({
             name       : this.options.explorer.outline,
             nodes      : [
-                              this.options.layers,
-                              this.options.overlays
-                         ],
+                this.options.layers,
+                this.options.overlays
+            ],
             onClick    : function (event) {
-                             var id = event.target;
-                             var records = me.manager.getDetails(id);
-                             me.details.clear();
-                             me.details.add(records);
-                             me.manager.onItemSelected(id);
-                         },
+                var targetId = event.target;
+                var records = me.manager.getDetails(targetId);
+                me.details.clear();
+                me.details.add(records);
+                me.manager.onItemSelected(targetId);
+            },
             onDblClick : function (event) {
-                             var id = event.target;
-                             me.manager.toggleNode(id);
-                             me.manager.onItemSelected(id);
-                         },
-            onRender   : function(event) {
-                             event.onComplete = function()
-                             {
-                                 var id = me.outline.selected;
-                                 me.manager.onItemSelected(id);
-                             };
-                         }
+                var targetId = event.target;
+                me.manager.toggleNode(targetId);
+                me.manager.onItemSelected(targetId);
+            },
+            onRender   : function (event) {
+                event.onComplete = function () {
+                    var targetId = me.outline.selected;
+                    me.manager.onItemSelected(targetId);
+                };
+            }
         });
 
         // ==================================================
         // Details table
         // --------------------------------------------------
 
-        this.details = $('').w2grid({
-            columns : [
-                          {
-                              field    : 'property',
-                              caption  : 'Property',
-                              size     : '100%',
-                              sortable : true
-                          },
-                          {
-                               field    : 'value',
-                               caption  : 'Value',
-                               size     : '100%',
-                               sortable : true
-                          }
-                      ],
-            name    : this.options.explorer.details,
+        this.details = $("").w2grid({
+            columns : [{
+                field    : "property",
+                caption  : "Property",
+                size     : "100%",
+                sortable : true
+            }, {
+                field    : "value",
+                caption  : "Value",
+                size     : "100%",
+                sortable : true
+            }],
+            name    : this.options.explorer.details
         });
 
         // ==================================================
@@ -792,12 +784,10 @@ var olexp = olexp || {};
 
         // Add menu items and callbacks to outline
         this.outline.menu = this.menu.items;
-        this.outline.onMenuClick = function (event)
-        {
-            var id = event.menuItem.id;
-            if (id in me.menu.callbacks)
-            {
-                me.menu.callbacks[id](event);
+        this.outline.onMenuClick = function (event) {
+            var targetId = event.menuItem.id;
+            if (me.menu.callbacks[targetId] !== undefined) {
+                me.menu.callbacks[targetId](event);
             }
         };
 
@@ -809,20 +799,20 @@ var olexp = olexp || {};
 
         // Add map interactions
         var interactions = this.util.getInteractions(this.map);
-        for (var iname in this.options.olinteractions)
-        {
+        Object.keys(this.options.olinteractions).forEach(function (iname) {
             var interaction = interactions[iname];
-            if (this.options.olinteractions[iname]) this.map.addInteraction(interaction);
-        }
+            if (me.options.olinteractions[iname]) {
+                me.map.addInteraction(interaction);
+            }
+        });
 
         // Add map controls
         var controls = this.util.getControls();
-        for (var cname in this.options.olcontrols)
-        {
+        Object.keys(this.options.olcontrols).forEach(function (cname) {
             var control = controls[cname];
-            this.map.addControl(control);
-            control.setMap((this.options.olcontrols[cname] ? this.map : null));
-        }
+            me.map.addControl(control);
+            control.setMap((me.options.olcontrols[cname] ? me.map : null));
+        });
 
         // ==================================================
         // Feature selector
@@ -863,83 +853,75 @@ var olexp = olexp || {};
          *           that contains map and layers controls.
          */
         this.api = {
-                        details    : this.details,
-                        layout     : this.layout,
-                        manager    : this.manager,
-                        map        : this.map,
-                        navigation : this.navigation,
-                        options    : this.options,
-                        outline    : this.outline,
-                        toolbar    : this.toolbar
-                    };
+            details    : this.details,
+            layout     : this.layout,
+            manager    : this.manager,
+            map        : this.map,
+            navigation : this.navigation,
+            options    : this.options,
+            outline    : this.outline,
+            toolbar    : this.toolbar
+        };
 
         // ==================================================
         // Add built-in controls to toolbar
         // --------------------------------------------------
 
-        if (this.options.controls.toolbarhide)
-        {
+        if (this.options.controls.toolbarhide) {
             this.toolbar.add(olexp.control.ToolbarHide(this.api,
                                                        {hidden   : this.options.toolbar.hidden,
                                                         settings : this.options.settings}));
-            this.toolbar.add({id: 'break-toolbar-hide', type: 'break'});
+            this.toolbar.add({id: "break-toolbar-hide", type: "break"});
         }
 
-        if (this.options.controls.layermanager)
-        {
+        if (this.options.controls.layermanager) {
             this.toolbar.add(olexp.control.LayerManager(this.api,
                                                         this.manager,
                                                         {details: {checked: !this.options.details.hidden},
                                                          navigation: {checked: !this.options.navigation.hidden},
                                                          settings : this.options.settings}));
-            this.toolbar.add({id: 'break-layer-manager', type: 'break'});
+            this.toolbar.add({id: "break-layer-manager", type: "break"});
         }
 
-        if (this.options.controls.layermenu)
-        {
+        if (this.options.controls.layermenu) {
             this.toolbar.add(olexp.control.LayerMenu(this.api,
                                                      this.manager,
                                                      this.menu,
                                                      {settings : this.options.settings}));
-            this.toolbar.add({id: 'break-item-menu', type: 'break'});
+            this.toolbar.add({id: "break-item-menu", type: "break"});
         }
 
-        if (this.options.controls.layercontrol)
-        {
+        if (this.options.controls.layercontrol) {
             this.toolbar.add(olexp.control.LayerControl(this.api,
                                                         {settings : this.options.settings}));
-            this.toolbar.add({id: 'break-layer-control', type: 'break'});
+            this.toolbar.add({id: "break-layer-control", type: "break"});
         }
 
-        if (this.options.controls.graticule)
-        {
+        if (this.options.controls.graticule) {
             this.toolbar.add(olexp.control.Graticule(this.api,
                                                      {settings : this.options.settings}));
-            this.toolbar.add({id: 'break-graticule', type: 'break'});
+            this.toolbar.add({id: "break-graticule", type: "break"});
         }
 
-        if (this.options.controls.measure)
-        {
+        if (this.options.controls.measure) {
             this.toolbar.add(olexp.control.Measure(this.api,
                                                    {settings : this.options.settings}));
-            this.toolbar.add({id: 'break-measure', type: 'break'});
+            this.toolbar.add({id: "break-measure", type: "break"});
         }
 
-        if (this.options.controls.exportmap)
-        {
+        if (this.options.controls.exportmap) {
             this.toolbar.add(olexp.control.ExportMap(this.api,
                                                      {settings : this.options.settings}));
-            this.toolbar.add({id: 'break-export-map', type: 'break'});
+            this.toolbar.add({id: "break-export-map", type: "break"});
         }
 
-        if (this.options.controls.editsettings)
-        {
+        if (this.options.controls.editsettings) {
             this.toolbar.add(olexp.control.EditSettings(this.api,
                                                         {settings : this.options.settings}));
-            this.toolbar.add({id: 'break-edit-settings', type: 'break'});
+            this.toolbar.add({id: "break-edit-settings", type: "break"});
         }
 
-        this.layout.set(this.options.toolbar.type, {content: '',
+        this.layout.set(this.options.toolbar.type, {content: "",
                                                     show : {toolbar : true},
                                                     toolbar: this.toolbar});
 
@@ -952,15 +934,26 @@ var olexp = olexp || {};
      * @param {olexp.ExplorerAPI} explorer Explorer API object
      * @public
      */
-    olexp.destroy = function(explorer)
-    {
+    olexp.destroy = function (explorer) {
 
-        if (explorer.map !== undefined) explorer.map.setTarget(null);
-        if (explorer.details !== undefined) explorer.details.destroy();
-        if (explorer.outline !== undefined) explorer.outline.destroy();
-        if (explorer.navigation !== undefined) explorer.navigation.destroy();
-        if (explorer.toolbar !== undefined) explorer.toolbar.destroy();
-        if (explorer.layout !== undefined) explorer.layout.destroy();
+        if (explorer.map !== undefined) {
+            explorer.map.setTarget(null);
+        }
+        if (explorer.details !== undefined) {
+            explorer.details.destroy();
+        }
+        if (explorer.outline !== undefined) {
+            explorer.outline.destroy();
+        }
+        if (explorer.navigation !== undefined) {
+            explorer.navigation.destroy();
+        }
+        if (explorer.toolbar !== undefined) {
+            explorer.toolbar.destroy();
+        }
+        if (explorer.layout !== undefined) {
+            explorer.layout.destroy();
+        }
 
     };
 
@@ -978,7 +971,7 @@ var olexp = olexp || {};
      * @returns {olexp.ExplorerAPI} Explorer API
      * @throws {Error} DOM id must be defined and exist
      */
-    olexp.Explorer = function(id, options) {
+    olexp.Explorer = function (id, options) {
         var explorer = new Explorer(id, options);
         return explorer.api;
     };
@@ -986,15 +979,18 @@ var olexp = olexp || {};
 }(olexp || {}));
 
 
+/*globals $, olexp, window */
+/*jslint vars: true */
+
 /**
  * @namespace olexp.event
  */
-olexp.event = olexp.event || {};
+window.olexp.event = window.olexp.event || {};
 
 //==================================================
 // Event Handler
 //--------------------------------------------------
-(function(olexp) {
+(function (olexp) {
 
     "use strict";
 
@@ -1003,8 +999,7 @@ olexp.event = olexp.event || {};
      * @param {object} listeners Initial listeners
      * @private
      */
-    var Event = function(listeners)
-    {
+    var Event = function (listeners) {
 
         // ==================================================
         // Collection of event listeners that are keyed by
@@ -1020,17 +1015,20 @@ olexp.event = olexp.event || {};
      * @memberOf Event.prototype
      * @param {string} type The event type.
      * @param {function} listener The listener function.
-     * @param {object} opt_this The object to use as this in listener.
+     * @param {object} optThis The object to use as this in listener.
      * @private
      * @warning If event type is not already registered then listener is not. 
      */
-    Event.prototype.on = function(type, listener, opt_this)
-    {
+    Event.prototype.on = function (type, listener, optThis) {
 
-        if (!(type in this.listeners)) return;
+        if (this.listeners[type] === undefined) {
+            return;
+        }
 
         var callback = listener;
-        if (typeof opt_this !== 'undefined') callback = listener.bind(opt_this);
+        if (optThis !== undefined) {
+            callback = listener.bind(optThis);
+        }
         this.listeners[type].push(callback);
 
     };
@@ -1042,10 +1040,11 @@ olexp.event = olexp.event || {};
      * @private
      * @warning If event type is already registered then nothing is done.
      */
-    Event.prototype.register = function(type)
-    {
+    Event.prototype.register = function (type) {
 
-        if (type in this.listeners) return;
+        if (this.listeners[type] !== undefined) {
+            return;
+        }
         this.listeners[type] = [];
 
     };
@@ -1056,17 +1055,18 @@ olexp.event = olexp.event || {};
      * @param {string} type The event type.
      * @private
      */
-    Event.prototype.trigger = function()
-    {
+    Event.prototype.trigger = function () {
         var args = Array.prototype.slice.call(arguments);
         var type = args.shift();
-        if (!(type in this.listeners)) return;
-        
-        // Call listeners with remaining arguments
-        for (var i = 0; i < this.listeners[type].length; i++)
-        {
-            this.listeners[type][i].apply(this, args);
+        if (this.listeners[type] === undefined) {
+            return;
         }
+
+        // Call listeners with remaining arguments
+        var me = this;
+        this.listeners[type].forEach(function (listener) {
+            listener.apply(me, args);
+        });
     };
 
     /**
@@ -1077,10 +1077,11 @@ olexp.event = olexp.event || {};
      * @returns Listeners registered with given type
      * @warning If event type is already registered then nothing is done.
      */
-    Event.prototype.unregister = function(type)
-    {
+    Event.prototype.unregister = function (type) {
 
-        if (!(type in this.listeners)) return;
+        if (this.listeners[type] === undefined) {
+            return [];
+        }
         var listeners = this.listeners[type];
         delete this.listeners[type];
         return listeners;
@@ -1092,18 +1093,23 @@ olexp.event = olexp.event || {};
      * @memberOf Event.prototype
      * @param {string} type The event type.
      * @param {function} listener The listener function.
-     * @param {object} opt_this The object to use as this in listener.
+     * @param {object} optThis The object to use as this in listener.
      * @private
      */
-    Event.prototype.off = function(type, listener, opt_this)
-    {
+    Event.prototype.off = function (type, listener, optThis) {
 
-        if (!(type in this.listeners)) return;
+        if (this.listeners[type] === undefined) {
+            return;
+        }
 
         var callback = listener;
-        if (typeof opt_this !== 'undefined') callback = listener.bind(opt_this);
+        if (optThis !== undefined) {
+            callback = listener.bind(optThis);
+        }
         var index = this.listeners[type].indexOf(callback);
-        if (index > -1) this.listeners[type].splice(index, 1);
+        if (index > -1) {
+            this.listeners[type].splice(index, 1);
+        }
 
     };
 
@@ -1113,7 +1119,7 @@ olexp.event = olexp.event || {};
      * @param {object} listeners Initial listeners
      * @public
      */
-    olexp.event.Event = function(listeners) {
+    olexp.event.Event = function (listeners) {
 
         var handler = new Event(listeners);
         return handler;
@@ -1125,15 +1131,18 @@ olexp.event = olexp.event || {};
 }(olexp || {}));
 
 
+/*globals $, atob, document, ol, olexp, w2alert, window */
+/*jslint vars: true */
+
 /**
  * @namespace olexp.control
  */
-olexp.control = olexp.control || {};
+window.olexp.control = window.olexp.control || {};
 
 //==================================================
 // Edit Settings Control
 //--------------------------------------------------
-(function(olexp) {
+(function (olexp) {
 
     "use strict";
 
@@ -1143,28 +1152,30 @@ olexp.control = olexp.control || {};
      * @param {olexp.ExplorerSettings} settings olexp settings
      * @private
      */
-    var EditSettings = function(map, settings)
-    {
+    var EditSettings = function (map, settings) {
 
         //==================================================
         // Override Edit Settings Control default settings
         // with user provided values. 
         //--------------------------------------------------
-        var olexpSettings = $.extend(true, {control : {
-            EditSettings : {
-                form   : {
-                             header : '',
-                             style  : 'border: 0px; background-color: transparent;'
-                         },
-                hint   : 'Edit Controls',
-                popup  : {
-                             height : 380,
-                             style  : 'width: 100%; height: 100%;',
-                             title  : 'Edit Controls',
-                             width  : 225
-                         },
-                span   : 6
-            }}}, settings);
+        var olexpSettings = $.extend(true, {
+            control : {
+                EditSettings : {
+                    form : {
+                        header : "",
+                        style  : "border: 0px; background-color: transparent;"
+                    },
+                    hint  : "Edit Controls",
+                    popup : {
+                        height : 380,
+                        style  : "width: 100%; height: 100%;",
+                        title  : "Edit Controls",
+                        width  : 225
+                    },
+                    span : 6
+                }
+            }
+        }, settings);
 
         /**
          * Edit Settings control settings
@@ -1180,7 +1191,7 @@ olexp.control = olexp.control || {};
          * @private
          * @type {string}
          */
-        this.button = settings.prefix + '-control-edit-settings-button';
+        this.button = settings.prefix + "-control-edit-settings-button";
 
         /**
          * Control icon
@@ -1188,7 +1199,7 @@ olexp.control = olexp.control || {};
          * @private
          * @type {string}
          */
-        this.icon = 'olexp-control-edit-settings';
+        this.icon = "olexp-control-edit-settings";
 
         /**
          * Control element id
@@ -1196,7 +1207,7 @@ olexp.control = olexp.control || {};
          * @private
          * @type {string}
          */
-        this.id = settings.prefix + '-control-edit-settings-form';
+        this.id = settings.prefix + "-control-edit-settings-form";
 
         /**
          * Map on which to edit controls
@@ -1212,7 +1223,7 @@ olexp.control = olexp.control || {};
          * @private
          * @type {string}
          */
-        this.name = settings.prefix + '-control-edit-settings-form';
+        this.name = settings.prefix + "-control-edit-settings-form";
 
     };
 
@@ -1220,104 +1231,93 @@ olexp.control = olexp.control || {};
      * Display settings editor
      * @private
      */
-    EditSettings.prototype.display = function()
-    {
+    EditSettings.prototype.display = function () {
+
         var me = this;
 
         // ==================================================
         // Form fields
         // --------------------------------------------------
-        var fields = [
-            {
+        var fields = [{
                 html : {
-                    caption : 'Full Screen',
+                    caption : "Full Screen",
                     span    : this.settings.span
                 },
-                name : 'fullscreen',
-                type : 'checkbox'
-            },
-            {
+                name : "fullscreen",
+                type : "checkbox"
+            }, {
                 html : {
-                    caption : 'Mouse Position',
+                    caption : "Mouse Position",
                     span    : this.settings.span
                 },
-                name : 'mouseposition',
-                type : 'checkbox'
-            },
-            {
+                name : "mouseposition",
+                type : "checkbox"
+            }, {
                 html : {
-                           caption : 'Overview Map',
-                           span    : this.settings.span
-                       },
-                name : 'overviewmap',
-                type : 'checkbox'
-            },
-            {
-                html : {
-                    caption : 'Rotate',
+                    caption : "Overview Map",
                     span    : this.settings.span
                 },
-                name : 'rotate',
-                type: 'checkbox'
-            },
-            {
+                name : "overviewmap",
+                type : "checkbox"
+            }, {
                 html : {
-                    caption : 'Scale Line',
+                    caption : "Rotate",
                     span    : this.settings.span
                 },
-                name : 'scaleline',
-                type : 'checkbox'
-            },
-            {
+                name : "rotate",
+                type: "checkbox"
+            }, {
                 html : {
-                    caption : 'Zoom',
+                    caption : "Scale Line",
                     span    : this.settings.span
                 },
-                name : 'zoom',
-                type : 'checkbox'
-            },
-            {
+                name : "scaleline",
+                type : "checkbox"
+            }, {
                 html : {
-                    caption : 'Zoom Slider',
+                    caption : "Zoom",
                     span    : this.settings.span
                 },
-                name : 'zoomslider',
-                type : 'checkbox'
-            },
-            {
+                name : "zoom",
+                type : "checkbox"
+            }, {
                 html : {
-                    caption : 'Zoom To Extent',
+                    caption : "Zoom Slider",
                     span    : this.settings.span
                 },
-                name : 'zoomtoextent',
-                type : 'checkbox'
-            }
-        ];
-        
+                name : "zoomslider",
+                type : "checkbox"
+            }, {
+                html : {
+                    caption : "Zoom To Extent",
+                    span    : this.settings.span
+                },
+                name : "zoomtoextent",
+                type : "checkbox"
+            }];
+
         // ==================================================
         // Extract controls to be edited
         // --------------------------------------------------
         var record = {
-            fullscreen    : this.isControlActive('fullscreen'),
-            mouseposition : this.isControlActive('mouseposition'),
-            overviewmap   : this.isControlActive('overviewmap'),
-            rotate        : this.isControlActive('rotate'),
-            scaleline     : this.isControlActive('scaleline'),
-            zoom          : this.isControlActive('zoom'),
-            zoomslider    : this.isControlActive('zoomslider'),
-            zoomtoextent  : this.isControlActive('zoomtoextent')
+            fullscreen    : this.isControlActive("fullscreen"),
+            mouseposition : this.isControlActive("mouseposition"),
+            overviewmap   : this.isControlActive("overviewmap"),
+            rotate        : this.isControlActive("rotate"),
+            scaleline     : this.isControlActive("scaleline"),
+            zoom          : this.isControlActive("zoom"),
+            zoomslider    : this.isControlActive("zoomslider"),
+            zoomtoextent  : this.isControlActive("zoomtoextent")
         };
 
         // ==================================================
         // Function to process form changes
         // --------------------------------------------------
-        var onChanges = function(changes)
-        {
-            for (var name in changes)
-            {
+        var onChanges = function (changes) {
+            Object.keys(changes).forEach(function (name) {
                 var enable = changes[name];
                 me.setControl(name, enable);
-            }
+            });
         };
 
         // ==================================================
@@ -1325,11 +1325,11 @@ olexp.control = olexp.control || {};
         // --------------------------------------------------
 
         var formOptions = $.extend(this.settings.form, {
-                              fields : fields,
-                              name   : this.name,
-                              record : record
-                          });
-        
+            fields : fields,
+            name   : this.name,
+            record : record
+        });
+
         var popupOptions = this.settings.popup;
 
         olexp.util.popup(this.id, onChanges, formOptions, popupOptions);
@@ -1342,22 +1342,33 @@ olexp.control = olexp.control || {};
      * @private
      * @returns {ol.control.Control} Current control with given name or null if none
      */
-    EditSettings.prototype.getControl = function(name)
-    {
+    EditSettings.prototype.getControl = function (name) {
+
         var controls = this.map.getControls().getArray();
-        for (var i = 0; i < controls.length; i++)
-        {
-            var control = controls[i];
-            if (name === 'fullscreen' && control instanceof ol.control.FullScreen) return control;
-            if (name === 'mouseposition' && control instanceof ol.control.MousePosition) return control;
-            if (name === 'overviewmap' && control instanceof ol.control.OverviewMap) return control;
-            if (name === 'rotate' && control instanceof ol.control.Rotate) return control;
-            if (name === 'scaleline' && control instanceof ol.control.ScaleLine) return control;
-            if (name === 'zoom' && control instanceof ol.control.Zoom) return control;
-            if (name === 'zoomslider' && control instanceof ol.control.ZoomSlider) return control;
-            if (name === 'zoomtoextent' && control instanceof ol.control.ZoomToExtent) return control;
-        }
-        return null;
+        var ctrl = null;
+        controls.forEach(function (control) {
+            if (ctrl !== null) {
+                return;
+            }
+            if (name === "fullscreen" && control instanceof ol.control.FullScreen) {
+                ctrl = control;
+            } else if (name === "mouseposition" && control instanceof ol.control.MousePosition) {
+                ctrl = control;
+            } else if (name === "overviewmap" && control instanceof ol.control.OverviewMap) {
+                ctrl = control;
+            } else if (name === "rotate" && control instanceof ol.control.Rotate) {
+                ctrl = control;
+            } else if (name === "scaleline" && control instanceof ol.control.ScaleLine) {
+                ctrl = control;
+            } else if (name === "zoom" && control instanceof ol.control.Zoom) {
+                ctrl = control;
+            } else if (name === "zoomslider" && control instanceof ol.control.ZoomSlider) {
+                ctrl = control;
+            } else if (name === "zoomtoextent" && control instanceof ol.control.ZoomToExtent) {
+                ctrl = control;
+            }
+        });
+        return ctrl;
     };
 
     /**
@@ -1366,10 +1377,11 @@ olexp.control = olexp.control || {};
      * @private
      * @returns {boolean} True if control is active otherwise false
      */
-    EditSettings.prototype.isControlActive = function(name)
-    {
+    EditSettings.prototype.isControlActive = function (name) {
         var control = this.getControl(name);
-        if (control !== null && control.getMap() !== null) return true;
+        if (control !== null && control.getMap() !== null) {
+            return true;
+        }
         return false;
     };
 
@@ -1379,10 +1391,11 @@ olexp.control = olexp.control || {};
      * @param {boolean} enable True if control is to be enabled otherwise false
      * @private
      */
-    EditSettings.prototype.setControl = function(name, enable)
-    {
+    EditSettings.prototype.setControl = function (name, enable) {
         var control = this.getControl(name);
-        if (control === null) return;
+        if (control === null) {
+            return;
+        }
         var map = (enable ? this.map : null);
         control.setMap(map);
     };
@@ -1397,7 +1410,7 @@ olexp.control = olexp.control || {};
      * @returns {external:jQuery.fn.w2toolbar.properties} EditSettings toolbar
      *          control
      */
-    olexp.control.EditSettings = function(explorer, options) {
+    olexp.control.EditSettings = function (explorer, options) {
 
         var control = new EditSettings(explorer.map, options.settings);
 
@@ -1405,22 +1418,24 @@ olexp.control = olexp.control || {};
             hint    : control.settings.hint,
             id      : control.button,
             img     : control.icon,
-            onClick : function (event) {
-                          control.display();
-                      },
-            type    : 'button'
+            onClick : function () {
+                control.display();
+            },
+            type    : "button"
         };
 
     };
-    
+
     return olexp;
-    
+
 }(olexp || {}));
 
 // ==================================================
 // Export Map Control
 // --------------------------------------------------
-(function(olexp) {
+(function (olexp) {
+
+    "use strict";
 
     /**
      * Control to export map to image
@@ -1428,18 +1443,20 @@ olexp.control = olexp.control || {};
      * @param {olexp.ExplorerSettings} settings olexp settings
      * @private
      */
-    var ExportMap = function(map, settings)
-    {
+    var ExportMap = function (map, settings) {
 
         //==================================================
         // Override Export Map Control option defaults
         // with user provided values. 
         //--------------------------------------------------
-        var olexpSettings = $.extend(true, {control : {
-            ExportMap : {
-                filename : 'map.png',
-                hint     : 'Export map'
-            }}}, settings);
+        var olexpSettings = $.extend(true, {
+            control : {
+                ExportMap : {
+                    filename : "map.png",
+                    hint     : "Export map"
+                }
+            }
+        }, settings);
 
         /**
          * Export Map control settings
@@ -1455,7 +1472,7 @@ olexp.control = olexp.control || {};
          * @private
          * @type {string}
          */
-        this.anchor = settings.prefix + '-control-export-map-anchor';
+        this.anchor = settings.prefix + "-control-export-map-anchor";
 
         /**
          * Button element id
@@ -1463,7 +1480,7 @@ olexp.control = olexp.control || {};
          * @private
          * @type {string}
          */
-        this.button = settings.prefix + '-control-export-map-button';
+        this.button = settings.prefix + "-control-export-map-button";
 
         /**
          * Filename of map to download
@@ -1479,7 +1496,7 @@ olexp.control = olexp.control || {};
          * @private
          * @type {string}
          */
-        this.icon = 'olexp-control-export-map';
+        this.icon = "olexp-control-export-map";
 
         /**
          * Map on which to render measurements
@@ -1495,32 +1512,30 @@ olexp.control = olexp.control || {};
      * Export current map to image. Activates anchor link download.
      * @private
      */
-    ExportMap.prototype.toImage = function()
-    {
+    ExportMap.prototype.toImage = function () {
+
         // ==================================================
         // Create a temporary anchor, click it, then remove it
         // --------------------------------------------------
         var id = this.anchor;
         var filename = this.filename;
 
-        // Create callback when anchor is clicked
-        var callback = function(e)
-            {
-                this.map.once('postcompose', function(event)
-                {
-                    anchor.href = event.context.canvas.toDataURL('image/png');
-                });
-                this.map.renderSync();
-             };
-
-        // Create anchor
-        $('body').append('<a id="' + id + '" download="' + filename + '"></a>');
+        // Create anchor and callback when anchor is clicked
+        $("body").append("<a id=\"" + id + "\" download=\"" + filename + "\"></a>");
         var anchor = document.getElementById(id);
-        anchor.addEventListener('click', callback.bind(this), false);
+        var callback = function () {
+            this.map.once("postcompose", function (event) {
+                anchor.href = event.context.canvas.toDataURL("image/png");
+            });
+            /*jslint stupid: true */
+            this.map.renderSync();
+            /*jslint stupid: false */
+        };
+        anchor.addEventListener("click", callback.bind(this), false);
 
         // Click then remove
-        $('#' + id)[0].click();
-        $('#' + id).remove();
+        $("#" + id)[0].click();
+        $("#" + id).remove();
     };
 
     /**
@@ -1533,7 +1548,7 @@ olexp.control = olexp.control || {};
      * @returns {external:jQuery.fn.w2toolbar.properties} ExportMap toolbar
      *          control
      */
-    olexp.control.ExportMap = function(explorer, options) {
+    olexp.control.ExportMap = function (explorer, options) {
 
         var control = new ExportMap(explorer.map, options.settings);
 
@@ -1541,22 +1556,24 @@ olexp.control = olexp.control || {};
             hint    : control.settings.hint,
             id      : control.button,
             img     : control.icon,
-            onClick : function (event) {
-                          control.toImage();
-                      },
-            type    : 'button'
+            onClick : function () {
+                control.toImage();
+            },
+            type    : "button"
         };
 
     };
-    
+
     return olexp;
-    
+
 }(olexp || {}));
 
 //==================================================
 // Graticule Controls
 //--------------------------------------------------
-(function(olexp) {
+(function (olexp) {
+
+    "use strict";
 
     /**
      * Control to display graticule
@@ -1564,34 +1581,36 @@ olexp.control = olexp.control || {};
      * @param {olexp.ExplorerSettings} settings olexp settings
      * @private
      */
-    var Graticule = function(map, settings)
-    {
+    var Graticule = function (map, settings) {
 
         //==================================================
         // Override Graticule Control option defaults
         // with user provided values. 
         //--------------------------------------------------
-        var olexpSettings = $.extend(true, {control : {
-            Graticule : {
-                enable  : false,
-                form    : {
-                              header : '',
-                              style  : 'border: 0px; background-color: transparent;'
-                          },
-                hint    : 'Edit Grid Lines',
-                options : {
-                              color    : '000000',
-                              lineDash : [0.5, 4],
-                              width    : 2
-                          },
-                popup   : {
-                              height : 225,
-                              style  : 'border: 0px; background-color: transparent;',
-                              title  : 'Edit Grid Lines',
-                              width  : 300
-                          },
-                span    : 3
-            }}}, settings);
+        var olexpSettings = $.extend(true, {
+            control : {
+                Graticule : {
+                    enable  : false,
+                    form    : {
+                        header : "",
+                        style  : "border: 0px; background-color: transparent;"
+                    },
+                    hint    : "Edit Grid Lines",
+                    options : {
+                        color    : "000000",
+                        lineDash : [0.5, 4],
+                        width    : 2
+                    },
+                    popup   : {
+                        height : 225,
+                        style  : "border: 0px; background-color: transparent;",
+                        title  : "Edit Grid Lines",
+                        width  : 300
+                    },
+                    span    : 3
+                }
+            }
+        }, settings);
 
         /**
          * Tile control settings
@@ -1607,7 +1626,7 @@ olexp.control = olexp.control || {};
          * @private
          * @type {string}
          */
-        this.button = settings.prefix + '-control-graticule-button';
+        this.button = settings.prefix + "-control-graticule-button";
 
         /**
          * Control icon
@@ -1615,7 +1634,7 @@ olexp.control = olexp.control || {};
          * @private
          * @type {string}
          */
-        this.icon = 'olexp-control-graticule';
+        this.icon = "olexp-control-graticule";
 
         /**
          * Form element id
@@ -1623,7 +1642,7 @@ olexp.control = olexp.control || {};
          * @private
          * @type {string}
          */
-        this.id = settings.prefix + '-control-graticule';
+        this.id = settings.prefix + "-control-graticule";
 
         /**
          * Parent explorer
@@ -1639,7 +1658,7 @@ olexp.control = olexp.control || {};
          * @private
          * @type {string}
          */
-        this.name = settings.prefix + '-control-graticule-form';
+        this.name = settings.prefix + "-control-graticule-form";
 
         /**
          * Utility tool
@@ -1664,69 +1683,62 @@ olexp.control = olexp.control || {};
      * Display graticule form
      * @private
      */
-    Graticule.prototype.display = function()
-    {
+    Graticule.prototype.display = function () {
 
         var me = this;
 
         // ==================================================
         // Form fields
         // --------------------------------------------------
-        var fields = [
-            {
+        var fields = [{
                 html     : {
-                    caption : 'Enable',
+                    caption : "Enable",
                     span    : this.settings.span
                 },
-                name     : 'enable',
+                name     : "enable",
                 required : true,
-                type     : 'checkbox'
-            },
-            {
+                type     : "checkbox"
+            }, {
                 html     : {
-                    caption : 'Color',
+                    caption : "Color",
                     span    : this.settings.span
                 },
-                name     : 'color',
+                name     : "color",
                 options  : {
                     silent: false
                 },
-                required : true, 
-                type     : 'color',
-            },
-            {
+                required : true,
+                type     : "color"
+            }, {
                 html     : {
-                    caption : 'Width',
+                    caption : "Width",
                     span    : this.settings.span
                 },
-                name     : 'width',
+                name     : "width",
                 options  : {
                     arrows      : true,
                     max         : 4,
                     min         : 0.25,
-                    placeholder : '0.25 - 4',
+                    placeholder : "0.25 - 4",
                     silent      : false,
                     step        : 0.25
                 },
-                required : true, 
-                type     : 'float',
-            }
-        ];
+                required : true,
+                type     : "float"
+            }];
 
         // ==================================================
         // Define allowable tile types
         // --------------------------------------------------
-        var record = this.graticule.olexp_record;
+        var record = this.graticule.olexpRecord;
 
         // ==================================================
         // Function to process form changes
         // --------------------------------------------------
-        var onChanges = function(changes)
-        {
-            for (var name in changes)
-            {
+        var onChanges = function (changes) {
+            Object.keys(changes).forEach(function (name) {
                 record[name] = changes[name];
-            }
+            });
             var options = $.extend({}, record);
             delete options.enable;
             me.graticule.setMap(null);
@@ -1759,33 +1771,39 @@ olexp.control = olexp.control || {};
       * @returns {external:jQuery.fn.w2toolbar.properties} Graticule toolbar
       *          control
       */
-     olexp.control.Graticule = function(explorer, options) {
+    olexp.control.Graticule = function (explorer, options) {
 
-         if (typeof options === "undefined") options = {};
-         if (typeof options.settings === "undefined") options.settings = {};
+        if (options === undefined) {
+            options = {};
+        }
+        if (options.settings === undefined) {
+            options.settings = {};
+        }
 
-         var control = new Graticule(explorer.map, options.settings);
-        
-         return {
-             hint    : control.settings.hint,
-             id      : control.button,
-             img     : control.icon,
-             onClick : function (event) {
-                           control.display();
-                       },
-             type    : 'button'
-         };
+        var control = new Graticule(explorer.map, options.settings);
+
+        return {
+            hint    : control.settings.hint,
+            id      : control.button,
+            img     : control.icon,
+            onClick : function () {
+                control.display();
+            },
+            type    : "button"
+        };
 
     };
 
     return olexp;
-    
+
 }(olexp || {}));
 
 //==================================================
 // Layer Controls
 //--------------------------------------------------
-(function(olexp) {
+(function (olexp) {
+
+    "use strict";
 
     /**
      * Control to add layers
@@ -1793,43 +1811,45 @@ olexp.control = olexp.control || {};
      * @param {olexp.ExplorerSettings} settings olexp settings
      * @private
      */
-    var LayerControl = function(map, settings)
-    {
+    var LayerControl = function (map, settings) {
 
         //==================================================
         // Override Layer Control Tile option defaults
         // with user provided values. 
         //--------------------------------------------------
-        var olexpSettings = $.extend(true, {control : {
-            LayerControlTile : {
-                form   : {
-                    header : '',
-                    style  : 'border: 0px; background-color: transparent;'
+        var olexpSettings = $.extend(true, {
+            control : {
+                LayerControlTile : {
+                    form   : {
+                        header : "",
+                        style  : "border: 0px; background-color: transparent;"
+                    },
+                    hint   : "Add Tile Layer",
+                    popup  : {
+                        height : 165,
+                        style  : "border: 0px; background-color: transparent;",
+                        title  : "Add Tile Layer",
+                        width  : 290
+                    },
+                    span   : 3
                 },
-                hint   : 'Add Tile Layer',
-                popup  : {
-                    height : 165,
-                    style  : 'border: 0px; background-color: transparent;',
-                    title  : 'Add Tile Layer',
-                    width  : 290
-                },
-                span   : 3
-            },
-            LayerControlVector : {
-                form   : {
-                    header : ('File Types: ' + $.map(olexp.util.FileTypes,
-                             function(o) { return ' ' + o.name; })),
-                    style  : 'border: 0px; background-color: transparent;'
-                },
-                hint   : 'Add Vector Layer',
-                popup  : {
-                    height : 195,
-                    style  : 'border: 0px; background-color: transparent;',
-                    title  : 'Add Vector Layer',
-                    width  : 350
-                },
-                span   : 4
-            }}}, settings);
+                LayerControlVector : {
+                    form   : {
+                        header : ("File Types: " + $.map(olexp.util.FileTypes,
+                                 function (o) { return " " + o.name; })),
+                        style  : "border: 0px; background-color: transparent;"
+                    },
+                    hint   : "Add Vector Layer",
+                    popup  : {
+                        height : 195,
+                        style  : "border: 0px; background-color: transparent;",
+                        title  : "Add Vector Layer",
+                        width  : 350
+                    },
+                    span   : 4
+                }
+            }
+        }, settings);
 
         /**
          * Tile control settings
@@ -1854,8 +1874,8 @@ olexp.control = olexp.control || {};
          * @type {string}
          */
         this.icons = {
-            tile   : 'olexp-control-layer-control-add-tile',
-            vector : 'olexp-control-layer-control-add-vector'
+            tile   : "olexp-control-layer-control-add-tile",
+            vector : "olexp-control-layer-control-add-vector"
         };
 
         /**
@@ -1865,8 +1885,8 @@ olexp.control = olexp.control || {};
          * @type {string}
          */
         this.buttons = {
-            tile   : settings.prefix + '-control-layer-control-add-tile-button',
-            vector : settings.prefix + '-control-layer-control-add-vector-button'
+            tile   : settings.prefix + "-control-layer-control-add-tile-button",
+            vector : settings.prefix + "-control-layer-control-add-vector-button"
         };
 
         /**
@@ -1876,8 +1896,8 @@ olexp.control = olexp.control || {};
          * @type {string}
          */
         this.ids = {
-            tile   : settings.prefix + '-control-layer-control-add-tile',
-            vector : settings.prefix + '-control-layer-control-add-vector'
+            tile   : settings.prefix + "-control-layer-control-add-tile",
+            vector : settings.prefix + "-control-layer-control-add-vector"
         };
 
         /**
@@ -1895,8 +1915,8 @@ olexp.control = olexp.control || {};
          * @type {object}
          */
         this.names = {
-            tile   : settings.prefix + '-control-tile-form',
-            vector : settings.prefix + '-control-vector-form'
+            tile   : settings.prefix + "-control-tile-form",
+            vector : settings.prefix + "-control-vector-form"
         };
 
         /**
@@ -1913,33 +1933,33 @@ olexp.control = olexp.control || {};
      * Display add tile form
      * @private
      */
-    LayerControl.prototype.tile = function()
-    {
+    LayerControl.prototype.tile = function () {
+
         var me = this;
 
         // ==================================================
         // Define allowable tile types
         // --------------------------------------------------
         var tileTypes = this.util.getTileTypes();
-        var items = $.map(tileTypes, function(val) { return val.name; });
+        var items = $.map(tileTypes, function (val) {
+            return val.name;
+        });
 
         // ==================================================
         // Form fields
         // --------------------------------------------------
-        var fields = [
-            {
-                field    : 'tile_source',
-                html     : {
-                               caption : 'Source',
-                               span    : this.settingsTile.span
-                           },
-                options  : {
-                               items: items
-                           },
-                required : true, 
-                type     : 'list'
-             }
-         ];
+        var fields = [{
+            field    : "tile_source",
+            html     : {
+                caption : "Source",
+                span    : this.settingsTile.span
+            },
+            options  : {
+                items: items
+            },
+            required : true,
+            type     : "list"
+        }];
 
         // ==================================================
         // Form record
@@ -1950,27 +1970,29 @@ olexp.control = olexp.control || {};
         // ==================================================
         // Function to process form changes
         // --------------------------------------------------
-        var onChanges = function(changes)
-        {
-            for (var fieldName in changes)
-            {
-                if (fieldName === fields[0].field)
-                {
-                    // Search for selected tile in list
-                    var typeName = changes[fieldName].id;
-                    for (var key in tileTypes)
-                    {
-                        if (typeName !== tileTypes[key].name) continue;
-                        var tileType = tileTypes[key];
-                        var tileClass = tileType['class'];
-                        var tile = new ol.layer.Tile({
-                            source: new tileClass(tileType.settings)
-                        });
-                        tile.set('name', typeName);
-                        me.map.addLayer(tile);
-                    }
+        var onChanges = function (changes) {
+            Object.keys(changes).forEach(function (fieldName) {
+
+                if (fieldName !== fields[0].field) {
+                    return;
                 }
-            }
+
+                // Search for selected tile in list
+                var typeName = changes[fieldName].id;
+                Object.keys(tileTypes).forEach(function (key) {
+
+                    if (typeName !== tileTypes[key].name) {
+                        return;
+                    }
+                    var tileType = tileTypes[key];
+                    var TileClass = tileType["class"];
+                    var tile = new ol.layer.Tile({
+                        source: new TileClass(tileType.settings)
+                    });
+                    tile.set("name", typeName);
+                    me.map.addLayer(tile);
+                });
+            });
         };
 
         // ==================================================
@@ -1993,28 +2015,26 @@ olexp.control = olexp.control || {};
      * Display add vector form
      * @private
      */
-    LayerControl.prototype.vector = function()
-    {
+    LayerControl.prototype.vector = function () {
+
         var me = this;
 
         // ==================================================
         // Form fields
         // --------------------------------------------------
-        var fields = [
-            {
-                field    : 'vector_source',
-                html     : {
-                               caption : 'Source',
-                               span    : this.settingsVector.span
-                           },
-                options  : {
-                               placeholder : 'Click to add file',
-                               silent      : false
-                           },
-                required : true, 
-                type     : 'file'
-            }
-        ];
+        var fields = [{
+            field    : "vector_source",
+            html     : {
+                caption : "Source",
+                span    : this.settingsVector.span
+            },
+            options  : {
+                placeholder : "Click to add file",
+                silent      : false
+            },
+            required : true,
+            type     : "file"
+        }];
 
         // ==================================================
         // Form record
@@ -2025,44 +2045,46 @@ olexp.control = olexp.control || {};
         // ==================================================
         // Function to process form changes
         // --------------------------------------------------
-        var onChanges = function(changes)
-        {
-            for (var fieldName in changes)
-            {
-                if (fieldName === fields[0].field)
-                {
-                    // Search for selected tile in list
-                    for (var change in changes[fieldName])
-                    {
+        var onChanges = function (changes) {
 
-                        // Check that file contents are valid
-                        var content = changes[fieldName][change].content;
-                        if (typeof content === 'undefined' || content === null) continue;
+            Object.keys(changes).forEach(function (fieldName) {
 
-                        // Extract filename and contents
-                        var filename = changes[fieldName][change].name;
-                        var name = filename.replace(/\.[^/.]+$/, "");
-
-                        // Get file reader
-                        var reader = olexp.util.getReader(filename);
-                        if (reader === null)
-                        {
-                            w2alert('Unable to open file ' + filename, 'Error');
-                            return;
-                        }
-
-                        // Convert file contents from base64 to text
-                        // Read features and convert to map coordinates
-                        var text = atob(content);
-                        var projection = me.map.getView().getProjection();
-                        var options = {'featureProjection' : projection};
-                        var features = reader.readFeatures(text, options);
-
-                        // Add features to map
-                        me.util.addLayerVector(me.map, name, features);
-                    }
+                if (fieldName !== fields[0].field) {
+                    return;
                 }
-            }
+
+                // Search for selected tile in list
+                Object.keys(changes[fieldName]).forEach(function (change) {
+
+                    // Check that file contents are valid
+                    var content = changes[fieldName][change].content;
+                    if (content === undefined || content === null) {
+                        return;
+                    }
+
+                    // Extract filename and contents
+                    var filename = changes[fieldName][change].name;
+                    var name = olexp.util.setExtension(filename, "");
+
+                    // Get file reader
+                    var reader = olexp.util.getReader(filename);
+                    if (reader === null) {
+                        w2alert("Unable to open file " + filename, "Error");
+                        return;
+                    }
+
+                    // Convert file contents from base64 to text
+                    // Read features and convert to map coordinates
+                    var text = atob(content);
+                    var projection = me.map.getView().getProjection();
+                    var options = {"featureProjection" : projection};
+                    var features = reader.readFeatures(text, options);
+
+                    // Add features to map
+                    me.util.addLayerVector(me.map, name, features);
+
+                });
+            });
         };
 
         // ==================================================
@@ -2076,7 +2098,7 @@ olexp.control = olexp.control || {};
         });
 
         var popupOptions = this.settingsVector.popup;
-        
+
         olexp.util.popup(this.ids.vector, onChanges, formOptions, popupOptions);
 
     };
@@ -2092,54 +2114,62 @@ olexp.control = olexp.control || {};
      * @public
      * @returns {array} Array of w2toolbar properties
      */
-    olexp.control.LayerControl = function(explorer, options) {
-        
-        if (typeof options === "undefined") options = {};
-        if (typeof options.tile === "undefined") options.tile = true;
-        if (typeof options.vector === "undefined") options.vector = true;
-        if (typeof options.settings === "undefined") options.settings = {};
+    olexp.control.LayerControl = function (explorer, options) {
+
+        if (options === undefined) {
+            options = {};
+        }
+        if (options.tile === undefined) {
+            options.tile = true;
+        }
+        if (options.vector === undefined) {
+            options.vector = true;
+        }
+        if (options.settings === undefined) {
+            options.settings = {};
+        }
 
         var tool = new LayerControl(explorer.map, options.settings);
-        
+
         // Add controls for those selected
         var controls = [];
-        if (options.tile)
-        {
+        if (options.tile) {
             controls.push({
                 hint    : tool.settingsTile.hint,
                 id      : tool.buttons.tile,
                 img     : tool.icons.tile,
-                onClick : function (event) {
-                              tool.tile();
-                          },
-                type    : 'button'
+                onClick : function () {
+                    tool.tile();
+                },
+                type    : "button"
             });
         }
-        if (options.vector)
-        {
+        if (options.vector) {
             controls.push({
                 hint    : tool.settingsVector.hint,
                 id      : tool.buttons.vector,
                 img     : tool.icons.vector,
-                onClick : function (event) {
-                              tool.vector();
-                          },
-                type    : 'button'
+                onClick : function () {
+                    tool.vector();
+                },
+                type    : "button"
             });
         }
 
-       return controls;
+        return controls;
 
     };
 
     return olexp;
-    
+
 }(olexp || {}));
 
 //==================================================
 // Layer Manager Controls
 //--------------------------------------------------
-olexp = (function(olexp) {
+(function (olexp) {
+
+    "use strict";
 
     /**
      * Control to manage layers
@@ -2148,22 +2178,24 @@ olexp = (function(olexp) {
      * @param {olexp.ExplorerSettings} settings olexp settings
      * @private
      */
-    var LayerManager = function(explorer, manager, settings)
-    {
+    var LayerManager = function (explorer, manager, settings) {
 
         //==================================================
         // Override Layer Manager option defaults
         // with user provided values. 
         //--------------------------------------------------
-        var olexpSettings = $.extend(true, {control : {
-            LayerManager : {
-                hintDetailsHide : 'Hide details',
-                hintDetailsShow : 'Show details',
-                hintMoveDown    : 'Move item down',
-                hintMoveUp      : 'Move item up',
-                hintOutlineHide : 'Hide outline',
-                hintOutlineShow : 'Show outline'
-            }}}, settings);
+        var olexpSettings = $.extend(true, {
+            control : {
+                LayerManager : {
+                    hintDetailsHide : "Hide details",
+                    hintDetailsShow : "Show details",
+                    hintMoveDown    : "Move item down",
+                    hintMoveUp      : "Move item up",
+                    hintOutlineHide : "Hide outline",
+                    hintOutlineShow : "Show outline"
+                }
+            }
+        }, settings);
 
         /**
          * Button element ids
@@ -2172,10 +2204,10 @@ olexp = (function(olexp) {
          * @type {string}
          */
         this.buttons = {
-            details    : settings.prefix + '-control-layer-manager-button-details',
-            down       : settings.prefix + '-control-layer-manager-button-down',
-            navigation : settings.prefix + '-control-layer-manager-button-navigation',
-            up         : settings.prefix + '-control-layer-manager-button-up'
+            details    : settings.prefix + "-control-layer-manager-button-details",
+            down       : settings.prefix + "-control-layer-manager-button-down",
+            navigation : settings.prefix + "-control-layer-manager-button-navigation",
+            up         : settings.prefix + "-control-layer-manager-button-up"
         };
 
         /**
@@ -2193,10 +2225,10 @@ olexp = (function(olexp) {
          * @type {string}
          */
         this.icons = {
-            details    : 'olexp-control-layer-manager-details',
-            down       : 'olexp-control-layer-manager-down',
-            navigation : 'olexp-control-layer-manager-navigation',
-            up         : 'olexp-control-layer-manager-up'
+            details    : "olexp-control-layer-manager-details",
+            down       : "olexp-control-layer-manager-down",
+            navigation : "olexp-control-layer-manager-navigation",
+            up         : "olexp-control-layer-manager-up"
         };
 
         /**
@@ -2218,8 +2250,8 @@ olexp = (function(olexp) {
         // ==================================================
         // Add layer callback events
         // --------------------------------------------------
-        this.manager.on('remove:item', this.onItemRemoved, this);
-        this.manager.on('select:item', this.onItemSelected, this);
+        this.manager.on("remove:item", this.onItemRemoved, this);
+        this.manager.on("select:item", this.onItemSelected, this);
 
     };
 
@@ -2227,8 +2259,7 @@ olexp = (function(olexp) {
      * Show details
      * @private
      */
-    LayerManager.prototype.details = function()
-    {
+    LayerManager.prototype.details = function () {
         this.explorer.navigation.toggle(this.explorer.options.details.type);
         // Set control tooltip based on navigation panel visibility
         var details = this.explorer.navigation.get(this.explorer.options.details.type);
@@ -2241,8 +2272,7 @@ olexp = (function(olexp) {
      * Move layer down
      * @private
      */
-    LayerManager.prototype.down = function()
-    {
+    LayerManager.prototype.down = function () {
         this.manager.moveDown();
     };
 
@@ -2251,8 +2281,7 @@ olexp = (function(olexp) {
      * @param {boolean} hidden True if details is hidden otherwise false
      * @private
      */
-    LayerManager.prototype.hintDetails = function(hidden)
-    {
+    LayerManager.prototype.hintDetails = function (hidden) {
         return (hidden ? this.settings.hintDetailsShow : this.settings.hintDetailsHide);
     };
 
@@ -2261,8 +2290,7 @@ olexp = (function(olexp) {
      * @param {boolean} hidden True if navigation is hidden otherwise false
      * @private
      */
-    LayerManager.prototype.hintNavigation = function(hidden)
-    {
+    LayerManager.prototype.hintNavigation = function (hidden) {
         return (hidden ? this.settings.hintOutlineShow : this.settings.hintOutlineHide);
     };
 
@@ -2270,8 +2298,7 @@ olexp = (function(olexp) {
      * Show navigation
      * @private
      */
-    LayerManager.prototype.navigation = function()
-    {
+    LayerManager.prototype.navigation = function () {
         this.explorer.layout.toggle(this.explorer.options.navigation.type);
         // Set control tooltip based on navigation panel visibility
         var navigation = this.explorer.layout.get(this.explorer.options.navigation.type);
@@ -2285,11 +2312,9 @@ olexp = (function(olexp) {
      * @param {olexp.item.Item} item OpenLayers Explorer Item
      * @private
      */
-    LayerManager.prototype.onItemRemoved = function(item)
-    {
+    LayerManager.prototype.onItemRemoved = function (item) {
 
-        if (this.manager.isSelected(item.id))
-        {
+        if (this.manager.isSelected(item.id)) {
             this.explorer.toolbar.disable(this.buttons.up);
             this.explorer.toolbar.disable(this.buttons.down);
         }
@@ -2301,19 +2326,19 @@ olexp = (function(olexp) {
      * @param {string} id Layer ID
      * @private
      */
-    LayerManager.prototype.onItemSelected = function(id)
-    {
-        if (typeof id === 'undefined') return;
+    LayerManager.prototype.onItemSelected = function (id) {
+        if (id === undefined) {
+            return;
+        }
         var item = this.manager.getById(id);
-        if (item === null) return;
+        if (item === null) {
+            return;
+        }
         var node = this.manager.getNode(item.id);
-        if (node.disabled)
-        {
+        if (node.disabled) {
             this.explorer.toolbar.disable(this.buttons.up);
             this.explorer.toolbar.disable(this.buttons.down);
-        }
-        else
-        {
+        } else {
             this.explorer.toolbar.enable(this.buttons.up);
             this.explorer.toolbar.enable(this.buttons.down);
         }
@@ -2323,8 +2348,7 @@ olexp = (function(olexp) {
      * Move layer up
      * @private
      */
-    LayerManager.prototype.up = function()
-    {
+    LayerManager.prototype.up = function () {
         this.manager.moveUp();
     };
 
@@ -2346,90 +2370,106 @@ olexp = (function(olexp) {
      * @public
      * @returns {array} Array of external:jQuery.fn.w2toolbar.properties
      */
-    olexp.control.LayerManager = function(explorer, manager, options) {
-        
-        if (typeof options === "undefined") options = {};
-        
-        if (typeof options.details === "undefined") options.details = {};
-        if (typeof options.details.enabled === "undefined") options.details.enabled = true;
-        if (typeof options.details.checked === "undefined") options.details.checked = true;
-        if (typeof options.down === "undefined") options.down = true;
-        if (typeof options.navigation === "undefined") options.navigation = {};
-        if (typeof options.navigation.enabled === "undefined") options.navigation.enabled = true;
-        if (typeof options.navigation.checked === "undefined") options.navigation.checked = true;
-        if (typeof options.up === "undefined") options.up = true;
+    olexp.control.LayerManager = function (explorer, manager, options) {
+
+        if (options === undefined) {
+            options = {};
+        }
+
+        if (options.details === undefined) {
+            options.details = {};
+        }
+        if (options.details.enabled === undefined) {
+            options.details.enabled = true;
+        }
+        if (options.details.checked === undefined) {
+            options.details.checked = true;
+        }
+        if (options.down === undefined) {
+            options.down = true;
+        }
+        if (options.navigation === undefined) {
+            options.navigation = {};
+        }
+        if (options.navigation.enabled === undefined) {
+            options.navigation.enabled = true;
+        }
+        if (options.navigation.checked === undefined) {
+            options.navigation.checked = true;
+        }
+        if (options.up === undefined) {
+            options.up = true;
+        }
 
         var tool = new LayerManager(explorer, manager, options.settings);
-        
+
         // Add controls for those selected
         var controls = [];
-        if (options.navigation.enabled)
-        {
+        if (options.navigation.enabled) {
             // Determine control tooltip based on navigation panel visibility
             controls.push({
                 checked : options.navigation.checked,
                 hint    : tool.hintNavigation(!options.navigation.checked),
                 id      : tool.buttons.navigation,
                 img     : tool.icons.navigation,
-                onClick : function (event) {
-                              tool.navigation();
-                          },
-                type    : 'check'
+                onClick : function () {
+                    tool.navigation();
+                },
+                type    : "check"
             });
         }
-        if (options.details.enabled)
-        {
+        if (options.details.enabled) {
             // Determine control tooltip based on details panel visibility
             controls.push({
                 checked : options.details.checked,
                 hint    : tool.hintDetails(!options.details.checked),
                 id      : tool.buttons.details,
                 img     : tool.icons.details,
-                onClick : function (event) {
-                              tool.details();
-                          },
-                type    : 'check'
+                onClick : function () {
+                    tool.details();
+                },
+                type    : "check"
             });
         }
-        if (options.up)
-        {
+        if (options.up) {
             controls.push({
                 disabled : true,
                 hint     : tool.settings.hintMoveUp,
                 id       : tool.buttons.up,
                 img      : tool.icons.up,
-                onClick  : function (event) {
-                              tool.up();
-                          },
-                type     : 'button'
+                onClick  : function () {
+                    tool.up();
+                },
+                type     : "button"
             });
         }
-        if (options.down)
-        {
+        if (options.down) {
             controls.push({
                 disabled : true,
                 hint     : tool.settings.hintMoveDown,
                 id       : tool.buttons.down,
                 img      : tool.icons.down,
-                onClick  : function (event) {
-                               tool.down();
-                           },
-                type     : 'button'
+                onClick  : function () {
+                    tool.down();
+                },
+                type     : "button"
             });
         }
 
-       return controls;
+        return controls;
 
     };
 
     return olexp;
-    
+
 }(olexp || {}));
 
 //==================================================
 // Layer Menu Control
 //--------------------------------------------------
-(function(olexp) {
+(function (olexp) {
+
+    "use strict";
 
     /**
      * Control to display layer menu properties
@@ -2440,19 +2480,21 @@ olexp = (function(olexp) {
      * @param {olexp.ExplorerSettings} settings olexp.ExplorerSettings
      * @private
      */
-    var LayerMenu = function(explorer, manager, menu, settings)
-    {
+    var LayerMenu = function (explorer, manager, menu, settings) {
 
         //==================================================
         // Override Layer Menu Control option defaults
         // with user provided values. 
         //--------------------------------------------------
-        var olexpSettings = $.extend(true, {control : {
-            LayerMenu : {
-                arrow    : true,
-                hint     : 'Item Options',
-                text     : ''
-            }}}, settings);
+        var olexpSettings = $.extend(true, {
+            control : {
+                LayerMenu : {
+                    arrow    : true,
+                    hint     : "Item Options",
+                    text     : ""
+                }
+            }
+        }, settings);
 
         /**
          * Button element id
@@ -2460,7 +2502,7 @@ olexp = (function(olexp) {
          * @private
          * @type {string}
          */
-        this.button = settings.prefix + '-control-layer-menu';
+        this.button = settings.prefix + "-control-layer-menu";
 
         /**
          * Explorer
@@ -2476,7 +2518,7 @@ olexp = (function(olexp) {
          * @private
          * @type {string}
          */
-        this.icon = 'olexp-control-layer-menu';
+        this.icon = "olexp-control-layer-menu";
 
         /**
          * Explorer manager
@@ -2505,8 +2547,8 @@ olexp = (function(olexp) {
         // ==================================================
         // Add layer callback events
         // --------------------------------------------------
-        this.manager.on('remove:item', this.onItemRemoved, this);
-        this.manager.on('select:item', this.onItemSelected, this);
+        this.manager.on("remove:item", this.onItemRemoved, this);
+        this.manager.on("select:item", this.onItemSelected, this);
 
     };
 
@@ -2515,11 +2557,9 @@ olexp = (function(olexp) {
      * @param {olexp.item.Item} item OpenLayers Explorer Item
      * @private
      */
-    LayerMenu.prototype.onItemRemoved = function(item)
-    {
+    LayerMenu.prototype.onItemRemoved = function (item) {
 
-        if (this.manager.isSelected(item.id))
-        {
+        if (this.manager.isSelected(item.id)) {
             this.explorer.toolbar.disable(this.button);
         }
 
@@ -2530,18 +2570,18 @@ olexp = (function(olexp) {
      * @param {string} id Layer ID
      * @private
      */
-    LayerMenu.prototype.onItemSelected = function(id)
-    {
-        if (typeof id === 'undefined') return;
-        var item = this.manager.getById(id);
-        if (item === null) return;
-        var node = this.manager.getNode(item.id);
-        if (node.disabled)
-        {
-            this.explorer.toolbar.disable(this.button);
+    LayerMenu.prototype.onItemSelected = function (id) {
+        if (id === undefined) {
+            return;
         }
-        else
-        {
+        var item = this.manager.getById(id);
+        if (item === null) {
+            return;
+        }
+        var node = this.manager.getNode(item.id);
+        if (node.disabled) {
+            this.explorer.toolbar.disable(this.button);
+        } else {
             this.explorer.toolbar.enable(this.button);
         }
     };
@@ -2560,23 +2600,26 @@ olexp = (function(olexp) {
      * @returns {external:jQuery.fn.w2toolbar.properties} LayerMenu toolbar
      *          control
      */
-    olexp.control.LayerMenu = function(explorer, manager, menu, options) {
+    olexp.control.LayerMenu = function (explorer, manager, menu, options) {
 
         var control = new LayerMenu(explorer, manager, menu, options.settings);
 
-        explorer.toolbar.on('click', function(event) {
+        explorer.toolbar.on("click", function (event) {
 
             // Check if any item is selected
-            if (explorer.outline.selected === null) return;
+            if (explorer.outline.selected === null) {
+                return;
+            }
 
             // Check if layer menu item was selected
-            var id = control.button + ':';
-            if (event.target.indexOf(id) < 0) return;
+            var id = control.button + ":";
+            if (event.target.indexOf(id) < 0) {
+                return;
+            }
             var menuid = event.target.replace(id, "");
 
             // Create dummy menu event
-            if (menuid in menu.callbacks)
-            {
+            if (menu.callbacks[menuid] !== undefined) {
                 menu.callbacks[menuid]({target : explorer.outline.selected});
             }
 
@@ -2590,7 +2633,7 @@ olexp = (function(olexp) {
             img      : control.icon,
             items    : control.menu.items,
             text     : control.settings.text,
-            type     : 'menu'
+            type     : "menu"
         };
 
     };
@@ -2602,7 +2645,9 @@ olexp = (function(olexp) {
 //==================================================
 // Measurement Controls
 //--------------------------------------------------
-(function(olexp) {
+(function (olexp) {
+
+    "use strict";
 
     /**
      * Control to calculate measurements
@@ -2610,18 +2655,20 @@ olexp = (function(olexp) {
      * @param {olexp.ExplorerSettings} settings olexp settings
      * @private
      */
-    var Measurement = function(explorer, settings)
-    {
+    var Measurement = function (explorer, settings) {
 
         //==================================================
         // Override Measurement option defaults
         // with user provided values. 
         //--------------------------------------------------
-        var olexpSettings = $.extend(true, {control : {
-            Measurement : {
-                hintArea   : 'Measure area',
-                hintLength : 'Measure length'
-            }}}, settings);
+        var olexpSettings = $.extend(true, {
+            control : {
+                Measurement : {
+                    hintArea   : "Measure area",
+                    hintLength : "Measure length"
+                }
+            }
+        }, settings);
 
         /**
          * Parent explorer
@@ -2638,8 +2685,8 @@ olexp = (function(olexp) {
          * @type {string}
          */
         this.icons = {
-            area   : 'olexp-control-measure-area',
-            length : 'olexp-control-measure-length'
+            area   : "olexp-control-measure-area",
+            length : "olexp-control-measure-length"
         };
 
         /**
@@ -2649,8 +2696,8 @@ olexp = (function(olexp) {
          * @type {string}
          */
         this.ids = {
-            area   : settings.prefix + '-control-measure-area-button',
-            length : settings.prefix + '-control-measure-length-button'
+            area   : settings.prefix + "-control-measure-area-button",
+            length : settings.prefix + "-control-measure-length-button"
         };
 
         /**
@@ -2678,7 +2725,7 @@ olexp = (function(olexp) {
      * @memberOf Measurement.prototype
      * @private
      */
-    Measurement.prototype.area = function() {
+    Measurement.prototype.area = function () {
         var enable = !this.explorer.toolbar.get(this.ids.area).checked;
         this.measure(olexp.measure.Type.AREA, enable);
     };
@@ -2688,8 +2735,7 @@ olexp = (function(olexp) {
      * @memberOf Measurement.prototype
      * @private
      */
-    Measurement.prototype.length = function()
-    {
+    Measurement.prototype.length = function () {
         var enable = !this.explorer.toolbar.get(this.ids.length).checked;
         this.measure(olexp.measure.Type.LINE, enable);
     };
@@ -2701,11 +2747,9 @@ olexp = (function(olexp) {
      * @param {boolean} enable True if measurement is started otherwise false
      * @private
      */
-    Measurement.prototype.measure = function(type, enable)
-    {
+    Measurement.prototype.measure = function (type, enable) {
         this.tool.setEnable(false);
-        if (enable)
-        {
+        if (enable) {
             this.tool.setType(type);
             this.tool.setEnable(true);
         }
@@ -2722,62 +2766,68 @@ olexp = (function(olexp) {
      * @public
      * @returns {array} Array of w2toolbar properties
      */
-    olexp.control.Measure = function(explorer, options) {
-        
-        if (typeof options === "undefined") options = {};
-        if (typeof options.area === "undefined") options.area = true;
-        if (typeof options.length === "undefined") options.length = true;
-        if (typeof options.settings === "undefined") options.settings = {};
+    olexp.control.Measure = function (explorer, options) {
+
+        if (options === undefined) {
+            options = {};
+        }
+        if (options.area === undefined) {
+            options.area = true;
+        }
+        if (options.length === undefined) {
+            options.length = true;
+        }
+        if (options.settings === undefined) {
+            options.settings = {};
+        }
 
         var tool = new Measurement(explorer, options.settings);
-        
+
         // Add controls for those selected
         var controls = [];
-        if (options.area)
-        {
+        if (options.area) {
             controls.push({
                 hint    : tool.settings.hintArea,
                 id      : tool.ids.area,
                 img     : tool.icons.area,
-                onClick : function (event) {
-                              if (options.length)
-                              {
-                                  explorer.toolbar.uncheck(tool.ids.length);
-                              }
-                              tool.area();
-                          },
-                type    : 'check'
+                onClick : function () {
+                    if (options.length) {
+                        explorer.toolbar.uncheck(tool.ids.length);
+                    }
+                    tool.area();
+                },
+                type    : "check"
             });
         }
-        if (options.length)
-        {
+        if (options.length) {
             controls.push({
                 hint    : tool.settings.hintLength,
                 id      : tool.ids.length,
                 img     : tool.icons.length,
-                onClick : function (event) {
-                              if (options.area)
-                              {
-                                  explorer.toolbar.uncheck(tool.ids.area);
-                              }
-                              tool.length();
-                           },
-                type    : 'check'
+                onClick : function () {
+                    if (options.area) {
+                        explorer.toolbar.uncheck(tool.ids.area);
+                    }
+                    tool.length();
+                },
+                type    : "check"
             });
         }
 
-       return controls;
+        return controls;
 
     };
 
     return olexp;
-    
+
 }(olexp || {}));
 
 //==================================================
 // Toolbar Hide Control
 //--------------------------------------------------
-(function(olexp) {
+(function (olexp) {
+
+    "use strict";
 
     /**
      * Control to hide toolbar
@@ -2787,26 +2837,28 @@ olexp = (function(olexp) {
      *                                          settings : olexp.ExplorerSettings}
      * @private
      */
-    var ToolbarHide = function(explorer, options)
-    {
-    
+    var ToolbarHide = function (explorer, options) {
+
         //==================================================
         // Override Toolbar Hide option defaults
         // with user provided values. 
         //--------------------------------------------------
-        var olexpSettings = $.extend(true, {control : {
-            ToolbarHide : {
-                hint : 'Hide toolbar'
-            }}}, options.settings);
-    
+        var olexpSettings = $.extend(true, {
+            control : {
+                ToolbarHide : {
+                    hint : "Hide toolbar"
+                }
+            }
+        }, options.settings);
+
         /**
          * Button element id
          * @field
          * @private
          * @type {string}
          */
-        this.button = options.settings.prefix + '-control-toolbar-hide-button';
-    
+        this.button = options.settings.prefix + "-control-toolbar-hide-button";
+
         /**
          * Source explorer
          * @field
@@ -2814,15 +2866,15 @@ olexp = (function(olexp) {
          * @type {olexp.Explorer}
          */
         this.explorer = explorer;
-    
+
         /**
          * Control icon
          * @field
          * @private
          * @type {string}
          */
-        this.icon = 'olexp-control-toolbar-hide';
-    
+        this.icon = "olexp-control-toolbar-hide";
+
         /**
          * ToolbarHide control settings
          * @field
@@ -2830,7 +2882,7 @@ olexp = (function(olexp) {
          * @param {Object} settings
          */
         this.settings = olexpSettings.control.ToolbarHide;
-    
+
         /**
          * ol.control to show toolbar when hidden
          * @field
@@ -2838,19 +2890,18 @@ olexp = (function(olexp) {
          * @type {olexp.ol.ToolbarShow}
          */
         this.show = olexp.ol.ToolbarShow(this.explorer, options);
-    
+
     };
 
     /**
      * Toolbar visibility
      * @private
      */
-    ToolbarHide.prototype.hide = function()
-    {
+    ToolbarHide.prototype.hide = function () {
         this.explorer.layout.hide(this.explorer.options.toolbar.type);
         this.show.setMap(this.explorer.map);
     };
-    
+
      /**
       * Control to set toolbar visibility
       * @memberOf olexp.control
@@ -2862,35 +2913,38 @@ olexp = (function(olexp) {
       * @returns {external:jQuery.fn.w2toolbar.properties} ToolbarHide toolbar
       *          control
       */
-    olexp.control.ToolbarHide = function(explorer, options) {
-    
+    olexp.control.ToolbarHide = function (explorer, options) {
+
         var control = new ToolbarHide(explorer, options);
 
-         return {
-             hint    : control.settings.hint,
-             id      : control.button,
-             img     : control.icon,
-             onClick : function (event) {
-                           control.hide();
-                       },
-             type    : 'button'
-         };
+        return {
+            hint    : control.settings.hint,
+            id      : control.button,
+            img     : control.icon,
+            onClick : function () {
+                control.hide();
+            },
+            type    : "button"
+        };
     };
-    
+
     return olexp;
 
 }(olexp || {}));
 
 
+/*globals ol, olexp, w2alert, window */
+/*jslint vars: true */
+
 /**
  * @namespace olexp.item
  */
-olexp.item = olexp.item || {};
+window.olexp.item = window.olexp.item || {};
 
 //==================================================
 // Explorer managed item
 //--------------------------------------------------
-(function(olexp) {
+(function (olexp) {
 
     "use strict";
 
@@ -2902,37 +2956,37 @@ olexp.item = olexp.item || {};
      * @readonly
      */
     olexp.item.icons = {
-                            /**
-                             * Group icon css selector
-                             * @type string
-                             */
-                            group   : 'olexp-item-group',
-                            /**
-                             * Heat Map icon css selector
-                             * @type string
-                             */
-                            heatmap : 'olexp-item-heatmap',
-                            /**
-                             * Image icon css selector
-                             * @type string
-                             */
-                            image   : 'olexp-item-image',
-                            /**
-                             * Overlay icon css selector
-                             * @type string
-                             */
-                            overlay : 'olexp-item-overlay',
-                            /**
-                             * Tile Map icon css selector
-                             * @type string
-                             */
-                            tile    : 'olexp-item-tile',
-                            /**
-                             * Vector icon css selector
-                             * @type string
-                             */
-                            vector  : 'olexp-item-vector'
-                       };
+        /**
+         * Group icon css selector
+         * @type string
+         */
+        group   : "olexp-item-group",
+        /**
+         * Heat Map icon css selector
+         * @type string
+         */
+        heatmap : "olexp-item-heatmap",
+        /**
+         * Image icon css selector
+         * @type string
+         */
+        image   : "olexp-item-image",
+        /**
+         * Overlay icon css selector
+         * @type string
+         */
+        overlay : "olexp-item-overlay",
+        /**
+         * Tile Map icon css selector
+         * @type string
+         */
+        tile    : "olexp-item-tile",
+        /**
+         * Vector icon css selector
+         * @type string
+         */
+        vector  : "olexp-item-vector"
+    };
 
     /**
      * Item managed
@@ -2941,8 +2995,7 @@ olexp.item = olexp.item || {};
      * @param {ol.layer.Layer|ol.Overlay} layer ol3 layer/overlay object
      * @private
      */
-    var Item = function(id, name, layer)
-    {
+    var Item = function (id, name, layer) {
 
         /**
          * Item id
@@ -3002,8 +3055,7 @@ olexp.item = olexp.item || {};
      * @private
      * @returns {object} Object of item properties
      */
-    Item.prototype.getDetails = function()
-    {
+    Item.prototype.getDetails = function () {
         var properties = {};
 
         // ==================================================
@@ -3012,32 +3064,27 @@ olexp.item = olexp.item || {};
         properties.Name = this.name;
 
         var layerProperties = this.layer.getProperties();
-        if (layerProperties.hasOwnProperty(olexp.measure.properties.area))
-        {
+        if (layerProperties.hasOwnProperty(olexp.measure.properties.area)) {
             properties.Area = layerProperties[olexp.measure.properties.area];
-        }
-        else if (layerProperties.hasOwnProperty(olexp.measure.properties.length))
-        {
+        } else if (layerProperties.hasOwnProperty(olexp.measure.properties.length)) {
             properties.Length = layerProperties[olexp.measure.properties.length];
         }
 
         // ==================================================
         // Group properties
         // --------------------------------------------------
-        if (this.type === olexp.item.Type.GROUP)
-        {
+        if (this.type === olexp.item.Type.GROUP) {
             var layers = this.layer.getLayers();
-            properties['Layer Count'] = layers.getLength();
+            properties["Layer Count"] = layers.getLength();
         }
 
         // ==================================================
         // Vector properties
         // --------------------------------------------------
-        if (this.type === olexp.item.Type.VECTOR)
-        {
+        if (this.type === olexp.item.Type.VECTOR) {
             var source = this.layer.getSource();
             var features = source.getFeatures();
-            properties['Feature Count'] = features.length;
+            properties["Feature Count"] = features.length;
         }
 
         // ==================================================
@@ -3054,28 +3101,19 @@ olexp.item = olexp.item || {};
      * @private
      * @returns {ol.Extent|null} Item extent or null if undefined
      */
-    Item.prototype.getExtent = function()
-    {
-        
-        if (this.type === olexp.item.Type.OVERLAY)
-        {
+    Item.prototype.getExtent = function () {
+
+        if (this.type === olexp.item.Type.OVERLAY) {
             return null;
         }
-        else if (this.type === olexp.item.Type.GROUP)
-        {
+        if (this.type === olexp.item.Type.GROUP) {
             var extent = null;
             var layers = this.layer.getLayers();
-            layers.forEach(function(layer, index, array)
-            {
+            layers.forEach(function (layer) {
                 var layerExtent = Item.getLayerExtent(layer);
-                if ((extent === null) &&
-                    (layerExtent !== null))
-                {
+                if ((extent === null) && (layerExtent !== null)) {
                     extent = layerExtent;
-                }
-                else if ((extent !== null) &&
-                         (layerExtent !== null))
-                {
+                } else if ((extent !== null) && (layerExtent !== null)) {
                     extent = ol.extent.extend(extent, layerExtent);
                 }
             }, this);
@@ -3093,33 +3131,26 @@ olexp.item = olexp.item || {};
      * @private
      * @returns {string} CSS selector of icon
      */
-    Item.getIcon = function(type)
-    {
-        if (type === olexp.item.Type.GROUP)
-        {
+    Item.getIcon = function (type) {
+        if (type === olexp.item.Type.GROUP) {
             return olexp.item.icons.group;
         }
-        else if (type === olexp.item.Type.HEATMAP)
-        {
+        if (type === olexp.item.Type.HEATMAP) {
             return olexp.item.icons.heatmap;
         }
-        else if (type === olexp.item.Type.IMAGE)
-        {
+        if (type === olexp.item.Type.IMAGE) {
             return olexp.item.icons.image;
         }
-        else if (type === olexp.item.Type.OVERLAY)
-        {
+        if (type === olexp.item.Type.OVERLAY) {
             return olexp.item.icons.overlay;
         }
-        else if (type === olexp.item.Type.TILE)
-        {
+        if (type === olexp.item.Type.TILE) {
             return olexp.item.icons.tile;
         }
-        else if (type === olexp.item.Type.VECTOR)
-        {
+        if (type === olexp.item.Type.VECTOR) {
             return olexp.item.icons.vector;
         }
-        return 'icon-page';
+        return "icon-page";
     };
 
     /**
@@ -3129,28 +3160,27 @@ olexp.item = olexp.item || {};
      * @private
      * @returns {ol.Extent|null} Layer extent or null if undefined
      */
-    Item.getLayerExtent = function(layer)
-    {
+    Item.getLayerExtent = function (layer) {
 
         // ==================================================
         // Check if layer has extent defined
         // --------------------------------------------------
         var extent = layer.getExtent();
-        if (typeof extent === 'undefined')
-        {
+        if (extent === undefined) {
             // ==================================================
             // Check if source has extent defined
             // --------------------------------------------------
             var source = layer.getSource();
             if (source !== null &&
-                (source instanceof ol.source.Cluster ||
-                source instanceof ol.source.VectorTile ||
-                source instanceof ol.source.Vector))
-            {
+                    (source instanceof ol.source.Cluster ||
+                    source instanceof ol.source.VectorTile ||
+                    source instanceof ol.source.Vector)) {
                 extent = source.getExtent();
             }
         }
-        if (typeof extent === 'undefined') return null;
+        if (extent === undefined) {
+            return null;
+        }
         return extent;
 
     };
@@ -3161,14 +3191,11 @@ olexp.item = olexp.item || {};
      * @private
      * @returns {object} Item properties names
      */
-    Item.prototype.getPropertyTypes = function()
-    {
-        if (this.layer instanceof ol.layer.Layer)
-        {
+    Item.prototype.getPropertyTypes = function () {
+        if (this.layer instanceof ol.layer.Layer) {
             return olexp.item.LayerProperties;
         }
-        else if (this.layer instanceof ol.Overlay)
-        {
+        if (this.layer instanceof ol.Overlay) {
             return olexp.item.OverlayProperties;
         }
         return {};
@@ -3180,14 +3207,13 @@ olexp.item = olexp.item || {};
      * @private
      * @returns {object} Item properties
      */
-    Item.prototype.getProperties = function()
-    {
+    Item.prototype.getProperties = function () {
         var properties = {name: this.name};
         var types = this.getPropertyTypes();
-        for (var key in types)
-        {
-            properties[key] = this.layer.get(key);
-        }
+        var me = this;
+        Object.keys(types).forEach(function (key) {
+            properties[key] = me.layer.get(key);
+        });
         return properties;
     };
 
@@ -3198,30 +3224,23 @@ olexp.item = olexp.item || {};
      * @private
      * @returns {olexp.item.Type} Type of item
      */
-    Item.getType = function(layer)
-    {
-        if (layer instanceof ol.layer.Group)
-        {
+    Item.getType = function (layer) {
+        if (layer instanceof ol.layer.Group) {
             return olexp.item.Type.GROUP;
         }
-        else if (layer instanceof ol.layer.Heatmap)
-        {
+        if (layer instanceof ol.layer.Heatmap) {
             return olexp.item.Type.HEATMAP;
         }
-        else if (layer instanceof ol.layer.Image)
-        {
+        if (layer instanceof ol.layer.Image) {
             return olexp.item.Type.IMAGE;
         }
-        else if (layer instanceof ol.layer.Tile)
-        {
+        if (layer instanceof ol.layer.Tile) {
             return olexp.item.Type.TILE;
         }
-        else if (layer instanceof ol.layer.Vector)
-        {
+        if (layer instanceof ol.layer.Vector) {
             return olexp.item.Type.VECTOR;
         }
-        else if (layer instanceof ol.Overlay)
-        {
+        if (layer instanceof ol.Overlay) {
             return olexp.item.Type.OVERLAY;
         }
         return null;
@@ -3233,14 +3252,18 @@ olexp.item = olexp.item || {};
      * @param {Object} properties Item properties to update
      * @private
      */
-    Item.prototype.setProperties = function(properties)
-    {
-        if (properties.hasOwnProperty('name')) this.name = properties.name;
-        var types = this.getPropertyTypes();
-        for (var key in types)
-        {
-            if (properties.hasOwnProperty(key)) this.layer.set(key, properties[key]);
+    Item.prototype.setProperties = function (properties) {
+        if (properties.hasOwnProperty("name")) {
+            this.name = properties.name;
         }
+        var types = this.getPropertyTypes();
+        var me = this;
+        Object.keys(types).forEach(function (key) {
+            if (properties.hasOwnProperty(key)) {
+                me.layer.set(key, properties[key]);
+            }
+        });
+
     };
 
     /**
@@ -3250,10 +3273,13 @@ olexp.item = olexp.item || {};
      * @param {object} value Property value
      * @private
      */
-    Item.prototype.property = function(name, value)
-    {
-        if (typeof this[name] === 'undefined') return;
-        if (typeof value !== 'undefined') this[name] = value;
+    Item.prototype.property = function (name, value) {
+        if (this[name] === undefined) {
+            return;
+        }
+        if (value !== undefined) {
+            this[name] = value;
+        }
         return this[name];
     };
 
@@ -3263,41 +3289,35 @@ olexp.item = olexp.item || {};
      * @param {ol.Map} map ol3 map to zoom
      * @private
      */
-    Item.prototype.zoomTo = function(map)
-    {
+    Item.prototype.zoomTo = function (map) {
 
         var view = map.getView();
 
-        if (this.type === olexp.item.Type.OVERLAY)
-        {
+        if (this.type === olexp.item.Type.OVERLAY) {
 
             // ==================================================
             // Check if overlay has position defined
             // --------------------------------------------------
             var position = this.layer.getPosition();
-            if (typeof position !== 'undefined')
-            {
+            if (position !== undefined) {
                 view.setCenter(position);
                 return;
             }
 
-            w2alert('Overlay has no position defined to which to zoom.', 'Warning');
+            w2alert("Overlay has no position defined to which to zoom.", "Warning");
 
-        }
-        else
-        {
+        } else {
 
             // ==================================================
             // Check if layer has extent defined
             // --------------------------------------------------
             var extent = this.getExtent();
-            if (extent !== null)
-            {
+            if (extent !== null) {
                 view.fit(extent, map.getSize());
                 return;
             }
 
-            w2alert('Layer has no extent defined to which to zoom.', 'Warning');
+            w2alert("Layer has no extent defined to which to zoom.", "Warning");
 
         }
 
@@ -3312,7 +3332,7 @@ olexp.item = olexp.item || {};
      *        overlay object
      * @public
      */
-    olexp.item.Item = function(id, name, layer) {
+    olexp.item.Item = function (id, name, layer) {
         var item = new Item(id, name, layer);
         return {
             getDetails       : item.getDetails.bind(item),
@@ -3321,12 +3341,12 @@ olexp.item = olexp.item || {};
             icon             : item.icon,
             id               : item.id,
             layer            : item.layer,
-            moving           : function(moving) {
-                                   return item.property('moving', moving);
-                               },
-            name             : function(name) {
-                                   return item.property('name', name);
-                                },
+            moving           : function (moving) {
+                return item.property("moving", moving);
+            },
+            name             : function (name) {
+                return item.property("name", name);
+            },
             setProperties    : item.setProperties.bind(item),
             type             : item.type,
             zoomTo           : item.zoomTo.bind(item)
@@ -3340,8 +3360,7 @@ olexp.item = olexp.item || {};
      * @public
      * @readonly
      */
-    olexp.item.OverlayProperties =
-    {
+    olexp.item.OverlayProperties = {
     };
 
     /**
@@ -3351,8 +3370,7 @@ olexp.item = olexp.item || {};
      * @public
      * @readonly
      */
-    olexp.item.LayerProperties =
-    {
+    olexp.item.LayerProperties = {
         /**
          * Opacity property
          * @type object
@@ -3362,7 +3380,7 @@ olexp.item = olexp.item || {};
              * Opacity title
              * @type string
              */
-            title : 'Opacity'
+            title : "Opacity"
         }
     };
 
@@ -3374,36 +3392,36 @@ olexp.item = olexp.item || {};
      * @readonly
      */
     olexp.item.Type = {
-       /**
-        * Group managed item
-        * @type number
-        */
-       GROUP   : 0,
-       /**
-        * Heat Map managed item
-        * @type number
-        */
-       HEATMAP : 1,
-       /**
-        * Image managed item
-        * @type number
-        */
-       IMAGE   : 2,
-       /**
-        * Overlay managed item
-        * @type number
-        */
-       OVERLAY : 3,
-       /**
-        * Tile managed item
-        * @type number
-        */
-       TILE    : 4,
-       /**
-        * Vector managed item
-        * @type number
-        */
-       VECTOR  : 5
+        /**
+         * Group managed item
+         * @type number
+         */
+        GROUP   : 0,
+        /**
+         * Heat Map managed item
+         * @type number
+         */
+        HEATMAP : 1,
+        /**
+         * Image managed item
+         * @type number
+         */
+        IMAGE   : 2,
+        /**
+         * Overlay managed item
+         * @type number
+         */
+        OVERLAY : 3,
+        /**
+         * Tile managed item
+         * @type number
+         */
+        TILE    : 4,
+        /**
+         * Vector managed item
+         * @type number
+         */
+        VECTOR  : 5
     };
 
     return olexp;
@@ -3411,15 +3429,18 @@ olexp.item = olexp.item || {};
 }(olexp || {}));
 
 
+/*globals $, olexp, window */
+/*jslint vars: true */
+
 /**
  * @namespace olexp.manager
  */
-olexp.manager = olexp.manager || {};
+window.olexp.manager = window.olexp.manager || {};
 
 //==================================================
 // Manager
 //--------------------------------------------------
-(function(olexp) {
+(function (olexp) {
 
     "use strict";
 
@@ -3435,22 +3456,21 @@ olexp.manager = olexp.manager || {};
      * @param {string} overlaysId w2ui name of overlays node
      * @private
      */
-    var ManagerAPI = function(map, outline, details, layersId, overlaysId)
-    {
+    var ManagerAPI = function (map, outline, details, layersId, overlaysId) {
 
         /**
          * Event listeners
          * @ignore
          * @type {olexp.event.Event}
          */
-        this.event = new olexp.event.Event({'select:item' : []});
+        this.event = new olexp.event.Event({"select:item" : []});
 
         /**
          * Layer Manager
          * @ignore
          * @type {olexp.manager.NodeManager}
          */
-        this.managerLayers = new olexp.manager.NodeManager(layersId, 
+        this.managerLayers = new olexp.manager.NodeManager(layersId,
                                                            map.getLayers(),
                                                            outline,
                                                            details);
@@ -3478,7 +3498,7 @@ olexp.manager = olexp.manager || {};
          * @type {ol.Map}
          */
         this.map = map;
-        this.map.on('change:layergroup', this.onLayerGroupChanged, this);
+        this.map.on("change:layergroup", this.onLayerGroupChanged, this);
 
         /**
          * Managed outline sidebar
@@ -3504,9 +3524,10 @@ olexp.manager = olexp.manager || {};
      * @private
      * @returns True if id a Layer node otherwise false
      */
-    ManagerAPI.prototype.isIdLayerNode = function(id)
-    {
-        if (typeof id !== 'string') return false;
+    ManagerAPI.prototype.isIdLayerNode = function (id) {
+        if (typeof id !== "string") {
+            return false;
+        }
         return id.indexOf(this.layersId) === 0;
     };
 
@@ -3518,9 +3539,10 @@ olexp.manager = olexp.manager || {};
      * @private
      * @returns True if id is a Overlay node otherwise false
      */
-    ManagerAPI.prototype.isIdOverlayNode = function(id)
-    {
-        if (typeof id !== 'string') return false;
+    ManagerAPI.prototype.isIdOverlayNode = function (id) {
+        if (typeof id !== "string") {
+            return false;
+        }
         return id.indexOf(this.overlaysId) === 0;
     };
 
@@ -3532,8 +3554,7 @@ olexp.manager = olexp.manager || {};
      * @public
      * @returns True if item is selected otherwise false
      */
-    ManagerAPI.prototype.isSelected = function(id)
-    {
+    ManagerAPI.prototype.isSelected = function (id) {
         return id === this.outline.selected;
     };
 
@@ -3545,17 +3566,14 @@ olexp.manager = olexp.manager || {};
      * @public
      * @returns {null|olexp.item.Item} Managed item or null if not found
      */
-    ManagerAPI.prototype.getById = function(id)
-    {
+    ManagerAPI.prototype.getById = function (id) {
 
         // Check if this is a layer node
-        if (this.isIdLayerNode(id))
-        {
+        if (this.isIdLayerNode(id)) {
             return this.managerLayers.getById(id);
         }
         // Check if this is a overlay node
-        else if (this.isIdOverlayNode(id))
-        {
+        if (this.isIdOverlayNode(id)) {
             return this.managerOverlays.getById(id);
         }
 
@@ -3571,20 +3589,20 @@ olexp.manager = olexp.manager || {};
      * @public
      * @returns {array} Item details
      */
-    ManagerAPI.prototype.getDetails = function(id)
-    {
+    ManagerAPI.prototype.getDetails = function (id) {
 
         // Check if this is a layer node
-        if (this.isIdLayerNode(id))
-        {
+        if (this.isIdLayerNode(id)) {
             var itemLayer = this.managerLayers.getById(id);
-            if (itemLayer !== null) return itemLayer.getDetails();
-        }
-        // Check if this is a overlay node
-        else if (this.isIdOverlayNode(id))
-        {
+            if (itemLayer !== null) {
+                return itemLayer.getDetails();
+            }
+        } else if (this.isIdOverlayNode(id)) {
+            // Check if this is a overlay node
             var itemOverlay = this.managerOverlays.getById(id);
-            if (itemOverlay !== null) return itemOverlay.getDetails();
+            if (itemOverlay !== null) {
+                return itemOverlay.getDetails();
+            }
         }
 
         return [];
@@ -3599,8 +3617,7 @@ olexp.manager = olexp.manager || {};
      * @public
      * @returns {external:jQuery.fn.w2sidebar.nodes} w2ui sidebar node
      */
-    ManagerAPI.prototype.getNode = function(id)
-    {
+    ManagerAPI.prototype.getNode = function (id) {
         return this.outline.get(id);
     };
 
@@ -3612,20 +3629,20 @@ olexp.manager = olexp.manager || {};
      * @public
      * @returns {boolean} True if moved otherwise false
      */
-    ManagerAPI.prototype.moveDown = function(id)
-    {
+    ManagerAPI.prototype.moveDown = function (id) {
 
         // If no id provided use selected
-        if (typeof id === 'undefined') id = this.outline.selected;
+        if (id === undefined) {
+            id = this.outline.selected;
+        }
 
         // Check if this is a layer node
-        if (this.isIdLayerNode(id))
-        {
-            return this.managerLayers.moveDown(id);            
+        if (this.isIdLayerNode(id)) {
+            return this.managerLayers.moveDown(id);
         }
+
         // Check if this is a overlay node
-        else if (this.isIdOverlayNode(id))
-        {
+        if (this.isIdOverlayNode(id)) {
             return this.managerOverlays.moveDown(id);
         }
 
@@ -3641,20 +3658,20 @@ olexp.manager = olexp.manager || {};
      * @public
      * @returns {boolean} True if moved otherwise false
      */
-    ManagerAPI.prototype.moveUp = function(id)
-    {
+    ManagerAPI.prototype.moveUp = function (id) {
 
         // If no id provided use selected
-        if (typeof id === 'undefined') id = this.outline.selected;
+        if (id === undefined) {
+            id = this.outline.selected;
+        }
 
         // Check if this is a layer node
-        if (this.isIdLayerNode(id))
-        {
+        if (this.isIdLayerNode(id)) {
             return this.managerLayers.moveUp(id);
         }
+
         // Check if this is a overlay node
-        else if (this.isIdOverlayNode(id))
-        {
+        if (this.isIdOverlayNode(id)) {
             return this.managerOverlays.moveUp(id);
         }
 
@@ -3668,14 +3685,13 @@ olexp.manager = olexp.manager || {};
      * @memberOf olexp.manager.ManagerAPI.prototype
      * @param {string} type The event type.
      * @param {function} listener The listener function.
-     * @param {object} opt_this The object to use as this in listener.
+     * @param {object} optThis The object to use as this in listener.
      * @public
      */
-    ManagerAPI.prototype.off = function(type, listener, opt_this)
-    {
-        this.event.off(type, listener, opt_this);
-        this.managerLayers.off(type, listener, opt_this);
-        this.managerOverlays.off(type, listener, opt_this);
+    ManagerAPI.prototype.off = function (type, listener, optThis) {
+        this.event.off(type, listener, optThis);
+        this.managerLayers.off(type, listener, optThis);
+        this.managerOverlays.off(type, listener, optThis);
     };
 
     /**
@@ -3684,14 +3700,13 @@ olexp.manager = olexp.manager || {};
      * @memberOf olexp.manager.ManagerAPI.prototype
      * @param {string} type The event type.
      * @param {function} listener The listener function.
-     * @param {object} opt_this The object to use as this in listener.
+     * @param {object} optThis The object to use as this in listener.
      * @public
      */
-    ManagerAPI.prototype.on = function(type, listener, opt_this)
-    {
-        this.event.on(type, listener, opt_this);
-        this.managerLayers.on(type, listener, opt_this);
-        this.managerOverlays.on(type, listener, opt_this);
+    ManagerAPI.prototype.on = function (type, listener, optThis) {
+        this.event.on(type, listener, optThis);
+        this.managerLayers.on(type, listener, optThis);
+        this.managerOverlays.on(type, listener, optThis);
     };
 
     /**
@@ -3701,9 +3716,8 @@ olexp.manager = olexp.manager || {};
      * @param {string} id Layer ID
      * @public
      */
-    ManagerAPI.prototype.onItemSelected = function(id)
-    {
-        this.event.trigger('select:item', id);
+    ManagerAPI.prototype.onItemSelected = function (id) {
+        this.event.trigger("select:item", id);
     };
 
     /**
@@ -3713,8 +3727,7 @@ olexp.manager = olexp.manager || {};
      * @param {external:ol.ObjectEvent} event The change event.
      * @private
      */
-    ManagerAPI.prototype.onLayerGroupChanged = function(event)
-    {
+    ManagerAPI.prototype.onLayerGroupChanged = function (event) {
 
         this.managerLayers.setLayers(event.target.getLayers());
 
@@ -3729,20 +3742,20 @@ olexp.manager = olexp.manager || {};
      * @returns {null|external:ol.layer.Layer|external:ol.Overlay} Layer removed
      *          from map or null if not found
      */
-    ManagerAPI.prototype.removeFromMap = function(item)
-    {
+    ManagerAPI.prototype.removeFromMap = function (item) {
 
         // If no id provided use selected
-        if (!(item.hasOwnProperty('id'))) return null;
+        if (!(item.hasOwnProperty("id"))) {
+            return null;
+        }
 
         // Check if this is a layer node
-        if (this.isIdLayerNode(item.id))
-        {
+        if (this.isIdLayerNode(item.id)) {
             return this.managerLayers.removeFromMap(item);
         }
+
         // Check if this is a overlay node
-        else if (this.isIdOverlayNode(item.id))
-        {
+        if (this.isIdOverlayNode(item.id)) {
             return this.managerOverlays.removeFromMap(item);
         }
 
@@ -3757,22 +3770,20 @@ olexp.manager = olexp.manager || {};
      * @param {string} id Item ID of node to toggle
      * @public
      */
-    ManagerAPI.prototype.toggleNode = function(id)
-    {
+    ManagerAPI.prototype.toggleNode = function (id) {
 
-        if (typeof id !== 'string') return;
+        if (typeof id !== "string") {
+            return;
+        }
 
         // ==================================================
         // Toggle sidebar node enabled state
         // --------------------------------------------------
         var node = this.outline.get(id);
         var enable = node.disabled;
-        if (enable)
-        {
+        if (enable) {
             this.outline.enable(id);
-        }
-        else
-        {
+        } else {
             this.outline.disable(id);
         }
 
@@ -3781,28 +3792,22 @@ olexp.manager = olexp.manager || {};
         // --------------------------------------------------
 
         // Check if this is a layer node
-        if (this.isIdLayerNode(id))
-        {
+        if (this.isIdLayerNode(id)) {
             var itemLayer = this.managerLayers.getById(id);
-            if (itemLayer !== null) itemLayer.layer.setVisible(enable);
-        }
-        // Check if this is a overlay node
-        else if (this.isIdOverlayNode(id))
-        {
+            if (itemLayer !== null) {
+                itemLayer.layer.setVisible(enable);
+            }
+        } else if (this.isIdOverlayNode(id)) {
+            // Check if this is a overlay node
             var itemOverlay = this.managerOverlays.getById(id);
-            if (itemOverlay !== null)
-            {
+            if (itemOverlay !== null) {
                 // Overlays don't have visibility so we hide DOM element
                 var properties = itemOverlay.layer.getProperties();
-                if (properties.hasOwnProperty('element'))
-                {
+                if (properties.hasOwnProperty("element")) {
                     var dom = $(properties.element);
-                    if (enable)
-                    {
+                    if (enable) {
                         dom.show();
-                    }
-                    else
-                    {
+                    } else {
                         dom.hide();
                     }
                 }
@@ -3819,11 +3824,9 @@ olexp.manager = olexp.manager || {};
      * @param {object} properties Item properties to update
      * @public
      */
-    ManagerAPI.prototype.updateItem = function(id, properties)
-    {
+    ManagerAPI.prototype.updateItem = function (id, properties) {
         var item = this.getById(id);
-        if (item !== null)
-        {
+        if (item !== null) {
             item.setProperties(properties);
 
             // Update node
@@ -3841,8 +3844,7 @@ olexp.manager = olexp.manager || {};
      * @param {string} id ID of item on which to zoom
      * @public
      */
-    ManagerAPI.prototype.zoomTo = function(id)
-    {
+    ManagerAPI.prototype.zoomTo = function (id) {
         var item = this.getById(id);
         item.zoomTo(this.map);
     };
@@ -3860,7 +3862,7 @@ olexp.manager = olexp.manager || {};
      * @public
      * @returns {olexp.manager.ManagerAPI}
      */
-    olexp.manager.Manager = function(map, outline, details, layers, overlays) {
+    olexp.manager.Manager = function (map, outline, details, layers, overlays) {
         var manager = new ManagerAPI(map, outline, details, layers, overlays);
         return {
             getById        : manager.getById.bind(manager),
@@ -3886,7 +3888,9 @@ olexp.manager = olexp.manager || {};
 //==================================================
 // Node Manager
 //--------------------------------------------------
-(function(olexp) {
+(function (olexp) {
+
+    "use strict";
 
     /**
      * Node manager that synchronizes adding and removing items
@@ -3896,8 +3900,7 @@ olexp.manager = olexp.manager || {};
      * @param {external:jQuery.fn.w2grid} details Details grid
      * @private
      */
-    var NodeManager = function(id, layers, outline, details)
-    {
+    var NodeManager = function (id, layers, outline, details) {
 
         /**
          * Total count of items added
@@ -3915,7 +3918,7 @@ olexp.manager = olexp.manager || {};
          * Event listeners
          * @type {olexp.event.Event}
          */
-        this.event = new olexp.event.Event({'remove:item' : []});
+        this.event = new olexp.event.Event({"remove:item" : []});
 
         /**
          * Node id
@@ -3934,7 +3937,7 @@ olexp.manager = olexp.manager || {};
          * @type {ol.Collection}
          */
         this.layers = layers;
-        this.layers.on('change:length', this.onLayerChanged, this);
+        this.layers.on("change:length", this.onLayerChanged, this);
 
         /**
          * Node managers
@@ -3958,8 +3961,7 @@ olexp.manager = olexp.manager || {};
      * @private
      * @returns {olexp.item.Item} Managed item for added layer
      */
-    NodeManager.prototype.addLayer = function(layer)
-    {
+    NodeManager.prototype.addLayer = function (layer) {
 
         // ==================================================
         // Create managed item
@@ -3967,10 +3969,12 @@ olexp.manager = olexp.manager || {};
 
         // Create item id, name, and properties
         this.count += 1;
-        var id = this.id + '-' + this.count;
-        var name = 'Item ' + this.count;
+        var id = this.id + "-" + this.count;
+        var name = "Item " + this.count;
         var properties = layer.getProperties();
-        if (properties.hasOwnProperty('name')) name = properties.name;
+        if (properties.hasOwnProperty("name")) {
+            name = properties.name;
+        }
 
         // Store managed item
         var item = new olexp.item.Item(id, name, layer);
@@ -3991,12 +3995,9 @@ olexp.manager = olexp.manager || {};
 
         // Always prepend new node to top
         var nodes = this.outline.get(this.id).nodes;
-        if (nodes.length === 0)
-        {
+        if (nodes.length === 0) {
             this.outline.add(this.id, [node]);
-        }
-        else
-        {
+        } else {
             this.outline.insert(this.id, nodes[0].id, [node]);
         }
 
@@ -4004,8 +4005,7 @@ olexp.manager = olexp.manager || {};
         // Check layer is group and create a sub-manager and add its
         // layers
         // --------------------------------------------------
-        if (item.type === olexp.item.Type.GROUP)
-        {
+        if (item.type === olexp.item.Type.GROUP) {
 
             var layers = layer.getLayers();
             var manager = new NodeManager(item.id,
@@ -4013,8 +4013,7 @@ olexp.manager = olexp.manager || {};
                                           this.outline,
                                           this.details);
 
-            layers.forEach(function(childLayer)
-            {
+            layers.forEach(function (childLayer) {
                 manager.addLayer(childLayer);
             }, this);
             this.managers[item.id] = manager;
@@ -4034,23 +4033,31 @@ olexp.manager = olexp.manager || {};
      * @private
      * @returns {null|olexp.item.Item} Managed item or null if not found
      */
-    NodeManager.prototype.getById = function(id, recursive)
-    {
+    NodeManager.prototype.getById = function (id, recursive) {
 
-        if (typeof recursive === 'undefined') recursive = true;
-
-        var numItems = this.getSize();
-        for (var i = 0; i < numItems; i++)
-        {
-            if (this.items[i].id === id) return this.items[i];
-            if (this.items[i].type === olexp.item.Type.GROUP && recursive)
-            {
-                var item = this.managers[this.items[i].id].getById(id);
-                if (item === null) continue;
-                if (item.id === id) return item;
-            }
+        if (recursive === undefined) {
+            recursive = true;
         }
-        return null;
+
+        var me = this;
+        var itemFound = null;
+        this.items.forEach(function (item) {
+            if (itemFound !== null) {
+                return;
+            }
+            if (item.id === id) {
+                itemFound = item;
+                return;
+            }
+            if (item.type === olexp.item.Type.GROUP && recursive) {
+                var nodeItem = me.managers[item.id].getById(id);
+                if ((nodeItem !== null) && (nodeItem.id === id)) {
+                    itemFound = nodeItem;
+                    return;
+                }
+            }
+        });
+        return itemFound;
 
     };
 
@@ -4062,23 +4069,32 @@ olexp.manager = olexp.manager || {};
      * @private
      * @returns {null|olexp.item.Item} Managed item or null if not found
      */
-    NodeManager.prototype.getByLayer = function(layer, recursive)
-    {
+    NodeManager.prototype.getByLayer = function (layer, recursive) {
 
-        if (typeof recursive === 'undefined') recursive = true;
-
-        var numItems = this.getSize();
-        for (var i = 0; i < numItems; i++)
-        {
-            if (this.items[i].layer === layer) return this.items[i];
-            if (this.items[i].type === olexp.item.Type.GROUP && recursive)
-            {
-                var item = this.managers[this.items[i].id].getByLayer(layer);
-                if (item === null) continue;
-                if (item.layer === layer) return item;
-            }
+        if (recursive === undefined) {
+            recursive = true;
         }
-        return null;
+
+        var me = this;
+        var itemFound = null;
+        this.items.forEach(function (item) {
+            if (itemFound !== null) {
+                return;
+            }
+            if (item.layer === layer) {
+                itemFound = item;
+                return;
+            }
+            if (item.type === olexp.item.Type.GROUP && recursive) {
+                var nodeItem = me.managers[item.id].getByLayer(layer);
+                if ((nodeItem !== null) && (nodeItem.layer === layer)) {
+                    itemFound = nodeItem;
+                    return;
+                }
+            }
+        });
+        return itemFound;
+
     };
 
     /**
@@ -4087,8 +4103,7 @@ olexp.manager = olexp.manager || {};
      * @private
      * @returns {number} Size
      */
-    NodeManager.prototype.getSize = function()
-    {
+    NodeManager.prototype.getSize = function () {
         return this.items.length;
     };
 
@@ -4099,8 +4114,7 @@ olexp.manager = olexp.manager || {};
      * @private
      * @returns {boolean} True if item is selected otherwise false
      */
-    NodeManager.prototype.isSelected = function(id)
-    {
+    NodeManager.prototype.isSelected = function (id) {
         return id === this.outline.selected;
     };
 
@@ -4112,9 +4126,10 @@ olexp.manager = olexp.manager || {};
      * @private
      * @returns {boolean} True if item is hidden otherwise false
      */
-    NodeManager.prototype.isHidden = function(layer)
-    {
-        if (layer instanceof olexp.measure.Overlay) return true;
+    NodeManager.prototype.isHidden = function (layer) {
+        if (layer instanceof olexp.measure.Overlay) {
+            return true;
+        }
         return false;
     };
 
@@ -4126,31 +4141,35 @@ olexp.manager = olexp.manager || {};
      * @returns {null|boolean} True if moved, false is not moved, null if not
      *                         found.
      */
-    NodeManager.prototype.moveDown = function(id)
-    {
+    NodeManager.prototype.moveDown = function (id) {
 
         var item = this.getById(id, false);
 
-        if (item !== null)
-        {
+        if (item !== null) {
             // Item found in this node
             var movedItem = this.moveLayerUp(this.layers, item.layer);
-            if (movedItem) movedItem = this.moveItemDown(id);
+            if (movedItem) {
+                movedItem = this.moveItemDown(id);
+            }
             return movedItem;
         }
 
         // Check if item in child managers
-        var numItems = this.getSize();
-        for (var i = 0; i < numItems; i++)
-        {
-            if (this.items[i].type === olexp.item.Type.GROUP)
-            {
-                var movedChild = this.managers[this.items[i].id].moveDown(id);
-                if (movedChild !== null) return movedChild;
+        var me = this;
+        var itemFound = null;
+        this.items.forEach(function (item) {
+            if (itemFound !== null) {
+                return;
             }
-        }
-
-        return null;
+            if (item.type === olexp.item.Type.GROUP) {
+                var movedChild = me.managers[item.id].moveDown(id);
+                if (movedChild !== null) {
+                    itemFound = movedChild;
+                    return;
+                }
+            }
+        });
+        return itemFound;
 
     };
 
@@ -4161,26 +4180,30 @@ olexp.manager = olexp.manager || {};
      * @private
      * @returns {boolean} True if moved otherwise false
      */
-    NodeManager.prototype.moveItemDown = function(id)
-    {
+    NodeManager.prototype.moveItemDown = function (id) {
         // Get node to move
         var node = this.outline.get(id);
-        if (node === null) return false;
+        if (node === null) {
+            return false;
+        }
 
         // Get index in list
-        var nodes = this.outline.find(node.parent.id,
-        {
+        var nodes = this.outline.find(node.parent.id, {
             parent : node.parent
         });
         var index = this.outline.get(node.parent.id, id, true);
-        if (index >= (nodes.length - 1)) return false;
+        if (index >= (nodes.length - 1)) {
+            return false;
+        }
 
         // Get node to swap
         var nextId = nodes[index + 1].id;
         var nextNode = nodes[index + 1];
 
         // Check that nodes are in same parent node
-        if (node.parent !== nextNode.parent) return false;
+        if (node.parent !== nextNode.parent) {
+            return false;
+        }
 
         // Swap nodes
         this.outline.remove(nextId);
@@ -4197,26 +4220,30 @@ olexp.manager = olexp.manager || {};
      * @private
      * @returns {boolean} True if moved otherwise false
      */
-    NodeManager.prototype.moveItemUp = function(id)
-    {
+    NodeManager.prototype.moveItemUp = function (id) {
         // Get node to move
         var node = this.outline.get(id);
-        if (node === null) return false;
+        if (node === null) {
+            return false;
+        }
 
         // Get index in list
-        var nodes = this.outline.find(node.parent.id,
-        {
+        var nodes = this.outline.find(node.parent.id, {
             parent : node.parent
         });
         var index = this.outline.get(node.parent.id, id, true);
-        if (index <= 0) return false;
+        if (index <= 0) {
+            return false;
+        }
 
         // Get node to swap
         var prevId = nodes[index - 1].id;
         var prevNode = nodes[index - 1];
 
         // Check that nodes are in same parent node
-        if (node.parent !== prevNode.parent) return false;
+        if (node.parent !== prevNode.parent) {
+            return false;
+        }
 
         // Swap nodes
         this.outline.remove(id);
@@ -4234,12 +4261,10 @@ olexp.manager = olexp.manager || {};
      * @private
      * @returns {boolean} True if moved otherwise false
      */
-    NodeManager.prototype.moveLayerDown = function(layers, layer)
-    {
+    NodeManager.prototype.moveLayerDown = function (layers, layer) {
         var index = olexp.util.indexOf(layers, layer);
         var numLayers = this.layers.getLength();
-        if (index < numLayers - 1)
-        {
+        if (index < numLayers - 1) {
             var item = this.getByLayer(layer, false);
 
             // Set item to moving so it's not removed by the manager
@@ -4261,11 +4286,9 @@ olexp.manager = olexp.manager || {};
      * @private
      * @returns {boolean} True if moved otherwise false
      */
-    NodeManager.prototype.moveLayerUp = function(layers, layer)
-    {
+    NodeManager.prototype.moveLayerUp = function (layers, layer) {
         var index = olexp.util.indexOf(layers, layer);
-        if (index > 0)
-        {
+        if (index > 0) {
             var item = this.getByLayer(layer, false);
 
             // Set item to moving so it's not removed by the manager
@@ -4287,31 +4310,35 @@ olexp.manager = olexp.manager || {};
      * @returns {null|boolean} True if moved, false if not moved, null if not
      *                         found
      */
-    NodeManager.prototype.moveUp = function(id)
-    {
+    NodeManager.prototype.moveUp = function (id) {
 
         var item = this.getById(id, false);
 
-        if (item !== null)
-        {
+        if (item !== null) {
             // Item found in this node
             var movedItem = this.moveLayerDown(this.layers, item.layer);
-            if (movedItem) movedItem = this.moveItemUp(id);
+            if (movedItem) {
+                movedItem = this.moveItemUp(id);
+            }
             return movedItem;
         }
 
         // Check if item in child managers
-        var numItems = this.getSize();
-        for (var i = 0; i < numItems; i++)
-        {
-            if (this.items[i].type === olexp.item.Type.GROUP)
-            {
-                var movedChild = this.managers[this.items[i].id].moveUp(id);
-                if (movedChild !== null) return movedChild;
+        var me = this;
+        var itemFound = null;
+        this.items.forEach(function (item) {
+            if (itemFound !== null) {
+                return;
             }
-        }
-
-        return null;
+            if (item.type === olexp.item.Type.GROUP) {
+                var movedChild = me.managers[item.id].moveUp(id);
+                if (movedChild !== null) {
+                    itemFound = movedChild;
+                    return;
+                }
+            }
+        });
+        return itemFound;
 
     };
 
@@ -4320,20 +4347,18 @@ olexp.manager = olexp.manager || {};
      * @memberOf NodeManager.prototype
      * @param {string} type The event type.
      * @param {function} listener The listener function.
-     * @param {object} opt_this The object to use as this in listener.
+     * @param {object} optThis The object to use as this in listener.
      * @private
      */
-    NodeManager.prototype.off = function(type, listener, opt_this)
-    {
-        this.event.off(type, listener, opt_this);
+    NodeManager.prototype.off = function (type, listener, optThis) {
+        this.event.off(type, listener, optThis);
 
         // Remove listener from child managers
         var numItems = this.getSize();
-        for (var i = 0; i < numItems; i++)
-        {
-            if (this.items[i].type === olexp.item.Type.GROUP)
-            {
-                this.managers[this.items[i].id].off(type, listener, opt_this);
+        var i = 0;
+        for (i = 0; i < numItems; i += 1) {
+            if (this.items[i].type === olexp.item.Type.GROUP) {
+                this.managers[this.items[i].id].off(type, listener, optThis);
             }
         }
 
@@ -4344,20 +4369,18 @@ olexp.manager = olexp.manager || {};
      * @memberOf NodeManager.prototype
      * @param {string} type The event type.
      * @param {function} listener The listener function.
-     * @param {object} opt_this The object to use as this in listener.
+     * @param {object} optThis The object to use as this in listener.
      * @private
      */
-    NodeManager.prototype.on = function(type, listener, opt_this)
-    {
-        this.event.on(type, listener, opt_this);
+    NodeManager.prototype.on = function (type, listener, optThis) {
+        this.event.on(type, listener, optThis);
 
         // Register listener with child managers
         var numItems = this.getSize();
-        for (var i = 0; i < numItems; i++)
-        {
-            if (this.items[i].type === olexp.item.Type.GROUP)
-            {
-                this.managers[this.items[i].id].on(type, listener, opt_this);
+        var i = 0;
+        for (i = 0; i < numItems; i += 1) {
+            if (this.items[i].type === olexp.item.Type.GROUP) {
+                this.managers[this.items[i].id].on(type, listener, optThis);
             }
         }
 
@@ -4369,14 +4392,12 @@ olexp.manager = olexp.manager || {};
      * @param {olexp.item.Item} item OpenLayers Explorer Item
      * @private
      */
-    NodeManager.prototype.onItemRemoved = function(item)
-    {
+    NodeManager.prototype.onItemRemoved = function (item) {
         // Trigger item remove event
-        this.event.trigger('remove:item', item);
+        this.event.trigger("remove:item", item);
 
         // Remove item
-        if (this.isSelected(item.id))
-        {
+        if (this.isSelected(item.id)) {
             this.details.clear();
         }
         this.remove(item);
@@ -4388,8 +4409,7 @@ olexp.manager = olexp.manager || {};
      * @param {ol.ObjectEvent} event ol3 Layer change event
      * @private
      */
-    NodeManager.prototype.onLayerChanged = function(event)
-    {
+    NodeManager.prototype.onLayerChanged = function (event) {
 
         // ==================================================
         // Extract layers from change event
@@ -4399,15 +4419,15 @@ olexp.manager = olexp.manager || {};
         // ==================================================
         // If layer is in map but not in manager then add
         // --------------------------------------------------
+        var i = 0;
+        var layer = null;
         var numLayers = changes.getLength();
-        for (var i = 0; i < numLayers; i++)
-        {
-            var layer = changes.item(i);
-            if (this.isHidden(layer)) continue;
-            var itemMap = this.getByLayer(layer);
-            if (itemMap === null)
-            {
-                this.addLayer(layer);
+        for (i = 0; i < numLayers; i += 1) {
+            layer = changes.item(i);
+            if (this.isHidden(layer) === false) {
+                if (this.getByLayer(layer) === null) {
+                    this.addLayer(layer);
+                }
             }
         }
 
@@ -4415,21 +4435,16 @@ olexp.manager = olexp.manager || {};
         // If layer is in manager but not in map then remove
         // --------------------------------------------------
 
+        var me = this;
         var items = this.toList();
-        var numItems = items.length;
-        for (var j = 0; j < numItems; j++)
-        {
-            var itemManager = items[j];
-
+        items.forEach(function (item) {
             // Check if item is just being moved by user
-            if (itemManager.moving()) continue;
-
-            var index = olexp.util.indexOf(this.layers, itemManager.layer);
-            if (index === -1)
-            {
-                this.onItemRemoved(itemManager);
+            if (item.moving() === false) {
+                if (olexp.util.indexOf(me.layers, item.layer) === -1) {
+                    me.onItemRemoved(item);
+                }
             }
-        }
+        });
 
     };
 
@@ -4440,15 +4455,13 @@ olexp.manager = olexp.manager || {};
      * @private
      * @returns {boolean} True if removed otherwise false
      */
-    NodeManager.prototype.remove = function(item)
-    {
+    NodeManager.prototype.remove = function (item) {
 
         // ==================================================
         // Remove layer from manager
         // --------------------------------------------------
         var index = this.items.indexOf(item);
-        if (index !== -1)
-        {
+        if (index !== -1) {
             this.items.splice(index, 1);
             this.outline.remove(item.id);
             return true;
@@ -4457,18 +4470,20 @@ olexp.manager = olexp.manager || {};
         // ==================================================
         // Check if item in child managers and remove
         // --------------------------------------------------
-        var numItems = this.getSize();
-        for (var i = 0; i < numItems; i++)
-        {
-            if (this.items[i].type === olexp.item.Type.GROUP)
-            {
-                var removed = this.managers[this.items[i].id].remove(id);
-                if (removed) return true;
+        var me = this;
+        var itemRemoved = false;
+        this.items.forEach(function (item) {
+            if (itemRemoved) {
+                return;
             }
-        }
-
-        return false;
-
+            if (item.type === olexp.item.Type.GROUP) {
+                if (me.managers[item.id].remove(item)) {
+                    itemRemoved = true;
+                    return;
+                }
+            }
+        });
+        return itemRemoved;
     };
 
     /**
@@ -4478,25 +4493,30 @@ olexp.manager = olexp.manager || {};
      * @param {null|ol.layer.Layer|ol.Overlay} Layer removed from map or null
      *                                         if not found
      */
-    NodeManager.prototype.removeFromMap = function(item)
-    {
+    NodeManager.prototype.removeFromMap = function (item) {
         var layerMap = this.layers.remove(item.layer);
-        if (typeof layerMap !== 'undefined') return layerMap;
+        if (layerMap !== undefined) {
+            return layerMap;
+        }
 
         // ==================================================
         // Check if item in child managers and remove
         // --------------------------------------------------
-        var numItems = this.getSize();
-        for (var i = 0; i < numItems; i++)
-        {
-            if (this.items[i].type === olexp.item.Type.GROUP)
-            {
-                var layerChild = this.managers[this.items[i].id].removeFromMap(item);
-                if (layerChild !== null) return layerChild;
+        var me = this;
+        var itemRemoved = null;
+        this.items.forEach(function (item) {
+            if (itemRemoved !== null) {
+                return;
             }
-        }
-        
-        return null;
+            if (item.type === olexp.item.Type.GROUP) {
+                var layerChild = me.managers[item.id].removeFromMap(item);
+                if (layerChild !== null) {
+                    itemRemoved = layerChild;
+                    return;
+                }
+            }
+        });
+        return itemRemoved;
 
     };
 
@@ -4507,21 +4527,19 @@ olexp.manager = olexp.manager || {};
      * @param {external:ol.Collection} layers New layer collection to monitor.
      * @private
      */
-    NodeManager.prototype.setLayers = function(layers)
-    {
+    NodeManager.prototype.setLayers = function (layers) {
 
         // Remove old layers
-        this.layers.un('change:length', this.onLayerChanged, this);
-        while (this.items.length > 0)
-        {
-            this.onItemRemoved(this.items[this.items.length-1]);
+        this.layers.un("change:length", this.onLayerChanged, this);
+        while (this.items.length > 0) {
+            this.onItemRemoved(this.items[this.items.length - 1]);
         }
 
         // Add new layers
         this.layers = layers;
-        this.layers.on('change:length', this.onLayerChanged, this);
-        for (var j = 0; j < this.layers.getLength(); j++)
-        {
+        this.layers.on("change:length", this.onLayerChanged, this);
+        var j = 0;
+        for (j = 0; j < this.layers.getLength(); j += 1) {
             this.addLayer(this.layers.item(j));
         }
 
@@ -4533,13 +4551,12 @@ olexp.manager = olexp.manager || {};
      * @private
      * @returns {array} List of items
      */
-    NodeManager.prototype.toList = function()
-    {
+    NodeManager.prototype.toList = function () {
 
         var items = [];
         var numItems = this.getSize();
-        for (var i = 0; i < numItems; i++)
-        {
+        var i = 0;
+        for (i = 0; i < numItems; i += 1) {
             items.push(this.items[i]);
         }
         return items;
@@ -4556,7 +4573,7 @@ olexp.manager = olexp.manager || {};
      * @param {external:jQuery.fn.w2grid} details Details grid
      * @public
      */
-    olexp.manager.NodeManager = function(id, map, outline, details) {
+    olexp.manager.NodeManager = function (id, map, outline, details) {
         var manager = new NodeManager(id, map, outline, details);
         return {
             getById        : manager.getById.bind(manager),
@@ -4575,15 +4592,18 @@ olexp.manager = olexp.manager || {};
 }(olexp || {}));
 
 
+/*globals $, document, ol, olexp, window */
+/*jslint vars: true */
+
 /**
  * @namespace olexp.measure
  */
-olexp.measure = olexp.measure || {};
+window.olexp.measure = window.olexp.measure || {};
 
 //==================================================
 // Measuring Tool
 //--------------------------------------------------
-(function(olexp) {
+(function (olexp) {
 
     "use strict";
 
@@ -4595,25 +4615,24 @@ olexp.measure = olexp.measure || {};
      * @readonly
      */
     olexp.measure.properties = {
-                                    /**
-                                     * Area measurement property name
-                                     * @type string
-                                     */
-                                    area: 'olexp-measure-property-area',
-                                    /**
-                                     * Length measurement property name
-                                     * @type string
-                                     */
-                                    length: 'olexp-measure-property-length'
-                               };
+        /**
+         * Area measurement property name
+         * @type string
+         */
+        area: "olexp-measure-property-area",
+        /**
+         * Length measurement property name
+         * @type string
+         */
+        length: "olexp-measure-property-length"
+    };
 
     /**
      * Measure tool Overlay hidden from map
      * @param {object} options ol.Overlay options
      * @private
      */
-    var Overlay = function (options)
-    {
+    var Overlay = function (options) {
         ol.Overlay.call(this, options);
     };
     Overlay.prototype = Object.create(ol.Overlay.prototype);
@@ -4626,57 +4645,59 @@ olexp.measure = olexp.measure || {};
      * @param {Object} settings olexp settings
      * @private
      */
-    var Tool = function(map, type, settings)
-    {
+    var Tool = function (map, type, settings) {
 
         //==================================================
         // Override Measure Tool option defaults
         // with user provided values. 
         //--------------------------------------------------
-        var olexpSettings = $.extend(true, {measure : {
-            Tool : {
-                continueLineMsg              : 'Click to continue drawing the line',
-                continuePolygonMsg           : 'Click to continue drawing the polygon',
-                helpTooltipOffset            : [20, 0],
-                helpTooltipPositioning       : 'center-left',
-                measuredStyle                : new ol.style.Style({
-                                                   fill:   new ol.style.Fill({
-                                                               color: 'rgba(255, 255, 255, 0.2)'
-                                                           }),
-                                                   stroke: new ol.style.Stroke({
-                                                               color: '#ffcc33',
-                                                               width: 2
-                                                           }),
-                                                   image: new ol.style.Circle({
-                                                              radius: 7,
-                                                              fill: new ol.style.Fill({
-                                                                        color: '#ffcc33'
-                                                                    })
-                                                          })
-                                                  }),
-                measuringStyle               : new ol.style.Style({
-                                                   fill: new ol.style.Fill({
-                                                             color: 'rgba(255, 255, 255, 0.2)'
-                                                         }),
-                                                   stroke: new ol.style.Stroke({
-                                                               color: 'rgba(0, 0, 0, 0.5)',
-                                                               lineDash: [10, 10],
-                                                               width: 2
-                                                      }),
-                                                   image: new ol.style.Circle({
-                                                              radius: 5,
-                                                              stroke: new ol.style.Stroke({
-                                                                          color: 'rgba(0, 0, 0, 0.7)'
-                                                                      }),
-                                                              fill: new ol.style.Fill({
-                                                                       color: 'rgba(255, 255, 255, 0.2)'
-                                                                    })
-                                                          })
-                                               }),
-                measureTooltipOffset         : [0, -20],
-                measureTooltipPositioning    : 'bottom-center',
-                messageStart                 : 'Click to start drawing. Double click to stop.'
-             }}}, settings);
+        var olexpSettings = $.extend(true, {
+            measure : {
+                Tool : {
+                    continueLineMsg        : "Click to continue drawing the line",
+                    continuePolygonMsg     : "Click to continue drawing the polygon",
+                    helpTooltipOffset      : [20, 0],
+                    helpTooltipPositioning : "center-left",
+                    measuredStyle          : new ol.style.Style({
+                        fill:   new ol.style.Fill({
+                            color: "rgba(255, 255, 255, 0.2)"
+                        }),
+                        stroke: new ol.style.Stroke({
+                            color: "#ffcc33",
+                            width: 2
+                        }),
+                        image: new ol.style.Circle({
+                            radius: 7,
+                            fill: new ol.style.Fill({
+                                color: "#ffcc33"
+                            })
+                        })
+                    }),
+                    measuringStyle : new ol.style.Style({
+                        fill : new ol.style.Fill({
+                            color : "rgba(255, 255, 255, 0.2)"
+                        }),
+                        stroke: new ol.style.Stroke({
+                            color    : "rgba(0, 0, 0, 0.5)",
+                            lineDash : [10, 10],
+                            width    : 2
+                        }),
+                        image: new ol.style.Circle({
+                            radius : 5,
+                            stroke : new ol.style.Stroke({
+                                color: "rgba(0, 0, 0, 0.7)"
+                            }),
+                            fill: new ol.style.Fill({
+                                color: "rgba(255, 255, 255, 0.2)"
+                            })
+                        })
+                    }),
+                    measureTooltipOffset      : [0, -20],
+                    measureTooltipPositioning : "bottom-center",
+                    messageStart              : "Click to start drawing. Double click to stop."
+                }
+            }
+        }, settings);
 
         /**
          * Measurement control settings
@@ -4703,7 +4724,7 @@ olexp.measure = olexp.measure || {};
          * @type {Number}
          */
         this.count = 0;
-        
+
         /**
          * Draw interaction
          * @type {ol.interaction.Draw}
@@ -4795,22 +4816,20 @@ olexp.measure = olexp.measure || {};
      * @memberOf Tool.prototype
      * @private
      */
-    Tool.prototype.createHelpTooltip = function ()
-    {
+    Tool.prototype.createHelpTooltip = function () {
 
         // ==================================================
         // Remove existing help overlay element
         // --------------------------------------------------
-        if (this.helpTooltipElement)
-        {
+        if (this.helpTooltipElement) {
             this.helpTooltipElement.parentNode.removeChild(this.helpTooltipElement);
         }
 
         // ==================================================
         // Create new help tooltip
         // --------------------------------------------------
-        this.helpTooltipElement = document.createElement('div');
-        this.helpTooltipElement.className = 'olexp-measure olexp-measure-hidden';
+        this.helpTooltipElement = document.createElement("div");
+        this.helpTooltipElement.className = "olexp-measure olexp-measure-hidden";
         this.helpTooltip = new olexp.measure.Overlay({
             element: this.helpTooltipElement,
             offset: this.settings.helpTooltipOffset,
@@ -4829,45 +4848,42 @@ olexp.measure = olexp.measure || {};
      * @memberOf Tool.prototype
      * @private
      */
-    Tool.prototype.createMeasureVector = function ()
-    {
+    Tool.prototype.createMeasureVector = function () {
 
         this.vector = new ol.layer.Vector({
             source: this.source,
             style: this.settings.measuredStyle
         });
-        this.vector.set('name','Measurement #' + (this.count + 1));
+        this.vector.set("name", "Measurement #" + (this.count + 1));
         this.map.addLayer(this.vector);
 
     };
-    
+
     /**
      * Creates a new measure tooltip
      * @memberOf Tool.prototype
      * @private
      */
-    Tool.prototype.createMeasureTooltip = function ()
-    {
+    Tool.prototype.createMeasureTooltip = function () {
 
         // ==================================================
         // Remove existing help overlay element
         // --------------------------------------------------
-        if (this.measureTooltipElement)
-        {
+        if (this.measureTooltipElement) {
             this.measureTooltipElement.parentNode.removeChild(this.measureTooltipElement);
         }
 
         // ==================================================
         // Create new measure tooltip
         // --------------------------------------------------
-        this.measureTooltipElement = document.createElement('div');
-        this.measureTooltipElement.className = 'olexp-measure olexp-measure-active';
+        this.measureTooltipElement = document.createElement("div");
+        this.measureTooltipElement.className = "olexp-measure olexp-measure-active";
         this.measureTooltip = new olexp.measure.Overlay({
             element: this.measureTooltipElement,
             offset: this.settings.measureTooltipOffset,
             positioning: this.settings.measureTooltipPositioning
         });
-        this.measureTooltip.set('name','Measurement #' + (this.count+1));
+        this.measureTooltip.set("name", "Measurement #" + (this.count + 1));
 
         // ==================================================
         // Add overlay to map
@@ -4883,32 +4899,25 @@ olexp.measure = olexp.measure || {};
      * @private
      * @return {string}
      */
-    Tool.prototype.formatArea = function (polygon)
-    {
+    Tool.prototype.formatArea = function (polygon) {
 
         var area = 0;
-        if (this.geodesic)
-        {
+        if (this.geodesic) {
 
             var projection = this.map.getView().getProjection();
-            var geometry = polygon.clone().transform(projection, 'EPSG:4326');
+            var geometry = polygon.clone().transform(projection, "EPSG:4326");
             var coordinates = geometry.getLinearRing(0).getCoordinates();
             area = Math.abs(this.sphere.geodesicArea(coordinates));
 
-        }
-        else
-        {
+        } else {
             area = polygon.getArea();
         }
-        
-        var output = '';
-        if (area > 10000)
-        {
-            output = (Math.round(area / 1000000 * 100) / 100) + ' km<sup>2</sup>';
-        }
-        else
-        {
-            output = (Math.round(area * 100) / 100) + ' m<sup>2</sup>';
+
+        var output = "";
+        if (area > 10000) {
+            output = (Math.round(area / 1000000 * 100) / 100) + " km<sup>2</sup>";
+        } else {
+            output = (Math.round(area * 100) / 100) + " m<sup>2</sup>";
         }
 
         return output;
@@ -4922,34 +4931,30 @@ olexp.measure = olexp.measure || {};
      * @private
      * @return {string}
      */
-    Tool.prototype.formatLength = function (line)
-    {
+    Tool.prototype.formatLength = function (line) {
 
         var length = 0;
-        if (this.geodesic)
-        {
+        if (this.geodesic) {
+            var i = 0;
+            var c1 = 0;
+            var c2 = 0;
             var projection = this.map.getView().getProjection();
             var coordinates = line.getCoordinates();
             var numCoordinates = coordinates.length;
-            for (var i = 0; i < numCoordinates - 1; ++i) {
-                var c1 = ol.proj.transform(coordinates[i], projection, 'EPSG:4326');
-                var c2 = ol.proj.transform(coordinates[i + 1], projection, 'EPSG:4326');
+            for (i = 0; i < numCoordinates - 1; i += 1) {
+                c1 = ol.proj.transform(coordinates[i], projection, "EPSG:4326");
+                c2 = ol.proj.transform(coordinates[i + 1], projection, "EPSG:4326");
                 length += this.sphere.haversineDistance(c1, c2);
             }
-        }
-        else
-        {
+        } else {
             length = Math.round(line.getLength() * 100) / 100;
         }
 
         var output;
-        if (length > 100)
-        {
-            output = (Math.round(length / 1000 * 100) / 100) + ' ' + 'km';
-        }
-        else
-        {
-            output = (Math.round(length * 100) / 100) + ' ' + 'm';
+        if (length > 100) {
+            output = (Math.round(length / 1000 * 100) / 100) + " " + "km";
+        } else {
+            output = (Math.round(length * 100) / 100) + " " + "m";
         }
 
         return output;
@@ -4962,25 +4967,19 @@ olexp.measure = olexp.measure || {};
      * @param {ol.MapBrowserEvent} event
      * @private
      */
-    Tool.prototype.onPointerMove = function (event)
-    {
-        
-        if (event.dragging)
-        {
+    Tool.prototype.onPointerMove = function (event) {
+
+        if (event.dragging) {
             return;
         }
-        
+
         var message = this.settings.messageStart;
 
-        if (this.sketch)
-        {
+        if (this.sketch) {
             var geometry = this.sketch.getGeometry();
-            if (geometry instanceof ol.geom.Polygon)
-            {
+            if (geometry instanceof ol.geom.Polygon) {
                 message = this.continuePolygonMsg;
-            }
-            else if (geometry instanceof ol.geom.LineString)
-            {
+            } else if (geometry instanceof ol.geom.LineString) {
                 message = this.continueLineMsg;
             }
         }
@@ -4988,7 +4987,7 @@ olexp.measure = olexp.measure || {};
         this.helpTooltipElement.innerHTML = message;
         this.helpTooltip.setPosition(event.coordinate);
 
-        $(this.helpTooltipElement).removeClass('olexp-measure-hidden');
+        $(this.helpTooltipElement).removeClass("olexp-measure-hidden");
 
     };
 
@@ -4998,15 +4997,11 @@ olexp.measure = olexp.measure || {};
      * @param {boolean} enable True if measurement tool is enabled otherwise false
      * @private
      */
-    Tool.prototype.setEnable = function (enable)
-    {
-        if (enable)
-        {
-            this.map.on('pointermove', this.pointerMoveCallback);
-        }
-        else
-        {
-            this.map.un('pointermove', this.pointerMoveCallback);
+    Tool.prototype.setEnable = function (enable) {
+        if (enable) {
+            this.map.on("pointermove", this.pointerMoveCallback);
+        } else {
+            this.map.un("pointermove", this.pointerMoveCallback);
         }
         this.setInteraction(enable);
     };
@@ -5017,32 +5012,28 @@ olexp.measure = olexp.measure || {};
      * @param {boolean} enable True if drawing should be set otherwise false
      * @private
      */
-    Tool.prototype.setInteraction = function (enable)
-    {
+    Tool.prototype.setInteraction = function (enable) {
 
-        if (typeof enable === 'undefined') enable = true;
-        
+        if (enable === undefined) {
+            enable = true;
+        }
+
         var me = this;
-        
+
         // ==================================================
         // Remove interactions and hidden overlays
         // --------------------------------------------------
-        if (this.draw)
-        {
+        if (this.draw) {
             this.map.removeInteraction(this.draw);
         }
-     
-        if (enable)
-        {
-            $(this.helpTooltipElement).removeClass('olexp-measure-hidden');
-        }
-        else
-        {
-            $(this.helpTooltipElement).addClass('olexp-measure-hidden');
-            
+
+        if (enable) {
+            $(this.helpTooltipElement).removeClass("olexp-measure-hidden");
+        } else {
+            $(this.helpTooltipElement).addClass("olexp-measure-hidden");
+
             // If measure tool is disabled while drawing then clean up vector
-            if (this.drawing)
-            {
+            if (this.drawing) {
                 // Remove drawing vector
                 this.map.removeLayer(this.vector);
                 this.vector = null;
@@ -5050,7 +5041,7 @@ olexp.measure = olexp.measure || {};
                 // Remove measure tooltip
                 this.measureTooltipElement.parentNode.removeChild(this.measureTooltipElement);
                 this.measureTooltipElement = null;
-                
+
                 this.drawing = false;
             }
             return;
@@ -5078,9 +5069,8 @@ olexp.measure = olexp.measure || {};
         // Define behavior when drawing starts and ends
         // --------------------------------------------------
         var listener = null;
-        this.draw.on('drawstart',
-            function(event)
-            {
+        this.draw.on("drawstart",
+            function (event) {
                 this.drawing = true;
 
                 // ==================================================
@@ -5093,21 +5083,17 @@ olexp.measure = olexp.measure || {};
                 // --------------------------------------------------
                 var tooltipCoord = event.coordinate;
                 me.sketch = event.feature;
-                listener = me.sketch.getGeometry().on('change',
-                    function(event)
-                    {
+                listener = me.sketch.getGeometry().on("change",
+                    function (event) {
                         // ==================================================
                         // Compute new measurement
                         // --------------------------------------------------
-                        var output = '';
+                        var output = "";
                         var geometry = event.target;
-                        if (geometry instanceof ol.geom.Polygon)
-                        {
+                        if (geometry instanceof ol.geom.Polygon) {
                             output = me.formatArea(geometry);
                             tooltipCoord = geometry.getInteriorPoint().getCoordinates();
-                        }
-                        else if (geometry instanceof ol.geom.LineString)
-                        {
+                        } else if (geometry instanceof ol.geom.LineString) {
                             output = me.formatLength(geometry);
                             tooltipCoord = geometry.getLastCoordinate();
                         }
@@ -5116,9 +5102,8 @@ olexp.measure = olexp.measure || {};
                     });
             }, this);
 
-        this.draw.on('drawend',
-            function(event)
-            {
+        this.draw.on("drawend",
+            function () {
                 this.drawing = false;
                 me.count += 1;
 
@@ -5127,13 +5112,10 @@ olexp.measure = olexp.measure || {};
                 // --------------------------------------------------
                 var geometry = me.sketch.getGeometry();
                 var property = {};
-                if (geometry instanceof ol.geom.Polygon)
-                {
+                if (geometry instanceof ol.geom.Polygon) {
                     property[olexp.measure.properties.area] = me.formatArea(geometry);
                     me.vector.setProperties(property);
-                }
-                else if (geometry instanceof ol.geom.LineString)
-                {
+                } else if (geometry instanceof ol.geom.LineString) {
                     property[olexp.measure.properties.length] = me.formatLength(geometry);
                     me.vector.setProperties(property);
                 }
@@ -5149,7 +5131,7 @@ olexp.measure = olexp.measure || {};
                 me.measureTooltipElement.parentNode.removeChild(me.measureTooltipElement);
                 me.measureTooltipElement = null;
                 me.createMeasureTooltip();
-                
+
                 ol.Observable.unByKey(listener);
 
                 me.setInteraction(true);
@@ -5164,8 +5146,7 @@ olexp.measure = olexp.measure || {};
      * @param {olexp.measure.Type} type Measuring tool type
      * @private
      */
-    Tool.prototype.setType = function (type)
-    {
+    Tool.prototype.setType = function (type) {
         this.type = type;
     };
 
@@ -5178,11 +5159,17 @@ olexp.measure = olexp.measure || {};
      * @param {olexp.ExplorerSettings} options.settings Explorer settings
      * @public
      */
-    olexp.measure.Tool = function(map, options) {
+    olexp.measure.Tool = function (map, options) {
 
-        if (typeof options === 'undefined') options = {};
-        if (typeof options.type === 'undefined') options.type = olexp.measure.Type.LINE;
-        if (typeof options.settings === "undefined") options.settings = {};
+        if (options === undefined) {
+            options = {};
+        }
+        if (options.type === undefined) {
+            options.type = olexp.measure.Type.LINE;
+        }
+        if (options.settings === undefined) {
+            options.settings = {};
+        }
 
         var tool = new Tool(map, options.type, options.settings);
 
@@ -5207,17 +5194,17 @@ olexp.measure = olexp.measure || {};
      * @public
      * @readonly
      */
-     olexp.measure.Type = {
+    olexp.measure.Type = {
         /**
          * Area measurement type
          * @type string
          */
-        AREA : 'Polygon',
+        AREA : "Polygon",
         /**
          * Line measurement type
          * @type string
          */
-        LINE : 'LineString'
+        LINE : "LineString"
     };
 
     /**
@@ -5229,19 +5216,22 @@ olexp.measure = olexp.measure || {};
     olexp.measure.Overlay = Overlay;
 
     return olexp;
-    
+
 }(olexp || {}));
 
+
+/*globals $, olexp, w2confirm, window */
+/*jslint vars: true */
 
 /**
  * @namespace olexp.menu
  */
-olexp.menu = olexp.menu || {};
+window.olexp.menu = window.olexp.menu || {};
 
 //==================================================
 // Properties menu item
 //--------------------------------------------------
-(function(olexp) {
+(function (olexp) {
 
     "use strict";
 
@@ -5251,22 +5241,24 @@ olexp.menu = olexp.menu || {};
      * @param {olexp.ExplorerSettings} settings olexp settings
      * @private
      */
-    var Properties = function(manager, settings)
-    {
+    var Properties = function (manager, settings) {
 
-        var olexpSettings = $.extend(true, {menu : {
-            Properties : {
-                field  : 35,
-                form   : {},
-                popup  : {
-                    height : 130,
-                    style  : 'width: 100%; height: 100%;',
-                    title  : 'Edit Layer',
-                    width  : 365
-                },
-                span   : 4,
-                text   : 'Properties'
-            }}}, settings);
+        var olexpSettings = $.extend(true, {
+            menu : {
+                Properties : {
+                    field  : 35,
+                    form   : {},
+                    popup  : {
+                        height : 130,
+                        style  : "width: 100%; height: 100%;",
+                        title  : "Edit Layer",
+                        width  : 365
+                    },
+                    span   : 4,
+                    text   : "Properties"
+                }
+            }
+        }, settings);
 
         /**
          * Menu item icon
@@ -5274,7 +5266,7 @@ olexp.menu = olexp.menu || {};
          * @private
          * @type {string}
          */
-        this.icon = 'olexp-menu-properties';
+        this.icon = "olexp-menu-properties";
 
         /**
          * Form DOM id
@@ -5282,7 +5274,7 @@ olexp.menu = olexp.menu || {};
          * @private
          * @type {string}
          */
-        this.form = settings.prefix + '-menu-properties-form';
+        this.form = settings.prefix + "-menu-properties-form";
 
         /**
          * Menu DOM id
@@ -5290,7 +5282,7 @@ olexp.menu = olexp.menu || {};
          * @private
          * @type {string}
          */
-        this.id = settings.prefix + '-menu-properties';
+        this.id = settings.prefix + "-menu-properties";
 
         /**
          * Explorer manager
@@ -5306,7 +5298,7 @@ olexp.menu = olexp.menu || {};
          * @private
          * @type {string}
          */
-        this.name = 'layerform';
+        this.name = "layerform";
 
         /**
          * Properties menu settings
@@ -5324,8 +5316,7 @@ olexp.menu = olexp.menu || {};
      * @param {external:jQuery.fn.w2sidebar.onMenuClick} event Menu click event
      * @private
      */
-    Properties.prototype.onClick = function(event)
-    {
+    Properties.prototype.onClick = function (event) {
 
         var me = this;
 
@@ -5346,45 +5337,41 @@ olexp.menu = olexp.menu || {};
         var formHeight = this.settings.popup.height;
         var fieldHeight = this.settings.field;
         var fields = [];
-        
+
         // Add item name field
         formHeight += fieldHeight;
         fields.push({
-            field: 'name',
-            html:
-            {
-                caption : 'Name',
+            field : "name",
+            html  : {
+                caption : "Name",
                 span    : this.settings.span
             },
-            required: true,
-            type: 'text'
+            required : true,
+            type     : "text"
         });
 
         // Add numeric fields
         var propertyTypes = item.getPropertyTypes();
-        var numerics = $.map(propertyTypes, function(value) {
+        var numerics = $.map(propertyTypes, function (value) {
             return value.title;
         });
-        for (var i = 0; i < numerics.length; i++)
-        {
+        numerics.forEach(function (title) {
             formHeight += fieldHeight;
             fields.push({
-                field: numerics[i].toLowerCase(),
-                html:
-                {
-                    caption : numerics[i],
-                    span    : this.settings.span
+                field : title.toLowerCase(),
+                html : {
+                    caption : title,
+                    span    : me.settings.span
                 },
-                required: true,
-                type: 'float'
+                required : true,
+                type     : "float"
             });
-        }
+        });
 
         // ==================================================
         // Function to process form changes
         // --------------------------------------------------
-        var onChanges = function(changes)
-        {
+        var onChanges = function (changes) {
             me.manager.updateItem(id, changes);
         };
 
@@ -5401,7 +5388,7 @@ olexp.menu = olexp.menu || {};
         var popupOptions = $.extend($.extend({}, this.settings.popup), {
             height : formHeight
         });
-        
+
         olexp.util.popup(this.form, onChanges, formOptions, popupOptions);
 
     };
@@ -5413,7 +5400,7 @@ olexp.menu = olexp.menu || {};
      * @param {olexp.ExplorerSettings} settings olexp settings
      * @public
      */
-    olexp.menu.Properties = function(manager, settings) {
+    olexp.menu.Properties = function (manager, settings) {
 
         var control = new Properties(manager, settings);
 
@@ -5423,21 +5410,23 @@ olexp.menu = olexp.menu || {};
                 img  : control.icon,
                 text : control.settings.text
             },
-            click: function(event) {
+            click: function (event) {
                 control.onClick(event);
             }
         };
 
     };
-    
+
     return olexp;
-    
+
 }(olexp || {}));
 
 //==================================================
 // Remove menu item
 //--------------------------------------------------
-(function(olexp) {
+(function (olexp) {
+
+    "use strict";
 
     /**
      * Remove menu item
@@ -5445,13 +5434,15 @@ olexp.menu = olexp.menu || {};
      * @param {olexp.ExplorerSettings} settings olexp settings
      * @private
      */
-    var Remove = function(manager, settings)
-    {
+    var Remove = function (manager, settings) {
 
-        var olexpSettings = $.extend(true, {menu : {
-            Remove : {
-                text : 'Remove'
-            }}}, settings);
+        var olexpSettings = $.extend(true, {
+            menu : {
+                Remove : {
+                    text : "Remove"
+                }
+            }
+        }, settings);
 
         /**
          * Menu item icon
@@ -5459,7 +5450,7 @@ olexp.menu = olexp.menu || {};
          * @private
          * @type {string}
          */
-        this.icon = 'olexp-menu-remove';
+        this.icon = "olexp-menu-remove";
 
         /**
          * Menu DOM id
@@ -5467,7 +5458,7 @@ olexp.menu = olexp.menu || {};
          * @private
          * @type {string}
          */
-        this.id = settings.prefix + '-menu-remove';
+        this.id = settings.prefix + "-menu-remove";
 
         /**
          * Explorer manager
@@ -5493,8 +5484,7 @@ olexp.menu = olexp.menu || {};
      * @param {external:jQuery.fn.w2sidebar.onMenuClick} event Menu click event
      * @private
      */
-    Remove.prototype.onClick = function(event)
-    {
+    Remove.prototype.onClick = function (event) {
 
         var me = this;
 
@@ -5510,7 +5500,7 @@ olexp.menu = olexp.menu || {};
 
         // Confirm user wants to delete item
         // Remove item from map and manager
-        w2confirm('Do you want to delete "' + item.name() + '"?')
+        w2confirm("Do you want to delete \"" + item.name() + "\"?")
             .yes(function () {
                 me.manager.removeFromMap(item);
             });
@@ -5524,7 +5514,7 @@ olexp.menu = olexp.menu || {};
      * @param {olexp.ExplorerSettings} settings olexp settings
      * @public
      */
-    olexp.menu.Remove = function(manager, settings) {
+    olexp.menu.Remove = function (manager, settings) {
 
         var control = new Remove(manager, settings);
 
@@ -5534,21 +5524,23 @@ olexp.menu = olexp.menu || {};
                 img  : control.icon,
                 text : control.settings.text
             },
-            click: function(event) {
+            click: function (event) {
                 control.onClick(event);
             }
         };
 
     };
-    
+
     return olexp;
-    
+
 }(olexp || {}));
 
 //==================================================
 // Zoom menu item
 //--------------------------------------------------
-(function(olexp) {
+(function (olexp) {
+
+    "use strict";
 
     /**
      * Zoom menu item
@@ -5556,13 +5548,15 @@ olexp.menu = olexp.menu || {};
      * @param {olexp.ExplorerSettings} settings olexp settings
      * @private
      */
-    var Zoom = function(manager, settings)
-    {
-        
-        var olexpSettings = $.extend(true, {menu : {
-            Zoom : {
-                text : 'Zoom'
-            }}}, settings);
+    var Zoom = function (manager, settings) {
+
+        var olexpSettings = $.extend(true, {
+            menu : {
+                Zoom : {
+                    text : "Zoom"
+                }
+            }
+        }, settings);
 
         /**
          * Menu item icon
@@ -5570,7 +5564,7 @@ olexp.menu = olexp.menu || {};
          * @private
          * @type {string}
          */
-        this.icon = 'olexp-menu-zoom';
+        this.icon = "olexp-menu-zoom";
 
         /**
          * Menu DOM id
@@ -5578,7 +5572,7 @@ olexp.menu = olexp.menu || {};
          * @private
          * @type {string}
          */
-        this.id = settings.prefix + '-menu-zoom';
+        this.id = settings.prefix + "-menu-zoom";
 
         /**
          * Explorer
@@ -5604,8 +5598,7 @@ olexp.menu = olexp.menu || {};
      * @param {external:jQuery.fn.w2sidebar.onMenuClick} event Menu click event
      * @private
      */
-    Zoom.prototype.onClick = function(event)
-    {
+    Zoom.prototype.onClick = function (event) {
 
         // ==================================================
         // Extract node item id
@@ -5626,7 +5619,7 @@ olexp.menu = olexp.menu || {};
      * @param {olexp.ExplorerSettings} settings olexp settings
      * @public
      */
-    olexp.menu.Zoom = function(manager, settings) {
+    olexp.menu.Zoom = function (manager, settings) {
 
         var control = new Zoom(manager, settings);
 
@@ -5636,28 +5629,31 @@ olexp.menu = olexp.menu || {};
                 img  : control.icon,
                 text : control.settings.text
             },
-            click: function(event) {
+            click: function (event) {
                 control.onClick(event);
             }
         };
 
     };
-    
+
     return olexp;
-    
+
 }(olexp || {}));
 
+
+/*globals $, document, ol, olexp, window */
+/*jslint vars: true */
 
 /**
  * @description olexp specific OpenLayers 3 classes 
  * @namespace olexp.ol
  */
-olexp.ol = olexp.ol || {};
+window.olexp.ol = window.olexp.ol || {};
 
 //==================================================
 // Toolbar show Control
 //--------------------------------------------------
-(function(olexp) {
+(function (olexp) {
 
     "use strict";
 
@@ -5667,18 +5663,20 @@ olexp.ol = olexp.ol || {};
      * @param {olexp.ExplorerSettings} settings olexp settings
      * @private
      */
-    var ToolbarShow = function(explorer, settings)
-    {
-    
+    var ToolbarShow = function (explorer, settings) {
+
         //==================================================
         // Override Toolbar Show option defaults
         // with user provided values. 
         //--------------------------------------------------
-        var olexpSettings = $.extend(true, {ol : {
-            ToolbarShow : {
-                html  : 'T',
-                title : 'Show toolbar'
-            }}}, settings);
+        var olexpSettings = $.extend(true, {
+            ol : {
+                ToolbarShow : {
+                    html  : "T",
+                    title : "Show toolbar"
+                }
+            }
+        }, settings);
 
         /**
          * ol ToolbarShow control settings
@@ -5687,7 +5685,7 @@ olexp.ol = olexp.ol || {};
          * @param {Object} settings
          */
         this.settings = olexpSettings.ol.ToolbarShow;
-    
+
         /**
          * Source explorer
          * @field
@@ -5695,36 +5693,34 @@ olexp.ol = olexp.ol || {};
          * @type {olexp.Explorer}
          */
         this.explorer = explorer;
-    
+
         // Define control button
-        var button = document.createElement('button');
+        var button = document.createElement("button");
         button.innerHTML = this.settings.html;
         button.title = this.settings.title;
-        button.addEventListener('click', this.show.bind(this), false);
-        button.addEventListener('touchstart', this.show.bind(this), false);
-    
+        button.addEventListener("click", this.show.bind(this), false);
+        button.addEventListener("touchstart", this.show.bind(this), false);
+
         // Define control button wrapper div
-        var element = document.createElement('div');
-        element.id = settings.prefix + '-ol-toolbar-show';
-        element.className = 'olexp-ol-toolbar-show ol-unselectable ol-control';
+        var element = document.createElement("div");
+        element.id = settings.prefix + "-ol-toolbar-show";
+        element.className = "olexp-ol-toolbar-show ol-unselectable ol-control";
         element.appendChild(button);
-    
+
         ol.control.Control.call(this, {element: element});
-    
+
     };
     ol.inherits(ToolbarShow, ol.control.Control);
-    
-    
+
     /**
      * Show toolbar
      * @private
      */
-     ToolbarShow.prototype.show = function()
-    {
+    ToolbarShow.prototype.show = function () {
         this.explorer.layout.show(this.explorer.options.toolbar.type);
         this.setMap(null);
     };
-     
+
     /**
      * Control to set toolbar visibility
      * @memberOf olexp.ol
@@ -5736,30 +5732,35 @@ olexp.ol = olexp.ol || {};
      * @returns {external:jQuery.fn.w2toolbar.properties} ToolbarShow toolbar
      *          control
      */
-    olexp.ol.ToolbarShow = function(explorer, options) {
-    
+    olexp.ol.ToolbarShow = function (explorer, options) {
+
         var opts = $.extend({hidden: false}, options);
-        
+
         var control = new ToolbarShow(explorer, opts.settings);
-        if (opts.hidden) control.setMap(explorer.map);
+        if (opts.hidden) {
+            control.setMap(explorer.map);
+        }
         return control;
-    
+
     };
-    
+
     return olexp;
- 
+
 }(olexp || {}));
 
+
+/*globals ol, olexp, window */
+/*jslint vars: true */
 
 /**
  * @namespace olexp.selection
  */
-olexp.selection = olexp.selection || {};
+window.olexp.selection = window.olexp.selection || {};
 
 //==================================================
 // Selection Tool
 //--------------------------------------------------
-(function(olexp) {
+(function (olexp) {
 
     "use strict";
 
@@ -5769,8 +5770,7 @@ olexp.selection = olexp.selection || {};
      * @param {external:jQuery.fn.w2grid} details Details grid
      * @private
      */
-    var Feature = function(map, details)
-    {
+    var Feature = function (map, details) {
 
         /**
          * Details grid
@@ -5794,21 +5794,19 @@ olexp.selection = olexp.selection || {};
         // Add callback for feature selection
         // --------------------------------------------------
         var me = this;
-        this.interaction.on('select', function(event) {
+        this.interaction.on("select", function (event) {
 
-            if (event.selected.length === 1)
-            {
+            if (event.selected.length === 1) {
                 var feature = event.selected[0];
                 var properties = olexp.util.toProperties(feature);
-                for (var name in properties)
-                {
-                    if (typeof properties[name] !== 'boolean' &&
-                        typeof properties[name] !== 'number' &&
-                        typeof properties[name] !== 'string')
-                    {
+                Object.keys(properties).forEach(function (name) {
+                    var type = typeof properties[name];
+                    if ((type !== "boolean") &&
+                            (type !== "number") &&
+                            (type !== "string")) {
                         delete properties[name];
                     }
-                }
+                });
                 var records = olexp.util.toRecords(properties);
                 me.details.clear();
                 me.details.add(records);
@@ -5823,14 +5821,10 @@ olexp.selection = olexp.selection || {};
      * @memberOf Feature.prototype
      * @param {boolean} enable True if selection should be enabled otherwise false
       */
-    Feature.prototype.setEnable = function(enable)
-    {
-        if (enable)
-        {
+    Feature.prototype.setEnable = function (enable) {
+        if (enable) {
             this.map.addInteraction(this.interaction);
-        }
-        else
-        {
+        } else {
             this.map.removeInteraction(this.interaction);
         }
     };
@@ -5843,7 +5837,7 @@ olexp.selection = olexp.selection || {};
      * @public
      * @returns {olexp.selection.Feature} Feature selector
      */
-    olexp.selection.Feature = function(map, details) {
+    olexp.selection.Feature = function (map, details) {
 
         var selector = new Feature(map, details);
 
@@ -5854,8 +5848,7 @@ olexp.selection = olexp.selection || {};
          * @property {function} setEnable Enable/disable feature selection
          */
         return {
-            setEnable: function (enable)
-            {
+            setEnable: function (enable) {
                 selector.setEnable(enable);
             }
         };
@@ -5867,15 +5860,18 @@ olexp.selection = olexp.selection || {};
 }(olexp || {}));
 
 
+/*globals $, ol, olexp, w2popup, w2ui, window */
+/*jslint vars: true */
+
 /**
  * @namespace olexp.util
  */
-olexp.util = olexp.util || {};
+window.olexp.util = window.olexp.util || {};
 
 //==================================================
 // Utility tools
 //--------------------------------------------------
-(function(olexp) {
+(function (olexp) {
 
     "use strict";
 
@@ -5884,87 +5880,98 @@ olexp.util = olexp.util || {};
      * @param {olexp.ExplorerSettings} settings olexp settings
      * @private
      */
-    var Util = function(settings)
-    {
+    var Util = function (settings) {
 
         //==================================================
         // Override Util option defaults
         // with user provided values. 
         //--------------------------------------------------
         var olexpSettings = $.extend(true, {util : {Util : {
-            Cluster         : function(size)
-                              {
-                                  var style = [new ol.style.Style({
-                                               image : new ol.style.Circle({
-                                                           radius : 10,
-                                                           stroke : new ol.style.Stroke({
-                                                                        color : '#ffffff'
-                                                                    }),
-                                                           fill : new ol.style.Fill({
-                                                                      color : '#3399CC'
-                                                                  })
-                                                       }),
-                                               text  : new ol.style.Text({
-                                                           text : size.toString(),
-                                                           fill : new ol.style.Fill({
-                                                                      color : '#ffffff'
-                                                                  })
-                                                       })
-                                          })];
-                                  return style;
-                              },
-            Point           : [new ol.style.Style({
-                                  image : new ol.style.Circle({
-                                              fill   : new ol.style.Fill({
-                                                           color : 'rgba(255,255,0,0.5)'
-                                                       }),
-                                              radius : 5,
-                                              stroke : new ol.style.Stroke({color : '#ff0',
-                                                                            width : 1})
-                                          })
-                              })],
-            LineString      : [new ol.style.Style({
-                                  stroke : new ol.style.Stroke({
-                                               color : '#f00',
-                                               width : 3
-                                           })
-                               })],
-            Polygon         : [new ol.style.Style({
-                                  fill   : new ol.style.Fill({
-                                               color : 'rgba(0,255,255,0.5)'
-                                           }),
-                                  stroke : new ol.style.Stroke({
-                                               color : '#0ff',
-                                               width : 1
-                                           })
-                               })],
-            MultiPoint      : [new ol.style.Style({
-                                   image : new ol.style.Circle({
-                                               fill   : new ol.style.Fill({
-                                                            color : 'rgba(255,0,255,0.5)'
-                                                        }),
-                                               radius : 5,
-                                               stroke : new ol.style.Stroke({
-                                                            color : '#f0f',
-                                                            width : 1
-                                                        })
-                                           })
-                               })],
-            MultiLineString : [new ol.style.Style({
-                                   stroke : new ol.style.Stroke({
-                                                color : '#0f0',
-                                                width : 3
-                                            })
-                               })],
-            MultiPolygon    : [new ol.style.Style({
-                                   fill : new ol.style.Fill({
-                                              color : 'rgba(0,0,255,0.5)'
-                                          }),
-                                   stroke : new ol.style.Stroke({
-                                                color : '#00f',
-                                                width : 1
-                                            })
-                               })]
+            Cluster : function (size) {
+                var style = [
+                    new ol.style.Style({
+                        image : new ol.style.Circle({
+                            radius : 10,
+                            stroke : new ol.style.Stroke({
+                                color : "#ffffff"
+                            }),
+                            fill : new ol.style.Fill({
+                                color : "#3399CC"
+                            })
+                        }),
+                        text  : new ol.style.Text({
+                            text : size.toString(),
+                            fill : new ol.style.Fill({
+                                color : "#ffffff"
+                            })
+                        })
+                    })];
+                return style;
+            },
+            Point : [
+                new ol.style.Style({
+                    image : new ol.style.Circle({
+                        fill   : new ol.style.Fill({
+                            color : "rgba(255,255,0,0.5)"
+                        }),
+                        radius : 5,
+                        stroke : new ol.style.Stroke({color : "#ff0",
+                                                      width : 1})
+                    })
+                })
+            ],
+            LineString : [
+                new ol.style.Style({
+                    stroke : new ol.style.Stroke({
+                        color : "#f00",
+                        width : 3
+                    })
+                })
+            ],
+            Polygon : [
+                new ol.style.Style({
+                    fill   : new ol.style.Fill({
+                        color : "rgba(0,255,255,0.5)"
+                    }),
+                    stroke : new ol.style.Stroke({
+                        color : "#0ff",
+                        width : 1
+                    })
+                })
+            ],
+            MultiPoint : [
+                new ol.style.Style({
+                    image : new ol.style.Circle({
+                        fill : new ol.style.Fill({
+                            color : "rgba(255,0,255,0.5)"
+                        }),
+                        radius : 5,
+                        stroke : new ol.style.Stroke({
+                            color : "#f0f",
+                            width : 1
+                        })
+                    })
+                })
+            ],
+            MultiLineString : [
+                new ol.style.Style({
+                    stroke : new ol.style.Stroke({
+                        color : "#0f0",
+                        width : 3
+                    })
+                })
+            ],
+            MultiPolygon : [
+                new ol.style.Style({
+                    fill : new ol.style.Fill({
+                        color : "rgba(0,0,255,0.5)"
+                    }),
+                    stroke : new ol.style.Stroke({
+                        color : "#00f",
+                        width : 1
+                    })
+                })
+            ]
         }}}, settings);
 
         /**
@@ -5981,16 +5988,15 @@ olexp.util = olexp.util || {};
          * @private
          * @param {Object} defaultStyle
          */
-        this.defaultStyle =
-        {
-            'Point'           : this.settings.Point,
-            'LineString'      : this.settings.LineString,
-            'Polygon'         : this.settings.Polygon,
-            'MultiPoint'      : this.settings.MultiPoint,
-            'MultiLineString' : this.settings.MultiLineString,
-            'MultiPolygon'    : this.settings.MultiPolygon
+        this.defaultStyle = {
+            "Point"           : this.settings.Point,
+            "LineString"      : this.settings.LineString,
+            "Polygon"         : this.settings.Polygon,
+            "MultiPoint"      : this.settings.MultiPoint,
+            "MultiLineString" : this.settings.MultiLineString,
+            "MultiPolygon"    : this.settings.MultiPolygon
         };
-        
+
         /**
          * Cache for cluster styles
          * @field
@@ -5998,7 +6004,7 @@ olexp.util = olexp.util || {};
          * @param {Object} clusterStyleCache
          */
         this.clusterStyleCache = {};
-        
+
     };
 
     /**
@@ -6010,58 +6016,50 @@ olexp.util = olexp.util || {};
      * @param {boolean} cluster True if features should be clustered otherwise false
      * @public
      */
-    Util.prototype.addLayerVector = function(map,
-                                             name,
-                                             features,
-                                             cluster)
-    {
+    Util.prototype.addLayerVector = function (map,
+                                              name,
+                                              features,
+                                              cluster) {
 
-        if (typeof cluster === 'undefined') cluster = true;
-        
-        var me = this;
-        
-        // Detect if clustering is on for non-points and disable clustering
-        for (var i = 0; i < features.length; i++)
-        {
-            var geometry = features[i].getGeometry();
-            if (typeof geometry === 'undefined' ||
-                geometry.getType() !== 'Point')
-            {
-                cluster = false;
-                break;
-            }
+        if (cluster === undefined) {
+            cluster = true;
         }
-        
+
+        var me = this;
+
+        // Detect if clustering is on for non-points and disable clustering
+        features.forEach(function (feature) {
+            if (cluster === false) {
+                return;
+            }
+            var geometry = feature.getGeometry();
+            if (geometry === undefined || geometry.getType() !== "Point") {
+                cluster = false;
+            }
+        });
+
         // Build layer source
         var source = new ol.source.Vector({
             features: features
         });
-        
-        if (cluster)
-        {
+
+        if (cluster) {
             source = new ol.source.Cluster({
                 source: source
             });
         }
 
         // Build layer style
-        var style = function(feature, resolution)
-        {
+        var style = function (feature, resolution) {
             var styleFunction = feature.getStyleFunction();
-            if (styleFunction)
-            {
+            if (styleFunction) {
                 return styleFunction.call(feature, resolution);
             }
-            else
-            {
-                return me.defaultStyle[feature.getGeometry().getType()];
-            }
+            return me.defaultStyle[feature.getGeometry().getType()];
         };
 
-        if (cluster)
-        {
-            style = function(feature, resolution)
-            {
+        if (cluster) {
+            style = function (feature) {
                 return me.getClusterStyle(feature);
             };
         }
@@ -6071,7 +6069,7 @@ olexp.util = olexp.util || {};
             source : source,
             style  : style
         });
-        layer.set('name', name);
+        layer.set("name", name);
         map.getLayers().push(layer);
 
     };
@@ -6083,13 +6081,11 @@ olexp.util = olexp.util || {};
      * @public
      * @returns {ol.Style} Cluster style
      */
-    Util.prototype.getClusterStyle = function(feature)
-    {
+    Util.prototype.getClusterStyle = function (feature) {
 
-        var size = feature.get('features').length;
+        var size = feature.get("features").length;
         var style = this.clusterStyleCache[size];
-        if (!style)
-        {
+        if (!style) {
             style = this.settings.Cluster(size);
             this.clusterStyleCache[size] = style;
         }
@@ -6104,14 +6100,14 @@ olexp.util = olexp.util || {};
      * @public
      * @returns {object} Object of ol.control objects by key name
      */
-    Util.prototype.getControls = function()
-    {
+    Util.prototype.getControls = function () {
 
         var controls = {
             fullscreen    : new ol.control.FullScreen(),
             mouseposition : new ol.control.MousePosition({
-                                coordinateFormat : ol.coordinate.createStringXY(6),
-                                projection       : 'EPSG:4326'}),
+                coordinateFormat : ol.coordinate.createStringXY(6),
+                projection       : "EPSG:4326"
+            }),
             overviewmap   : new ol.control.OverviewMap(),
             rotate        : new ol.control.Rotate(),
             scaleline     : new ol.control.ScaleLine(),
@@ -6131,21 +6127,20 @@ olexp.util = olexp.util || {};
      * @public
      * @returns {ol.interaction.DragAndDrop} ol3 drag and drop interaction
      */
-    Util.prototype.getDragAndDrop = function(map)
-    {
+    Util.prototype.getDragAndDrop = function (map) {
 
         var me = this;
 
         var interaction = new ol.interaction.DragAndDrop({
-            formatConstructors: $.map(olexp.util.FileTypes, function(o) {
-                    return o.format;
-                })
+            formatConstructors: $.map(olexp.util.FileTypes, function (o) {
+                return o.format;
+            })
         });
 
-        interaction.on('addfeatures', function(event) {
-                                                               
+        interaction.on("addfeatures", function (event) {
+
             // Get filename and remove any extensions
-            var filename = event.file.name.replace(/\.[^/.]+$/, "");
+            var filename = olexp.util.setExtension(event.file.name, "");
 
             me.addLayerVector(map, filename, event.features);
 
@@ -6163,16 +6158,15 @@ olexp.util = olexp.util || {};
      * @public
      * @returns {external:ol.Graticule} New graticule based on settings
      */
-    Util.prototype.getGraticule = function(map, options)
-    {
+    Util.prototype.getGraticule = function (map, options) {
 
         var opts = $.extend($.extend({}, options),
-                            {color : '#' + options.color});
+                            {color : "#" + options.color});
         var graticule = new ol.Graticule({
             map         : map,
             strokeStyle : new ol.style.Stroke(opts)
         });
-        graticule.olexp_record = $.extend({enable : (map===null ? false : true)},
+        graticule.olexpRecord = $.extend({enable : (map === null ? false : true)},
                                            options);
 
         return graticule;
@@ -6186,8 +6180,7 @@ olexp.util = olexp.util || {};
      * @public
      * @returns {object} Object of ol.interaction objects by key name
      */
-    Util.prototype.getInteractions = function(map)
-    {
+    Util.prototype.getInteractions = function (map) {
 
         var interactions = {
             draganddrop : this.getDragAndDrop(map)
@@ -6203,8 +6196,7 @@ olexp.util = olexp.util || {};
      * @public
      * @returns {object} Object of ol.source objects
      */
-    Util.prototype.getTileTypes = function()
-    {
+    Util.prototype.getTileTypes = function () {
 
         // ==================================================
         // Define tile types object
@@ -6215,10 +6207,9 @@ olexp.util = olexp.util || {};
         // Define OpenStreetMap tiles
         // --------------------------------------------------
 
-        tileTypes.osm =
-        {
-            'class'  : ol.source.OSM,
-            name     : 'OpenStreetMap',
+        tileTypes.osm = {
+            "class"  : ol.source.OSM,
+            name     : "OpenStreetMap",
             settings : {}
         };
 
@@ -6226,33 +6217,27 @@ olexp.util = olexp.util || {};
         // Define Stamen tiles
         // --------------------------------------------------
 
-        tileTypes.stamenTerrain =
-        {
-            'class'  : ol.source.Stamen,
-            name     : 'Stamen (Terrain)',
-            settings :
-            {
-                layer: 'terrain'
+        tileTypes.stamenTerrain = {
+            "class"  : ol.source.Stamen,
+            name     : "Stamen (Terrain)",
+            settings : {
+                layer: "terrain"
             }
         };
 
-        tileTypes.stamenToner =
-        {
-            'class'  : ol.source.Stamen,
-            name     : 'Stamen (Toner)',
-            settings :
-            {
-                layer: 'toner'
+        tileTypes.stamenToner = {
+            "class"  : ol.source.Stamen,
+            name     : "Stamen (Toner)",
+            settings : {
+                layer: "toner"
             }
         };
 
-        tileTypes.stamenWater =
-        {
-            'class'  : ol.source.Stamen,
-            name     : 'Stamen (Water Color)',
-            settings :
-            {
-                layer : 'watercolor'
+        tileTypes.stamenWater = {
+            "class"  : ol.source.Stamen,
+            name     : "Stamen (Water Color)",
+            settings : {
+                layer : "watercolor"
             }
         };
 
@@ -6268,53 +6253,54 @@ olexp.util = olexp.util || {};
      * @returns {object} ol3 file types
      */
     olexp.util.FileTypes = {
-            gpx  : {
-                       extensions: ['gpx'],
-                       format : ol.format.GPX,
-                       name : 'GPX'
-                   },
-            igc  : {
-                       extensions: ['igc'],
-                       format : ol.format.IGC,
-                       name : 'IGC'
-                   },
-            json : {
-                       extensions: ['json', 'geojson'],
-                       format : ol.format.GeoJSON,
-                       name : 'GeoJSON'
-                   },
-            kml  : {
-                       extensions: ['kml'],
-                       format : ol.format.KML,
-                       name : 'KML'
-                   }
-        };
+        gpx  : {
+            extensions: ["gpx"],
+            format : ol.format.GPX,
+            name : "GPX"
+        },
+        igc  : {
+            extensions: ["igc"],
+            format : ol.format.IGC,
+            name : "IGC"
+        },
+        json : {
+            extensions: ["json", "geojson"],
+            format : ol.format.GeoJSON,
+            name : "GeoJSON"
+        },
+        kml  : {
+            extensions: ["kml"],
+            format : ol.format.KML,
+            name : "KML"
+        }
+    };
 
     /**
      * Find feature reader based on filename extension
      * @memberOf olexp.util
      * @param {string} filename Filename to be read
      * @public
-     * @returns {external:ol.format.Feature} File reader
+     * @returns {external:ol.format.Feature|null} File reader
      */
-    olexp.util.getReader = function(filename)
-    {
+    olexp.util.getReader = function (filename) {
 
-        var extension = filename.substring(filename.lastIndexOf(".")+1).toLowerCase();
-        var types = Object.keys(olexp.util.FileTypes);
-        for (var i = 0; i < types.length; i++)
-        {
-            var type = olexp.util.FileTypes[types[i]];
-            var extensions = type.extensions;
-            for (var j = 0; j < extensions.length; j++)
-            {
-                if (extension === extensions[j])
-                {
-                    return new type.format();
-                }
+        var extension = filename.substring(filename.lastIndexOf(".") + 1).toLowerCase();
+        var formatFound = null;
+        Object.keys(olexp.util.FileTypes).forEach(function (key) {
+            if (formatFound !== null) {
+                return;
             }
-        }
-        return null;
+            var type = olexp.util.FileTypes[key];
+            type.extensions.forEach(function (ext) {
+                if (formatFound !== null) {
+                    return;
+                }
+                if (extension === ext) {
+                    formatFound = new type.format();
+                }
+            });
+        });
+        return formatFound;
 
     };
 
@@ -6327,13 +6313,11 @@ olexp.util = olexp.util || {};
      * @public
      * @returns {number} Index of layer
      */
-    olexp.util.indexOf = function(layers, layer)
-    {
+    olexp.util.indexOf = function (layers, layer) {
+        var i = 0;
         var length = layers.getLength();
-        for (var i = 0; i < length; i++)
-        {
-            if (layer === layers.item(i))
-            {
+        for (i = 0; i < length; i += 1) {
+            if (layer === layers.item(i)) {
                 return i;
             }
         }
@@ -6352,8 +6336,7 @@ olexp.util = olexp.util || {};
      *        properties
      * @public
      */
-    olexp.util.popup = function(id, onChanges, formOptions, popupOptions)
-    {
+    olexp.util.popup = function (id, onChanges, formOptions, popupOptions) {
 
         var name = formOptions.name;
         var record = formOptions.record;
@@ -6361,56 +6344,70 @@ olexp.util = olexp.util || {};
         // ==================================================
         // Create form
         // --------------------------------------------------
-        if (w2ui.hasOwnProperty(name))
-        {
+        if (w2ui.hasOwnProperty(name)) {
             w2ui[name].destroy();
         }
         $().w2form($.extend(formOptions, {
             actions : {
-                          save :  function () {
-                                      // Check for errors
-                                      var errors = this.validate();
-                                      if (errors.length === 0)
-                                      {
-                                          // Close popup and update with changes
-                                          w2popup.close();
-                                          var form = w2ui[name];
-                                          var changes = form.getChanges();
-                                          onChanges(changes);
-                                      }
-                                  },
-                          reset : function () {
-                                      // Reset properties to original item values
-                                      var form = w2ui[name];
-                                      for (var rname in record)
-                                      {
-                                          form.record[rname] = record[rname];
-                                      }
-                                      form.refresh();
-                                  }
-                      }
+                save :  function () {
+                    // Check for errors
+                    var errors = this.validate();
+                    if (errors.length === 0) {
+                        // Close popup and update with changes
+                        w2popup.close();
+                        var form = w2ui[name];
+                        var changes = form.getChanges();
+                        onChanges(changes);
+                    }
+                },
+                reset : function () {
+                    // Reset properties to original item values
+                    var form = w2ui[name];
+                    Object.keys(record).forEach(function (rname) {
+                        form.record[rname] = record[rname];
+                    });
+                    form.refresh();
+                }
+            }
         }));
 
         // ==================================================
         // Display form in popup
         // --------------------------------------------------
         w2popup.open($.extend(popupOptions, {
-            body     : ('<div id="' + id + '"></div>'),
+            body     : ("<div id=\"" + id + "\"></div>"),
             onOpen   : function (event) {
-                           event.onComplete = function () {
-                               $('#w2ui-popup #' + id).w2render(name);
-                           };
-                       },
+                event.onComplete = function () {
+                    $("#w2ui-popup #" + id).w2render(name);
+                };
+            },
             onToggle : function (event) {
-                           var form = w2ui[name];
-                           $(form.box).hide();
-                           event.onComplete = function () {
-                               $(form.box).show();
-                               form.resize();
-                           };
-                       }
+                var form = w2ui[name];
+                $(form.box).hide();
+                event.onComplete = function () {
+                    $(form.box).show();
+                    form.resize();
+                };
+            }
         }));
 
+    };
+
+    /**
+     * Set new extension of filename
+     * @memberOf olexp.util
+     * @param {string} filename Filename whose extension will be replaced
+     * @param {string} extension New extension (including dot)
+     * @public
+     * @returns {string} New filename with extension replaced
+     */
+    olexp.util.setExtension = function (filename, extension) {
+        var parts = filename.split(".");
+        if (parts.length === 1) {
+            return parts[0];
+        }
+        parts.pop();
+        return parts.join(".") + extension;
     };
 
     /**
@@ -6420,48 +6417,39 @@ olexp.util = olexp.util || {};
      * @public
      * @returns {object} Feature properties
      */
-    olexp.util.toProperties = function(feature)
-    {
+    olexp.util.toProperties = function (feature) {
         var properties = feature.getProperties();
-        
+
         // ==================================================
         // Check if this is a cluster feature
         // --------------------------------------------------
-        if (properties.hasOwnProperty('features'))
-        {
+        if (properties.hasOwnProperty("features")) {
             var features = properties.features;
-            if (features instanceof Array)
-            {
-                if (features.length === 1)
-                {
+            if (features instanceof Array) {
+                if (features.length === 1) {
                     // ==================================================
                     // If just one feature get its properties
                     // --------------------------------------------------
-                    if (features[0] instanceof ol.Feature)
-                    {
+                    if (features[0] instanceof ol.Feature) {
                         properties = features[0].getProperties();
                     }
-                }
-                else
-                {
+                } else {
                     // ==================================================
                     // If more than one feature get feature count
                     // --------------------------------------------------
                     var count = 0;
-                    for (var i = 0; i < features.length; i++)
-                    {
-                        if (features[i] instanceof ol.Feature)
-                        {
+                    features.forEach(function (feature) {
+                        if (feature instanceof ol.Feature) {
                             count += 1;
-                            properties['Cluster Size'] = count;
+                            properties["Cluster Size"] = count;
                         }
-                    }
+                    });
                 }
             }
         }
-        
-        return  properties;
-        
+
+        return properties;
+
     };
 
     /**
@@ -6471,20 +6459,18 @@ olexp.util = olexp.util || {};
      * @public
      * @returns {array} Properties in record format
      */
-    olexp.util.toRecords = function(properties)
-    {
+    olexp.util.toRecords = function (properties) {
         var records = [];
         var recid = 0;
 
         // ==================================================
         // Push properties into record
         // --------------------------------------------------
-        for (var name in properties)
-        {
+        Object.keys(properties).forEach(function (name) {
             var value = properties[name];
             recid += 1;
             records.push({recid: recid, property: name, value: value});
-        }
+        });
 
         return records;
     };
@@ -6495,7 +6481,7 @@ olexp.util = olexp.util || {};
      * @param {olexp.ExplorerSettings} settings olexp settings
      * @public
      */
-    olexp.util.Util = function(settings) {
+    olexp.util.Util = function (settings) {
         var util = new Util(settings);
         return {
             addLayerVector  : util.addLayerVector.bind(util),
