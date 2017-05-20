@@ -1,5 +1,6 @@
 
-/* global olexp */
+/*globals $, olexp, window */
+/*jslint vars: true */
 
 /**
  * @namespace olexp.manager
@@ -9,7 +10,7 @@ window.olexp.manager = window.olexp.manager || {};
 //==================================================
 // Manager
 //--------------------------------------------------
-(function(olexp) {
+(function (olexp) {
 
     "use strict";
 
@@ -25,8 +26,7 @@ window.olexp.manager = window.olexp.manager || {};
      * @param {string} overlaysId w2ui name of overlays node
      * @private
      */
-    var ManagerAPI = function(map, outline, details, layersId, overlaysId)
-    {
+    var ManagerAPI = function (map, outline, details, layersId, overlaysId) {
 
         /**
          * Event listeners
@@ -40,7 +40,7 @@ window.olexp.manager = window.olexp.manager || {};
          * @ignore
          * @type {olexp.manager.NodeManager}
          */
-        this.managerLayers = new olexp.manager.NodeManager(layersId, 
+        this.managerLayers = new olexp.manager.NodeManager(layersId,
                                                            map.getLayers(),
                                                            outline,
                                                            details);
@@ -94,8 +94,7 @@ window.olexp.manager = window.olexp.manager || {};
      * @private
      * @returns True if id a Layer node otherwise false
      */
-    ManagerAPI.prototype.isIdLayerNode = function(id)
-    {
+    ManagerAPI.prototype.isIdLayerNode = function (id) {
         if (typeof id !== "string") {
             return false;
         }
@@ -110,8 +109,7 @@ window.olexp.manager = window.olexp.manager || {};
      * @private
      * @returns True if id is a Overlay node otherwise false
      */
-    ManagerAPI.prototype.isIdOverlayNode = function(id)
-    {
+    ManagerAPI.prototype.isIdOverlayNode = function (id) {
         if (typeof id !== "string") {
             return false;
         }
@@ -126,8 +124,7 @@ window.olexp.manager = window.olexp.manager || {};
      * @public
      * @returns True if item is selected otherwise false
      */
-    ManagerAPI.prototype.isSelected = function(id)
-    {
+    ManagerAPI.prototype.isSelected = function (id) {
         return id === this.outline.selected;
     };
 
@@ -139,17 +136,14 @@ window.olexp.manager = window.olexp.manager || {};
      * @public
      * @returns {null|olexp.item.Item} Managed item or null if not found
      */
-    ManagerAPI.prototype.getById = function(id)
-    {
+    ManagerAPI.prototype.getById = function (id) {
 
         // Check if this is a layer node
-        if (this.isIdLayerNode(id))
-        {
+        if (this.isIdLayerNode(id)) {
             return this.managerLayers.getById(id);
         }
         // Check if this is a overlay node
-        else if (this.isIdOverlayNode(id))
-        {
+        if (this.isIdOverlayNode(id)) {
             return this.managerOverlays.getById(id);
         }
 
@@ -165,20 +159,16 @@ window.olexp.manager = window.olexp.manager || {};
      * @public
      * @returns {array} Item details
      */
-    ManagerAPI.prototype.getDetails = function(id)
-    {
+    ManagerAPI.prototype.getDetails = function (id) {
 
         // Check if this is a layer node
-        if (this.isIdLayerNode(id))
-        {
+        if (this.isIdLayerNode(id)) {
             var itemLayer = this.managerLayers.getById(id);
             if (itemLayer !== null) {
                 return itemLayer.getDetails();
             }
-        }
-        // Check if this is a overlay node
-        else if (this.isIdOverlayNode(id))
-        {
+        } else if (this.isIdOverlayNode(id)) {
+            // Check if this is a overlay node
             var itemOverlay = this.managerOverlays.getById(id);
             if (itemOverlay !== null) {
                 return itemOverlay.getDetails();
@@ -197,8 +187,7 @@ window.olexp.manager = window.olexp.manager || {};
      * @public
      * @returns {external:jQuery.fn.w2sidebar.nodes} w2ui sidebar node
      */
-    ManagerAPI.prototype.getNode = function(id)
-    {
+    ManagerAPI.prototype.getNode = function (id) {
         return this.outline.get(id);
     };
 
@@ -210,22 +199,20 @@ window.olexp.manager = window.olexp.manager || {};
      * @public
      * @returns {boolean} True if moved otherwise false
      */
-    ManagerAPI.prototype.moveDown = function(id)
-    {
+    ManagerAPI.prototype.moveDown = function (id) {
 
         // If no id provided use selected
-        if (typeof id === "undefined") {
+        if (id === undefined) {
             id = this.outline.selected;
         }
 
         // Check if this is a layer node
-        if (this.isIdLayerNode(id))
-        {
-            return this.managerLayers.moveDown(id);            
+        if (this.isIdLayerNode(id)) {
+            return this.managerLayers.moveDown(id);
         }
+
         // Check if this is a overlay node
-        else if (this.isIdOverlayNode(id))
-        {
+        if (this.isIdOverlayNode(id)) {
             return this.managerOverlays.moveDown(id);
         }
 
@@ -241,22 +228,20 @@ window.olexp.manager = window.olexp.manager || {};
      * @public
      * @returns {boolean} True if moved otherwise false
      */
-    ManagerAPI.prototype.moveUp = function(id)
-    {
+    ManagerAPI.prototype.moveUp = function (id) {
 
         // If no id provided use selected
-        if (typeof id === "undefined") {
+        if (id === undefined) {
             id = this.outline.selected;
         }
 
         // Check if this is a layer node
-        if (this.isIdLayerNode(id))
-        {
+        if (this.isIdLayerNode(id)) {
             return this.managerLayers.moveUp(id);
         }
+
         // Check if this is a overlay node
-        else if (this.isIdOverlayNode(id))
-        {
+        if (this.isIdOverlayNode(id)) {
             return this.managerOverlays.moveUp(id);
         }
 
@@ -273,8 +258,7 @@ window.olexp.manager = window.olexp.manager || {};
      * @param {object} optThis The object to use as this in listener.
      * @public
      */
-    ManagerAPI.prototype.off = function(type, listener, optThis)
-    {
+    ManagerAPI.prototype.off = function (type, listener, optThis) {
         this.event.off(type, listener, optThis);
         this.managerLayers.off(type, listener, optThis);
         this.managerOverlays.off(type, listener, optThis);
@@ -289,8 +273,7 @@ window.olexp.manager = window.olexp.manager || {};
      * @param {object} optThis The object to use as this in listener.
      * @public
      */
-    ManagerAPI.prototype.on = function(type, listener, optThis)
-    {
+    ManagerAPI.prototype.on = function (type, listener, optThis) {
         this.event.on(type, listener, optThis);
         this.managerLayers.on(type, listener, optThis);
         this.managerOverlays.on(type, listener, optThis);
@@ -303,8 +286,7 @@ window.olexp.manager = window.olexp.manager || {};
      * @param {string} id Layer ID
      * @public
      */
-    ManagerAPI.prototype.onItemSelected = function(id)
-    {
+    ManagerAPI.prototype.onItemSelected = function (id) {
         this.event.trigger("select:item", id);
     };
 
@@ -315,8 +297,7 @@ window.olexp.manager = window.olexp.manager || {};
      * @param {external:ol.ObjectEvent} event The change event.
      * @private
      */
-    ManagerAPI.prototype.onLayerGroupChanged = function(event)
-    {
+    ManagerAPI.prototype.onLayerGroupChanged = function (event) {
 
         this.managerLayers.setLayers(event.target.getLayers());
 
@@ -331,8 +312,7 @@ window.olexp.manager = window.olexp.manager || {};
      * @returns {null|external:ol.layer.Layer|external:ol.Overlay} Layer removed
      *          from map or null if not found
      */
-    ManagerAPI.prototype.removeFromMap = function(item)
-    {
+    ManagerAPI.prototype.removeFromMap = function (item) {
 
         // If no id provided use selected
         if (!(item.hasOwnProperty("id"))) {
@@ -340,13 +320,12 @@ window.olexp.manager = window.olexp.manager || {};
         }
 
         // Check if this is a layer node
-        if (this.isIdLayerNode(item.id))
-        {
+        if (this.isIdLayerNode(item.id)) {
             return this.managerLayers.removeFromMap(item);
         }
+
         // Check if this is a overlay node
-        else if (this.isIdOverlayNode(item.id))
-        {
+        if (this.isIdOverlayNode(item.id)) {
             return this.managerOverlays.removeFromMap(item);
         }
 
@@ -361,8 +340,7 @@ window.olexp.manager = window.olexp.manager || {};
      * @param {string} id Item ID of node to toggle
      * @public
      */
-    ManagerAPI.prototype.toggleNode = function(id)
-    {
+    ManagerAPI.prototype.toggleNode = function (id) {
 
         if (typeof id !== "string") {
             return;
@@ -373,12 +351,9 @@ window.olexp.manager = window.olexp.manager || {};
         // --------------------------------------------------
         var node = this.outline.get(id);
         var enable = node.disabled;
-        if (enable)
-        {
+        if (enable) {
             this.outline.enable(id);
-        }
-        else
-        {
+        } else {
             this.outline.disable(id);
         }
 
@@ -387,30 +362,22 @@ window.olexp.manager = window.olexp.manager || {};
         // --------------------------------------------------
 
         // Check if this is a layer node
-        if (this.isIdLayerNode(id))
-        {
+        if (this.isIdLayerNode(id)) {
             var itemLayer = this.managerLayers.getById(id);
             if (itemLayer !== null) {
                 itemLayer.layer.setVisible(enable);
             }
-        }
-        // Check if this is a overlay node
-        else if (this.isIdOverlayNode(id))
-        {
+        } else if (this.isIdOverlayNode(id)) {
+            // Check if this is a overlay node
             var itemOverlay = this.managerOverlays.getById(id);
-            if (itemOverlay !== null)
-            {
+            if (itemOverlay !== null) {
                 // Overlays don't have visibility so we hide DOM element
                 var properties = itemOverlay.layer.getProperties();
-                if (properties.hasOwnProperty("element"))
-                {
+                if (properties.hasOwnProperty("element")) {
                     var dom = $(properties.element);
-                    if (enable)
-                    {
+                    if (enable) {
                         dom.show();
-                    }
-                    else
-                    {
+                    } else {
                         dom.hide();
                     }
                 }
@@ -427,11 +394,9 @@ window.olexp.manager = window.olexp.manager || {};
      * @param {object} properties Item properties to update
      * @public
      */
-    ManagerAPI.prototype.updateItem = function(id, properties)
-    {
+    ManagerAPI.prototype.updateItem = function (id, properties) {
         var item = this.getById(id);
-        if (item !== null)
-        {
+        if (item !== null) {
             item.setProperties(properties);
 
             // Update node
@@ -449,8 +414,7 @@ window.olexp.manager = window.olexp.manager || {};
      * @param {string} id ID of item on which to zoom
      * @public
      */
-    ManagerAPI.prototype.zoomTo = function(id)
-    {
+    ManagerAPI.prototype.zoomTo = function (id) {
         var item = this.getById(id);
         item.zoomTo(this.map);
     };
@@ -468,7 +432,7 @@ window.olexp.manager = window.olexp.manager || {};
      * @public
      * @returns {olexp.manager.ManagerAPI}
      */
-    olexp.manager.Manager = function(map, outline, details, layers, overlays) {
+    olexp.manager.Manager = function (map, outline, details, layers, overlays) {
         var manager = new ManagerAPI(map, outline, details, layers, overlays);
         return {
             getById        : manager.getById.bind(manager),
@@ -494,7 +458,9 @@ window.olexp.manager = window.olexp.manager || {};
 //==================================================
 // Node Manager
 //--------------------------------------------------
-(function(olexp) {
+(function (olexp) {
+
+    "use strict";
 
     /**
      * Node manager that synchronizes adding and removing items
@@ -504,8 +470,7 @@ window.olexp.manager = window.olexp.manager || {};
      * @param {external:jQuery.fn.w2grid} details Details grid
      * @private
      */
-    var NodeManager = function(id, layers, outline, details)
-    {
+    var NodeManager = function (id, layers, outline, details) {
 
         /**
          * Total count of items added
@@ -566,8 +531,7 @@ window.olexp.manager = window.olexp.manager || {};
      * @private
      * @returns {olexp.item.Item} Managed item for added layer
      */
-    NodeManager.prototype.addLayer = function(layer)
-    {
+    NodeManager.prototype.addLayer = function (layer) {
 
         // ==================================================
         // Create managed item
@@ -601,12 +565,9 @@ window.olexp.manager = window.olexp.manager || {};
 
         // Always prepend new node to top
         var nodes = this.outline.get(this.id).nodes;
-        if (nodes.length === 0)
-        {
+        if (nodes.length === 0) {
             this.outline.add(this.id, [node]);
-        }
-        else
-        {
+        } else {
             this.outline.insert(this.id, nodes[0].id, [node]);
         }
 
@@ -614,8 +575,7 @@ window.olexp.manager = window.olexp.manager || {};
         // Check layer is group and create a sub-manager and add its
         // layers
         // --------------------------------------------------
-        if (item.type === olexp.item.Type.GROUP)
-        {
+        if (item.type === olexp.item.Type.GROUP) {
 
             var layers = layer.getLayers();
             var manager = new NodeManager(item.id,
@@ -623,8 +583,7 @@ window.olexp.manager = window.olexp.manager || {};
                                           this.outline,
                                           this.details);
 
-            layers.forEach(function(childLayer)
-            {
+            layers.forEach(function (childLayer) {
                 manager.addLayer(childLayer);
             }, this);
             this.managers[item.id] = manager;
@@ -644,30 +603,31 @@ window.olexp.manager = window.olexp.manager || {};
      * @private
      * @returns {null|olexp.item.Item} Managed item or null if not found
      */
-    NodeManager.prototype.getById = function(id, recursive)
-    {
+    NodeManager.prototype.getById = function (id, recursive) {
 
-        if (typeof recursive === "undefined") {
+        if (recursive === undefined) {
             recursive = true;
         }
 
-        var numItems = this.getSize();
-        for (var i = 0; i < numItems; i++)
-        {
-            if (this.items[i].id === id) {
-                return this.items[i];
+        var me = this;
+        var itemFound = null;
+        this.items.forEach(function (item) {
+            if (itemFound !== null) {
+                return;
             }
-            if (this.items[i].type === olexp.item.Type.GROUP && recursive) {
-                var item = this.managers[this.items[i].id].getById(id);
-                if (item === null) {
-                    continue;
-                }
-                if (item.id === id) {
-                    return item;
+            if (item.id === id) {
+                itemFound = item;
+                return;
+            }
+            if (item.type === olexp.item.Type.GROUP && recursive) {
+                var nodeItem = me.managers[item.id].getById(id);
+                if ((nodeItem !== null) && (nodeItem.id === id)) {
+                    itemFound = nodeItem;
+                    return;
                 }
             }
-        }
-        return null;
+        });
+        return itemFound;
 
     };
 
@@ -679,30 +639,32 @@ window.olexp.manager = window.olexp.manager || {};
      * @private
      * @returns {null|olexp.item.Item} Managed item or null if not found
      */
-    NodeManager.prototype.getByLayer = function(layer, recursive)
-    {
+    NodeManager.prototype.getByLayer = function (layer, recursive) {
 
-        if (typeof recursive === "undefined") {
+        if (recursive === undefined) {
             recursive = true;
         }
 
-        var numItems = this.getSize();
-        for (var i = 0; i < numItems; i++)
-        {
-            if (this.items[i].layer === layer) {
-                return this.items[i];
+        var me = this;
+        var itemFound = null;
+        this.items.forEach(function (item) {
+            if (itemFound !== null) {
+                return;
             }
-            if (this.items[i].type === olexp.item.Type.GROUP && recursive) {
-                var item = this.managers[this.items[i].id].getByLayer(layer);
-                if (item === null) {
-                    continue;
-                }
-                if (item.layer === layer) {
-                    return item;
+            if (item.layer === layer) {
+                itemFound = item;
+                return;
+            }
+            if (item.type === olexp.item.Type.GROUP && recursive) {
+                var nodeItem = me.managers[item.id].getByLayer(layer);
+                if ((nodeItem !== null) && (nodeItem.layer === layer)) {
+                    itemFound = nodeItem;
+                    return;
                 }
             }
-        }
-        return null;
+        });
+        return itemFound;
+
     };
 
     /**
@@ -711,8 +673,7 @@ window.olexp.manager = window.olexp.manager || {};
      * @private
      * @returns {number} Size
      */
-    NodeManager.prototype.getSize = function()
-    {
+    NodeManager.prototype.getSize = function () {
         return this.items.length;
     };
 
@@ -723,8 +684,7 @@ window.olexp.manager = window.olexp.manager || {};
      * @private
      * @returns {boolean} True if item is selected otherwise false
      */
-    NodeManager.prototype.isSelected = function(id)
-    {
+    NodeManager.prototype.isSelected = function (id) {
         return id === this.outline.selected;
     };
 
@@ -736,8 +696,7 @@ window.olexp.manager = window.olexp.manager || {};
      * @private
      * @returns {boolean} True if item is hidden otherwise false
      */
-    NodeManager.prototype.isHidden = function(layer)
-    {
+    NodeManager.prototype.isHidden = function (layer) {
         if (layer instanceof olexp.measure.Overlay) {
             return true;
         }
@@ -752,13 +711,11 @@ window.olexp.manager = window.olexp.manager || {};
      * @returns {null|boolean} True if moved, false is not moved, null if not
      *                         found.
      */
-    NodeManager.prototype.moveDown = function(id)
-    {
+    NodeManager.prototype.moveDown = function (id) {
 
         var item = this.getById(id, false);
 
-        if (item !== null)
-        {
+        if (item !== null) {
             // Item found in this node
             var movedItem = this.moveLayerUp(this.layers, item.layer);
             if (movedItem) {
@@ -768,19 +725,21 @@ window.olexp.manager = window.olexp.manager || {};
         }
 
         // Check if item in child managers
-        var numItems = this.getSize();
-        for (var i = 0; i < numItems; i++)
-        {
-            if (this.items[i].type === olexp.item.Type.GROUP)
-            {
-                var movedChild = this.managers[this.items[i].id].moveDown(id);
+        var me = this;
+        var itemFound = null;
+        this.items.forEach(function (item) {
+            if (itemFound !== null) {
+                return;
+            }
+            if (item.type === olexp.item.Type.GROUP) {
+                var movedChild = me.managers[item.id].moveDown(id);
                 if (movedChild !== null) {
-                    return movedChild;
+                    itemFound = movedChild;
+                    return;
                 }
             }
-        }
-
-        return null;
+        });
+        return itemFound;
 
     };
 
@@ -791,8 +750,7 @@ window.olexp.manager = window.olexp.manager || {};
      * @private
      * @returns {boolean} True if moved otherwise false
      */
-    NodeManager.prototype.moveItemDown = function(id)
-    {
+    NodeManager.prototype.moveItemDown = function (id) {
         // Get node to move
         var node = this.outline.get(id);
         if (node === null) {
@@ -800,8 +758,7 @@ window.olexp.manager = window.olexp.manager || {};
         }
 
         // Get index in list
-        var nodes = this.outline.find(node.parent.id,
-        {
+        var nodes = this.outline.find(node.parent.id, {
             parent : node.parent
         });
         var index = this.outline.get(node.parent.id, id, true);
@@ -833,8 +790,7 @@ window.olexp.manager = window.olexp.manager || {};
      * @private
      * @returns {boolean} True if moved otherwise false
      */
-    NodeManager.prototype.moveItemUp = function(id)
-    {
+    NodeManager.prototype.moveItemUp = function (id) {
         // Get node to move
         var node = this.outline.get(id);
         if (node === null) {
@@ -842,8 +798,7 @@ window.olexp.manager = window.olexp.manager || {};
         }
 
         // Get index in list
-        var nodes = this.outline.find(node.parent.id,
-        {
+        var nodes = this.outline.find(node.parent.id, {
             parent : node.parent
         });
         var index = this.outline.get(node.parent.id, id, true);
@@ -876,12 +831,10 @@ window.olexp.manager = window.olexp.manager || {};
      * @private
      * @returns {boolean} True if moved otherwise false
      */
-    NodeManager.prototype.moveLayerDown = function(layers, layer)
-    {
+    NodeManager.prototype.moveLayerDown = function (layers, layer) {
         var index = olexp.util.indexOf(layers, layer);
         var numLayers = this.layers.getLength();
-        if (index < numLayers - 1)
-        {
+        if (index < numLayers - 1) {
             var item = this.getByLayer(layer, false);
 
             // Set item to moving so it's not removed by the manager
@@ -903,11 +856,9 @@ window.olexp.manager = window.olexp.manager || {};
      * @private
      * @returns {boolean} True if moved otherwise false
      */
-    NodeManager.prototype.moveLayerUp = function(layers, layer)
-    {
+    NodeManager.prototype.moveLayerUp = function (layers, layer) {
         var index = olexp.util.indexOf(layers, layer);
-        if (index > 0)
-        {
+        if (index > 0) {
             var item = this.getByLayer(layer, false);
 
             // Set item to moving so it's not removed by the manager
@@ -929,13 +880,11 @@ window.olexp.manager = window.olexp.manager || {};
      * @returns {null|boolean} True if moved, false if not moved, null if not
      *                         found
      */
-    NodeManager.prototype.moveUp = function(id)
-    {
+    NodeManager.prototype.moveUp = function (id) {
 
         var item = this.getById(id, false);
 
-        if (item !== null)
-        {
+        if (item !== null) {
             // Item found in this node
             var movedItem = this.moveLayerDown(this.layers, item.layer);
             if (movedItem) {
@@ -945,19 +894,21 @@ window.olexp.manager = window.olexp.manager || {};
         }
 
         // Check if item in child managers
-        var numItems = this.getSize();
-        for (var i = 0; i < numItems; i++)
-        {
-            if (this.items[i].type === olexp.item.Type.GROUP)
-            {
-                var movedChild = this.managers[this.items[i].id].moveUp(id);
+        var me = this;
+        var itemFound = null;
+        this.items.forEach(function (item) {
+            if (itemFound !== null) {
+                return;
+            }
+            if (item.type === olexp.item.Type.GROUP) {
+                var movedChild = me.managers[item.id].moveUp(id);
                 if (movedChild !== null) {
-                    return movedChild;
+                    itemFound = movedChild;
+                    return;
                 }
             }
-        }
-
-        return null;
+        });
+        return itemFound;
 
     };
 
@@ -969,16 +920,14 @@ window.olexp.manager = window.olexp.manager || {};
      * @param {object} optThis The object to use as this in listener.
      * @private
      */
-    NodeManager.prototype.off = function(type, listener, optThis)
-    {
+    NodeManager.prototype.off = function (type, listener, optThis) {
         this.event.off(type, listener, optThis);
 
         // Remove listener from child managers
         var numItems = this.getSize();
-        for (var i = 0; i < numItems; i++)
-        {
-            if (this.items[i].type === olexp.item.Type.GROUP)
-            {
+        var i = 0;
+        for (i = 0; i < numItems; i += 1) {
+            if (this.items[i].type === olexp.item.Type.GROUP) {
                 this.managers[this.items[i].id].off(type, listener, optThis);
             }
         }
@@ -993,16 +942,14 @@ window.olexp.manager = window.olexp.manager || {};
      * @param {object} optThis The object to use as this in listener.
      * @private
      */
-    NodeManager.prototype.on = function(type, listener, optThis)
-    {
+    NodeManager.prototype.on = function (type, listener, optThis) {
         this.event.on(type, listener, optThis);
 
         // Register listener with child managers
         var numItems = this.getSize();
-        for (var i = 0; i < numItems; i++)
-        {
-            if (this.items[i].type === olexp.item.Type.GROUP)
-            {
+        var i = 0;
+        for (i = 0; i < numItems; i += 1) {
+            if (this.items[i].type === olexp.item.Type.GROUP) {
                 this.managers[this.items[i].id].on(type, listener, optThis);
             }
         }
@@ -1015,14 +962,12 @@ window.olexp.manager = window.olexp.manager || {};
      * @param {olexp.item.Item} item OpenLayers Explorer Item
      * @private
      */
-    NodeManager.prototype.onItemRemoved = function(item)
-    {
+    NodeManager.prototype.onItemRemoved = function (item) {
         // Trigger item remove event
         this.event.trigger("remove:item", item);
 
         // Remove item
-        if (this.isSelected(item.id))
-        {
+        if (this.isSelected(item.id)) {
             this.details.clear();
         }
         this.remove(item);
@@ -1034,8 +979,7 @@ window.olexp.manager = window.olexp.manager || {};
      * @param {ol.ObjectEvent} event ol3 Layer change event
      * @private
      */
-    NodeManager.prototype.onLayerChanged = function(event)
-    {
+    NodeManager.prototype.onLayerChanged = function (event) {
 
         // ==================================================
         // Extract layers from change event
@@ -1045,17 +989,15 @@ window.olexp.manager = window.olexp.manager || {};
         // ==================================================
         // If layer is in map but not in manager then add
         // --------------------------------------------------
+        var i = 0;
+        var layer = null;
         var numLayers = changes.getLength();
-        for (var i = 0; i < numLayers; i++)
-        {
-            var layer = changes.item(i);
-            if (this.isHidden(layer)) {
-                continue;
-            }
-            var itemMap = this.getByLayer(layer);
-            if (itemMap === null)
-            {
-                this.addLayer(layer);
+        for (i = 0; i < numLayers; i += 1) {
+            layer = changes.item(i);
+            if (this.isHidden(layer) === false) {
+                if (this.getByLayer(layer) === null) {
+                    this.addLayer(layer);
+                }
             }
         }
 
@@ -1063,23 +1005,16 @@ window.olexp.manager = window.olexp.manager || {};
         // If layer is in manager but not in map then remove
         // --------------------------------------------------
 
+        var me = this;
         var items = this.toList();
-        var numItems = items.length;
-        for (var j = 0; j < numItems; j++)
-        {
-            var itemManager = items[j];
-
+        items.forEach(function (item) {
             // Check if item is just being moved by user
-            if (itemManager.moving()) {
-                continue;
+            if (item.moving() === false) {
+                if (olexp.util.indexOf(me.layers, item.layer) === -1) {
+                    me.onItemRemoved(item);
+                }
             }
-
-            var index = olexp.util.indexOf(this.layers, itemManager.layer);
-            if (index === -1)
-            {
-                this.onItemRemoved(itemManager);
-            }
-        }
+        });
 
     };
 
@@ -1090,15 +1025,13 @@ window.olexp.manager = window.olexp.manager || {};
      * @private
      * @returns {boolean} True if removed otherwise false
      */
-    NodeManager.prototype.remove = function(item)
-    {
+    NodeManager.prototype.remove = function (item) {
 
         // ==================================================
         // Remove layer from manager
         // --------------------------------------------------
         var index = this.items.indexOf(item);
-        if (index !== -1)
-        {
+        if (index !== -1) {
             this.items.splice(index, 1);
             this.outline.remove(item.id);
             return true;
@@ -1107,20 +1040,20 @@ window.olexp.manager = window.olexp.manager || {};
         // ==================================================
         // Check if item in child managers and remove
         // --------------------------------------------------
-        var numItems = this.getSize();
-        for (var i = 0; i < numItems; i++)
-        {
-            if (this.items[i].type === olexp.item.Type.GROUP)
-            {
-                var removed = this.managers[this.items[i].id].remove(item);
-                if (removed) {
-                    return true;
+        var me = this;
+        var itemRemoved = false;
+        this.items.forEach(function (item) {
+            if (itemRemoved) {
+                return;
+            }
+            if (item.type === olexp.item.Type.GROUP) {
+                if (me.managers[item.id].remove(item)) {
+                    itemRemoved = true;
+                    return;
                 }
             }
-        }
-
-        return false;
-
+        });
+        return itemRemoved;
     };
 
     /**
@@ -1130,29 +1063,30 @@ window.olexp.manager = window.olexp.manager || {};
      * @param {null|ol.layer.Layer|ol.Overlay} Layer removed from map or null
      *                                         if not found
      */
-    NodeManager.prototype.removeFromMap = function(item)
-    {
+    NodeManager.prototype.removeFromMap = function (item) {
         var layerMap = this.layers.remove(item.layer);
-        if (typeof layerMap !== "undefined") {
+        if (layerMap !== undefined) {
             return layerMap;
         }
 
         // ==================================================
         // Check if item in child managers and remove
         // --------------------------------------------------
-        var numItems = this.getSize();
-        for (var i = 0; i < numItems; i++)
-        {
-            if (this.items[i].type === olexp.item.Type.GROUP)
-            {
-                var layerChild = this.managers[this.items[i].id].removeFromMap(item);
+        var me = this;
+        var itemRemoved = null;
+        this.items.forEach(function (item) {
+            if (itemRemoved !== null) {
+                return;
+            }
+            if (item.type === olexp.item.Type.GROUP) {
+                var layerChild = me.managers[item.id].removeFromMap(item);
                 if (layerChild !== null) {
-                    return layerChild;
+                    itemRemoved = layerChild;
+                    return;
                 }
             }
-        }
-        
-        return null;
+        });
+        return itemRemoved;
 
     };
 
@@ -1163,21 +1097,19 @@ window.olexp.manager = window.olexp.manager || {};
      * @param {external:ol.Collection} layers New layer collection to monitor.
      * @private
      */
-    NodeManager.prototype.setLayers = function(layers)
-    {
+    NodeManager.prototype.setLayers = function (layers) {
 
         // Remove old layers
         this.layers.un("change:length", this.onLayerChanged, this);
-        while (this.items.length > 0)
-        {
-            this.onItemRemoved(this.items[this.items.length-1]);
+        while (this.items.length > 0) {
+            this.onItemRemoved(this.items[this.items.length - 1]);
         }
 
         // Add new layers
         this.layers = layers;
         this.layers.on("change:length", this.onLayerChanged, this);
-        for (var j = 0; j < this.layers.getLength(); j++)
-        {
+        var j = 0;
+        for (j = 0; j < this.layers.getLength(); j += 1) {
             this.addLayer(this.layers.item(j));
         }
 
@@ -1189,13 +1121,12 @@ window.olexp.manager = window.olexp.manager || {};
      * @private
      * @returns {array} List of items
      */
-    NodeManager.prototype.toList = function()
-    {
+    NodeManager.prototype.toList = function () {
 
         var items = [];
         var numItems = this.getSize();
-        for (var i = 0; i < numItems; i++)
-        {
+        var i = 0;
+        for (i = 0; i < numItems; i += 1) {
             items.push(this.items[i]);
         }
         return items;
@@ -1212,7 +1143,7 @@ window.olexp.manager = window.olexp.manager || {};
      * @param {external:jQuery.fn.w2grid} details Details grid
      * @public
      */
-    olexp.manager.NodeManager = function(id, map, outline, details) {
+    olexp.manager.NodeManager = function (id, map, outline, details) {
         var manager = new NodeManager(id, map, outline, details);
         return {
             getById        : manager.getById.bind(manager),

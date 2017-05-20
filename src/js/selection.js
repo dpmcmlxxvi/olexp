@@ -1,5 +1,6 @@
 
-/* global ol, olexp */
+/*globals ol, olexp, window */
+/*jslint vars: true */
 
 /**
  * @namespace olexp.selection
@@ -9,7 +10,7 @@ window.olexp.selection = window.olexp.selection || {};
 //==================================================
 // Selection Tool
 //--------------------------------------------------
-(function(olexp) {
+(function (olexp) {
 
     "use strict";
 
@@ -19,8 +20,7 @@ window.olexp.selection = window.olexp.selection || {};
      * @param {external:jQuery.fn.w2grid} details Details grid
      * @private
      */
-    var Feature = function(map, details)
-    {
+    var Feature = function (map, details) {
 
         /**
          * Details grid
@@ -44,21 +44,19 @@ window.olexp.selection = window.olexp.selection || {};
         // Add callback for feature selection
         // --------------------------------------------------
         var me = this;
-        this.interaction.on("select", function(event) {
+        this.interaction.on("select", function (event) {
 
-            if (event.selected.length === 1)
-            {
+            if (event.selected.length === 1) {
                 var feature = event.selected[0];
                 var properties = olexp.util.toProperties(feature);
-                for (var name in properties)
-                {
-                    if (typeof properties[name] !== "boolean" &&
-                        typeof properties[name] !== "number" &&
-                        typeof properties[name] !== "string")
-                    {
+                Object.keys(properties).forEach(function (name) {
+                    var type = typeof properties[name];
+                    if ((type !== "boolean") &&
+                            (type !== "number") &&
+                            (type !== "string")) {
                         delete properties[name];
                     }
-                }
+                });
                 var records = olexp.util.toRecords(properties);
                 me.details.clear();
                 me.details.add(records);
@@ -73,14 +71,10 @@ window.olexp.selection = window.olexp.selection || {};
      * @memberOf Feature.prototype
      * @param {boolean} enable True if selection should be enabled otherwise false
       */
-    Feature.prototype.setEnable = function(enable)
-    {
-        if (enable)
-        {
+    Feature.prototype.setEnable = function (enable) {
+        if (enable) {
             this.map.addInteraction(this.interaction);
-        }
-        else
-        {
+        } else {
             this.map.removeInteraction(this.interaction);
         }
     };
@@ -93,7 +87,7 @@ window.olexp.selection = window.olexp.selection || {};
      * @public
      * @returns {olexp.selection.Feature} Feature selector
      */
-    olexp.selection.Feature = function(map, details) {
+    olexp.selection.Feature = function (map, details) {
 
         var selector = new Feature(map, details);
 
@@ -104,8 +98,7 @@ window.olexp.selection = window.olexp.selection || {};
          * @property {function} setEnable Enable/disable feature selection
          */
         return {
-            setEnable: function (enable)
-            {
+            setEnable: function (enable) {
                 selector.setEnable(enable);
             }
         };

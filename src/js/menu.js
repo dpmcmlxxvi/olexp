@@ -1,5 +1,6 @@
 
-/* global olexp, w2confirm */
+/*globals $, olexp, w2confirm, window */
+/*jslint vars: true */
 
 /**
  * @namespace olexp.menu
@@ -9,7 +10,7 @@ window.olexp.menu = window.olexp.menu || {};
 //==================================================
 // Properties menu item
 //--------------------------------------------------
-(function(olexp) {
+(function (olexp) {
 
     "use strict";
 
@@ -19,22 +20,24 @@ window.olexp.menu = window.olexp.menu || {};
      * @param {olexp.ExplorerSettings} settings olexp settings
      * @private
      */
-    var Properties = function(manager, settings)
-    {
+    var Properties = function (manager, settings) {
 
-        var olexpSettings = $.extend(true, {menu : {
-            Properties : {
-                field  : 35,
-                form   : {},
-                popup  : {
-                    height : 130,
-                    style  : "width: 100%; height: 100%;",
-                    title  : "Edit Layer",
-                    width  : 365
-                },
-                span   : 4,
-                text   : "Properties"
-            }}}, settings);
+        var olexpSettings = $.extend(true, {
+            menu : {
+                Properties : {
+                    field  : 35,
+                    form   : {},
+                    popup  : {
+                        height : 130,
+                        style  : "width: 100%; height: 100%;",
+                        title  : "Edit Layer",
+                        width  : 365
+                    },
+                    span   : 4,
+                    text   : "Properties"
+                }
+            }
+        }, settings);
 
         /**
          * Menu item icon
@@ -92,8 +95,7 @@ window.olexp.menu = window.olexp.menu || {};
      * @param {external:jQuery.fn.w2sidebar.onMenuClick} event Menu click event
      * @private
      */
-    Properties.prototype.onClick = function(event)
-    {
+    Properties.prototype.onClick = function (event) {
 
         var me = this;
 
@@ -114,45 +116,41 @@ window.olexp.menu = window.olexp.menu || {};
         var formHeight = this.settings.popup.height;
         var fieldHeight = this.settings.field;
         var fields = [];
-        
+
         // Add item name field
         formHeight += fieldHeight;
         fields.push({
-            field: "name",
-            html:
-            {
+            field : "name",
+            html  : {
                 caption : "Name",
                 span    : this.settings.span
             },
-            required: true,
-            type: "text"
+            required : true,
+            type     : "text"
         });
 
         // Add numeric fields
         var propertyTypes = item.getPropertyTypes();
-        var numerics = $.map(propertyTypes, function(value) {
+        var numerics = $.map(propertyTypes, function (value) {
             return value.title;
         });
-        for (var i = 0; i < numerics.length; i++)
-        {
+        numerics.forEach(function (title) {
             formHeight += fieldHeight;
             fields.push({
-                field: numerics[i].toLowerCase(),
-                html:
-                {
-                    caption : numerics[i],
-                    span    : this.settings.span
+                field : title.toLowerCase(),
+                html : {
+                    caption : title,
+                    span    : me.settings.span
                 },
-                required: true,
-                type: "float"
+                required : true,
+                type     : "float"
             });
-        }
+        });
 
         // ==================================================
         // Function to process form changes
         // --------------------------------------------------
-        var onChanges = function(changes)
-        {
+        var onChanges = function (changes) {
             me.manager.updateItem(id, changes);
         };
 
@@ -169,7 +167,7 @@ window.olexp.menu = window.olexp.menu || {};
         var popupOptions = $.extend($.extend({}, this.settings.popup), {
             height : formHeight
         });
-        
+
         olexp.util.popup(this.form, onChanges, formOptions, popupOptions);
 
     };
@@ -181,7 +179,7 @@ window.olexp.menu = window.olexp.menu || {};
      * @param {olexp.ExplorerSettings} settings olexp settings
      * @public
      */
-    olexp.menu.Properties = function(manager, settings) {
+    olexp.menu.Properties = function (manager, settings) {
 
         var control = new Properties(manager, settings);
 
@@ -191,21 +189,23 @@ window.olexp.menu = window.olexp.menu || {};
                 img  : control.icon,
                 text : control.settings.text
             },
-            click: function(event) {
+            click: function (event) {
                 control.onClick(event);
             }
         };
 
     };
-    
+
     return olexp;
-    
+
 }(olexp || {}));
 
 //==================================================
 // Remove menu item
 //--------------------------------------------------
-(function(olexp) {
+(function (olexp) {
+
+    "use strict";
 
     /**
      * Remove menu item
@@ -213,13 +213,15 @@ window.olexp.menu = window.olexp.menu || {};
      * @param {olexp.ExplorerSettings} settings olexp settings
      * @private
      */
-    var Remove = function(manager, settings)
-    {
+    var Remove = function (manager, settings) {
 
-        var olexpSettings = $.extend(true, {menu : {
-            Remove : {
-                text : "Remove"
-            }}}, settings);
+        var olexpSettings = $.extend(true, {
+            menu : {
+                Remove : {
+                    text : "Remove"
+                }
+            }
+        }, settings);
 
         /**
          * Menu item icon
@@ -261,8 +263,7 @@ window.olexp.menu = window.olexp.menu || {};
      * @param {external:jQuery.fn.w2sidebar.onMenuClick} event Menu click event
      * @private
      */
-    Remove.prototype.onClick = function(event)
-    {
+    Remove.prototype.onClick = function (event) {
 
         var me = this;
 
@@ -292,7 +293,7 @@ window.olexp.menu = window.olexp.menu || {};
      * @param {olexp.ExplorerSettings} settings olexp settings
      * @public
      */
-    olexp.menu.Remove = function(manager, settings) {
+    olexp.menu.Remove = function (manager, settings) {
 
         var control = new Remove(manager, settings);
 
@@ -302,21 +303,23 @@ window.olexp.menu = window.olexp.menu || {};
                 img  : control.icon,
                 text : control.settings.text
             },
-            click: function(event) {
+            click: function (event) {
                 control.onClick(event);
             }
         };
 
     };
-    
+
     return olexp;
-    
+
 }(olexp || {}));
 
 //==================================================
 // Zoom menu item
 //--------------------------------------------------
-(function(olexp) {
+(function (olexp) {
+
+    "use strict";
 
     /**
      * Zoom menu item
@@ -324,13 +327,15 @@ window.olexp.menu = window.olexp.menu || {};
      * @param {olexp.ExplorerSettings} settings olexp settings
      * @private
      */
-    var Zoom = function(manager, settings)
-    {
-        
-        var olexpSettings = $.extend(true, {menu : {
-            Zoom : {
-                text : "Zoom"
-            }}}, settings);
+    var Zoom = function (manager, settings) {
+
+        var olexpSettings = $.extend(true, {
+            menu : {
+                Zoom : {
+                    text : "Zoom"
+                }
+            }
+        }, settings);
 
         /**
          * Menu item icon
@@ -372,8 +377,7 @@ window.olexp.menu = window.olexp.menu || {};
      * @param {external:jQuery.fn.w2sidebar.onMenuClick} event Menu click event
      * @private
      */
-    Zoom.prototype.onClick = function(event)
-    {
+    Zoom.prototype.onClick = function (event) {
 
         // ==================================================
         // Extract node item id
@@ -394,7 +398,7 @@ window.olexp.menu = window.olexp.menu || {};
      * @param {olexp.ExplorerSettings} settings olexp settings
      * @public
      */
-    olexp.menu.Zoom = function(manager, settings) {
+    olexp.menu.Zoom = function (manager, settings) {
 
         var control = new Zoom(manager, settings);
 
@@ -404,13 +408,13 @@ window.olexp.menu = window.olexp.menu || {};
                 img  : control.icon,
                 text : control.settings.text
             },
-            click: function(event) {
+            click: function (event) {
                 control.onClick(event);
             }
         };
 
     };
-    
+
     return olexp;
-    
+
 }(olexp || {}));

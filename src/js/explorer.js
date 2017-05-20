@@ -1,5 +1,6 @@
 
-/* global ol, olexp, w2ui */
+/*globals $, ol, olexp, w2ui, window */
+/*jslint vars: true */
 
 /**
  * @namespace olexp
@@ -366,7 +367,7 @@ window.olexp = window.olexp || {};
 /**
  * olexp main module
  */
-(function(olexp) {
+(function (olexp) {
     "use strict";
 
     /**
@@ -376,26 +377,23 @@ window.olexp = window.olexp || {};
      * @param {olexp.ExplorerOptions} [options] Explorer options
      * @throws {Error} id must be defined and exist
      */
-    var Explorer = function(id, options)
-    {
+    var Explorer = function (id, options) {
 
         // ==================================================
         // Parse arguments
         // --------------------------------------------------
 
-        if (typeof id === "undefined")
-        {
+        if (id === undefined) {
             throw new Error("olexp.Explorer: id not defined");
         }
-        else if ($("#"+id).length === 0)
-        {
+        if ($("#" + id).length === 0) {
             throw new Error("olexp.Explorer: id not found");
         }
 
         // ==================================================
         // Default options
         // --------------------------------------------------
-        
+
         // Prefix is used to create DOM ids and w2ui names. This ensures they
         // are unique and can have multiple instances on the same page
         var prefix = "olexp-" + id;
@@ -544,7 +542,7 @@ window.olexp = window.olexp || {};
             },
             olmap : {
                 controls : [],
-                view     : new ol.View({center: [0,0], zoom: 3})
+                view     : new ol.View({center: [0, 0], zoom: 3})
             },
             outline : {
                 type  : "main"
@@ -560,7 +558,7 @@ window.olexp = window.olexp || {};
                 size  : "40",
                 style : "padding: 5px;",
                 type  : "top"
-            },
+            }
         };
 
         // Override default options with user options
@@ -621,17 +619,17 @@ window.olexp = window.olexp || {};
                 toolbar    : prefix + "-explorer-name-toolbar"
             },
             layers : {
-                id : prefix + "-explorer-id-layers",
+                id : prefix + "-explorer-id-layers"
             },
             map : {
                 content : ("<div id=\"" + prefix + "-explorer-id-map\"" +
-                           " class=\"olexp-explorer-map\"></div>"),
+                           " class=\"olexp-explorer-map\"></div>")
             },
             olmap : {
-                target   : prefix + "-explorer-id-map",
+                target   : prefix + "-explorer-id-map"
             },
             overlays : {
-                id : prefix + "-explorer-id-overlays",
+                id : prefix + "-explorer-id-overlays"
             },
             settings : {
                 prefix : prefix
@@ -649,19 +647,19 @@ window.olexp = window.olexp || {};
 
         var div = $("<div>", {"id": this.options.explorer.id,
                               "class": this.options.explorer.cls});
-        $("#"+id).append(div);
+        $("#" + id).append(div);
 
         // ==================================================
         // Main Layout
         // --------------------------------------------------
 
-        this.layout = $("#"+this.options.explorer.id).w2layout({
+        this.layout = $("#" + this.options.explorer.id).w2layout({
             name   : this.options.explorer.layout,
             panels : [
-                          this.options.navigation,
-                          this.options.map,
-                          this.options.toolbar
-                     ]
+                this.options.navigation,
+                this.options.map,
+                this.options.toolbar
+            ]
         });
 
         // ==================================================
@@ -678,20 +676,18 @@ window.olexp = window.olexp || {};
 
         this.navigation = $("").w2layout({
             name     : this.options.explorer.navigation,
-            onResize : function() {
-                           if (me.hasOwnProperty("map"))
-                           {
-                               me.map.updateSize();
-                           }
-                           if (me.hasOwnProperty("details"))
-                           {
-                               me.details.resize();
-                           }
-                       },
+            onResize : function () {
+                if (me.hasOwnProperty("map")) {
+                    me.map.updateSize();
+                }
+                if (me.hasOwnProperty("details")) {
+                    me.details.resize();
+                }
+            },
             panels   : [
-                        this.options.outline,
-                        this.options.details
-                       ]
+                this.options.outline,
+                this.options.details
+            ]
         });
 
         // ==================================================
@@ -701,28 +697,27 @@ window.olexp = window.olexp || {};
         this.outline = $("").w2sidebar({
             name       : this.options.explorer.outline,
             nodes      : [
-                              this.options.layers,
-                              this.options.overlays
-                         ],
+                this.options.layers,
+                this.options.overlays
+            ],
             onClick    : function (event) {
-                             var id = event.target;
-                             var records = me.manager.getDetails(id);
-                             me.details.clear();
-                             me.details.add(records);
-                             me.manager.onItemSelected(id);
-                         },
+                var targetId = event.target;
+                var records = me.manager.getDetails(targetId);
+                me.details.clear();
+                me.details.add(records);
+                me.manager.onItemSelected(targetId);
+            },
             onDblClick : function (event) {
-                             var id = event.target;
-                             me.manager.toggleNode(id);
-                             me.manager.onItemSelected(id);
-                         },
-            onRender   : function(event) {
-                             event.onComplete = function()
-                             {
-                                 var id = me.outline.selected;
-                                 me.manager.onItemSelected(id);
-                             };
-                         }
+                var targetId = event.target;
+                me.manager.toggleNode(targetId);
+                me.manager.onItemSelected(targetId);
+            },
+            onRender   : function (event) {
+                event.onComplete = function () {
+                    var targetId = me.outline.selected;
+                    me.manager.onItemSelected(targetId);
+                };
+            }
         });
 
         // ==================================================
@@ -730,21 +725,18 @@ window.olexp = window.olexp || {};
         // --------------------------------------------------
 
         this.details = $("").w2grid({
-            columns : [
-                          {
-                              field    : "property",
-                              caption  : "Property",
-                              size     : "100%",
-                              sortable : true
-                          },
-                          {
-                               field    : "value",
-                               caption  : "Value",
-                               size     : "100%",
-                               sortable : true
-                          }
-                      ],
-            name    : this.options.explorer.details,
+            columns : [{
+                field    : "property",
+                caption  : "Property",
+                size     : "100%",
+                sortable : true
+            }, {
+                field    : "value",
+                caption  : "Value",
+                size     : "100%",
+                sortable : true
+            }],
+            name    : this.options.explorer.details
         });
 
         // ==================================================
@@ -791,12 +783,10 @@ window.olexp = window.olexp || {};
 
         // Add menu items and callbacks to outline
         this.outline.menu = this.menu.items;
-        this.outline.onMenuClick = function (event)
-        {
-            var id = event.menuItem.id;
-            if (id in me.menu.callbacks)
-            {
-                me.menu.callbacks[id](event);
+        this.outline.onMenuClick = function (event) {
+            var targetId = event.menuItem.id;
+            if (me.menu.callbacks[targetId] !== undefined) {
+                me.menu.callbacks[targetId](event);
             }
         };
 
@@ -862,30 +852,28 @@ window.olexp = window.olexp || {};
          *           that contains map and layers controls.
          */
         this.api = {
-                        details    : this.details,
-                        layout     : this.layout,
-                        manager    : this.manager,
-                        map        : this.map,
-                        navigation : this.navigation,
-                        options    : this.options,
-                        outline    : this.outline,
-                        toolbar    : this.toolbar
-                    };
+            details    : this.details,
+            layout     : this.layout,
+            manager    : this.manager,
+            map        : this.map,
+            navigation : this.navigation,
+            options    : this.options,
+            outline    : this.outline,
+            toolbar    : this.toolbar
+        };
 
         // ==================================================
         // Add built-in controls to toolbar
         // --------------------------------------------------
 
-        if (this.options.controls.toolbarhide)
-        {
+        if (this.options.controls.toolbarhide) {
             this.toolbar.add(olexp.control.ToolbarHide(this.api,
                                                        {hidden   : this.options.toolbar.hidden,
                                                         settings : this.options.settings}));
             this.toolbar.add({id: "break-toolbar-hide", type: "break"});
         }
 
-        if (this.options.controls.layermanager)
-        {
+        if (this.options.controls.layermanager) {
             this.toolbar.add(olexp.control.LayerManager(this.api,
                                                         this.manager,
                                                         {details: {checked: !this.options.details.hidden},
@@ -894,8 +882,7 @@ window.olexp = window.olexp || {};
             this.toolbar.add({id: "break-layer-manager", type: "break"});
         }
 
-        if (this.options.controls.layermenu)
-        {
+        if (this.options.controls.layermenu) {
             this.toolbar.add(olexp.control.LayerMenu(this.api,
                                                      this.manager,
                                                      this.menu,
@@ -903,36 +890,31 @@ window.olexp = window.olexp || {};
             this.toolbar.add({id: "break-item-menu", type: "break"});
         }
 
-        if (this.options.controls.layercontrol)
-        {
+        if (this.options.controls.layercontrol) {
             this.toolbar.add(olexp.control.LayerControl(this.api,
                                                         {settings : this.options.settings}));
             this.toolbar.add({id: "break-layer-control", type: "break"});
         }
 
-        if (this.options.controls.graticule)
-        {
+        if (this.options.controls.graticule) {
             this.toolbar.add(olexp.control.Graticule(this.api,
                                                      {settings : this.options.settings}));
             this.toolbar.add({id: "break-graticule", type: "break"});
         }
 
-        if (this.options.controls.measure)
-        {
+        if (this.options.controls.measure) {
             this.toolbar.add(olexp.control.Measure(this.api,
                                                    {settings : this.options.settings}));
             this.toolbar.add({id: "break-measure", type: "break"});
         }
 
-        if (this.options.controls.exportmap)
-        {
+        if (this.options.controls.exportmap) {
             this.toolbar.add(olexp.control.ExportMap(this.api,
                                                      {settings : this.options.settings}));
             this.toolbar.add({id: "break-export-map", type: "break"});
         }
 
-        if (this.options.controls.editsettings)
-        {
+        if (this.options.controls.editsettings) {
             this.toolbar.add(olexp.control.EditSettings(this.api,
                                                         {settings : this.options.settings}));
             this.toolbar.add({id: "break-edit-settings", type: "break"});
@@ -951,25 +933,24 @@ window.olexp = window.olexp || {};
      * @param {olexp.ExplorerAPI} explorer Explorer API object
      * @public
      */
-    olexp.destroy = function(explorer)
-    {
+    olexp.destroy = function (explorer) {
 
-        if (typeof explorer.map !== "undefined") {
+        if (explorer.map !== undefined) {
             explorer.map.setTarget(null);
         }
-        if (typeof explorer.details !== "undefined") {
+        if (explorer.details !== undefined) {
             explorer.details.destroy();
         }
-        if (typeof explorer.outline !== "undefined") {
+        if (explorer.outline !== undefined) {
             explorer.outline.destroy();
         }
-        if (typeof explorer.navigation !== "undefined") {
+        if (explorer.navigation !== undefined) {
             explorer.navigation.destroy();
         }
-        if (typeof explorer.toolbar !== "undefined") {
+        if (explorer.toolbar !== undefined) {
             explorer.toolbar.destroy();
         }
-        if (typeof explorer.layout !== "undefined") {
+        if (explorer.layout !== undefined) {
             explorer.layout.destroy();
         }
 
@@ -989,7 +970,7 @@ window.olexp = window.olexp || {};
      * @returns {olexp.ExplorerAPI} Explorer API
      * @throws {Error} DOM id must be defined and exist
      */
-    olexp.Explorer = function(id, options) {
+    olexp.Explorer = function (id, options) {
         var explorer = new Explorer(id, options);
         return explorer.api;
     };

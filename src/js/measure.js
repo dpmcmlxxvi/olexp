@@ -1,5 +1,6 @@
 
-/* global ol, olexp */
+/*globals $, document, ol, olexp, window */
+/*jslint vars: true */
 
 /**
  * @namespace olexp.measure
@@ -9,7 +10,7 @@ window.olexp.measure = window.olexp.measure || {};
 //==================================================
 // Measuring Tool
 //--------------------------------------------------
-(function(olexp) {
+(function (olexp) {
 
     "use strict";
 
@@ -21,25 +22,24 @@ window.olexp.measure = window.olexp.measure || {};
      * @readonly
      */
     olexp.measure.properties = {
-                                    /**
-                                     * Area measurement property name
-                                     * @type string
-                                     */
-                                    area: "olexp-measure-property-area",
-                                    /**
-                                     * Length measurement property name
-                                     * @type string
-                                     */
-                                    length: "olexp-measure-property-length"
-                               };
+        /**
+         * Area measurement property name
+         * @type string
+         */
+        area: "olexp-measure-property-area",
+        /**
+         * Length measurement property name
+         * @type string
+         */
+        length: "olexp-measure-property-length"
+    };
 
     /**
      * Measure tool Overlay hidden from map
      * @param {object} options ol.Overlay options
      * @private
      */
-    var Overlay = function (options)
-    {
+    var Overlay = function (options) {
         ol.Overlay.call(this, options);
     };
     Overlay.prototype = Object.create(ol.Overlay.prototype);
@@ -52,57 +52,59 @@ window.olexp.measure = window.olexp.measure || {};
      * @param {Object} settings olexp settings
      * @private
      */
-    var Tool = function(map, type, settings)
-    {
+    var Tool = function (map, type, settings) {
 
         //==================================================
         // Override Measure Tool option defaults
         // with user provided values. 
         //--------------------------------------------------
-        var olexpSettings = $.extend(true, {measure : {
-            Tool : {
-                continueLineMsg              : "Click to continue drawing the line",
-                continuePolygonMsg           : "Click to continue drawing the polygon",
-                helpTooltipOffset            : [20, 0],
-                helpTooltipPositioning       : "center-left",
-                measuredStyle                : new ol.style.Style({
-                                                   fill:   new ol.style.Fill({
-                                                               color: "rgba(255, 255, 255, 0.2)"
-                                                           }),
-                                                   stroke: new ol.style.Stroke({
-                                                               color: "#ffcc33",
-                                                               width: 2
-                                                           }),
-                                                   image: new ol.style.Circle({
-                                                              radius: 7,
-                                                              fill: new ol.style.Fill({
-                                                                        color: "#ffcc33"
-                                                                    })
-                                                          })
-                                                  }),
-                measuringStyle               : new ol.style.Style({
-                                                   fill: new ol.style.Fill({
-                                                             color: "rgba(255, 255, 255, 0.2)"
-                                                         }),
-                                                   stroke: new ol.style.Stroke({
-                                                               color: "rgba(0, 0, 0, 0.5)",
-                                                               lineDash: [10, 10],
-                                                               width: 2
-                                                      }),
-                                                   image: new ol.style.Circle({
-                                                              radius: 5,
-                                                              stroke: new ol.style.Stroke({
-                                                                          color: "rgba(0, 0, 0, 0.7)"
-                                                                      }),
-                                                              fill: new ol.style.Fill({
-                                                                       color: "rgba(255, 255, 255, 0.2)"
-                                                                    })
-                                                          })
-                                               }),
-                measureTooltipOffset         : [0, -20],
-                measureTooltipPositioning    : "bottom-center",
-                messageStart                 : "Click to start drawing. Double click to stop."
-             }}}, settings);
+        var olexpSettings = $.extend(true, {
+            measure : {
+                Tool : {
+                    continueLineMsg        : "Click to continue drawing the line",
+                    continuePolygonMsg     : "Click to continue drawing the polygon",
+                    helpTooltipOffset      : [20, 0],
+                    helpTooltipPositioning : "center-left",
+                    measuredStyle          : new ol.style.Style({
+                        fill:   new ol.style.Fill({
+                            color: "rgba(255, 255, 255, 0.2)"
+                        }),
+                        stroke: new ol.style.Stroke({
+                            color: "#ffcc33",
+                            width: 2
+                        }),
+                        image: new ol.style.Circle({
+                            radius: 7,
+                            fill: new ol.style.Fill({
+                                color: "#ffcc33"
+                            })
+                        })
+                    }),
+                    measuringStyle : new ol.style.Style({
+                        fill : new ol.style.Fill({
+                            color : "rgba(255, 255, 255, 0.2)"
+                        }),
+                        stroke: new ol.style.Stroke({
+                            color    : "rgba(0, 0, 0, 0.5)",
+                            lineDash : [10, 10],
+                            width    : 2
+                        }),
+                        image: new ol.style.Circle({
+                            radius : 5,
+                            stroke : new ol.style.Stroke({
+                                color: "rgba(0, 0, 0, 0.7)"
+                            }),
+                            fill: new ol.style.Fill({
+                                color: "rgba(255, 255, 255, 0.2)"
+                            })
+                        })
+                    }),
+                    measureTooltipOffset      : [0, -20],
+                    measureTooltipPositioning : "bottom-center",
+                    messageStart              : "Click to start drawing. Double click to stop."
+                }
+            }
+        }, settings);
 
         /**
          * Measurement control settings
@@ -129,7 +131,7 @@ window.olexp.measure = window.olexp.measure || {};
          * @type {Number}
          */
         this.count = 0;
-        
+
         /**
          * Draw interaction
          * @type {ol.interaction.Draw}
@@ -221,14 +223,12 @@ window.olexp.measure = window.olexp.measure || {};
      * @memberOf Tool.prototype
      * @private
      */
-    Tool.prototype.createHelpTooltip = function ()
-    {
+    Tool.prototype.createHelpTooltip = function () {
 
         // ==================================================
         // Remove existing help overlay element
         // --------------------------------------------------
-        if (this.helpTooltipElement)
-        {
+        if (this.helpTooltipElement) {
             this.helpTooltipElement.parentNode.removeChild(this.helpTooltipElement);
         }
 
@@ -255,31 +255,28 @@ window.olexp.measure = window.olexp.measure || {};
      * @memberOf Tool.prototype
      * @private
      */
-    Tool.prototype.createMeasureVector = function ()
-    {
+    Tool.prototype.createMeasureVector = function () {
 
         this.vector = new ol.layer.Vector({
             source: this.source,
             style: this.settings.measuredStyle
         });
-        this.vector.set("name","Measurement #" + (this.count + 1));
+        this.vector.set("name", "Measurement #" + (this.count + 1));
         this.map.addLayer(this.vector);
 
     };
-    
+
     /**
      * Creates a new measure tooltip
      * @memberOf Tool.prototype
      * @private
      */
-    Tool.prototype.createMeasureTooltip = function ()
-    {
+    Tool.prototype.createMeasureTooltip = function () {
 
         // ==================================================
         // Remove existing help overlay element
         // --------------------------------------------------
-        if (this.measureTooltipElement)
-        {
+        if (this.measureTooltipElement) {
             this.measureTooltipElement.parentNode.removeChild(this.measureTooltipElement);
         }
 
@@ -293,7 +290,7 @@ window.olexp.measure = window.olexp.measure || {};
             offset: this.settings.measureTooltipOffset,
             positioning: this.settings.measureTooltipPositioning
         });
-        this.measureTooltip.set("name","Measurement #" + (this.count+1));
+        this.measureTooltip.set("name", "Measurement #" + (this.count + 1));
 
         // ==================================================
         // Add overlay to map
@@ -309,31 +306,24 @@ window.olexp.measure = window.olexp.measure || {};
      * @private
      * @return {string}
      */
-    Tool.prototype.formatArea = function (polygon)
-    {
+    Tool.prototype.formatArea = function (polygon) {
 
         var area = 0;
-        if (this.geodesic)
-        {
+        if (this.geodesic) {
 
             var projection = this.map.getView().getProjection();
             var geometry = polygon.clone().transform(projection, "EPSG:4326");
             var coordinates = geometry.getLinearRing(0).getCoordinates();
             area = Math.abs(this.sphere.geodesicArea(coordinates));
 
-        }
-        else
-        {
+        } else {
             area = polygon.getArea();
         }
-        
+
         var output = "";
-        if (area > 10000)
-        {
+        if (area > 10000) {
             output = (Math.round(area / 1000000 * 100) / 100) + " km<sup>2</sup>";
-        }
-        else
-        {
+        } else {
             output = (Math.round(area * 100) / 100) + " m<sup>2</sup>";
         }
 
@@ -348,33 +338,29 @@ window.olexp.measure = window.olexp.measure || {};
      * @private
      * @return {string}
      */
-    Tool.prototype.formatLength = function (line)
-    {
+    Tool.prototype.formatLength = function (line) {
 
         var length = 0;
-        if (this.geodesic)
-        {
+        if (this.geodesic) {
+            var i = 0;
+            var c1 = 0;
+            var c2 = 0;
             var projection = this.map.getView().getProjection();
             var coordinates = line.getCoordinates();
             var numCoordinates = coordinates.length;
-            for (var i = 0; i < numCoordinates - 1; ++i) {
-                var c1 = ol.proj.transform(coordinates[i], projection, "EPSG:4326");
-                var c2 = ol.proj.transform(coordinates[i + 1], projection, "EPSG:4326");
+            for (i = 0; i < numCoordinates - 1; i += 1) {
+                c1 = ol.proj.transform(coordinates[i], projection, "EPSG:4326");
+                c2 = ol.proj.transform(coordinates[i + 1], projection, "EPSG:4326");
                 length += this.sphere.haversineDistance(c1, c2);
             }
-        }
-        else
-        {
+        } else {
             length = Math.round(line.getLength() * 100) / 100;
         }
 
         var output;
-        if (length > 100)
-        {
+        if (length > 100) {
             output = (Math.round(length / 1000 * 100) / 100) + " " + "km";
-        }
-        else
-        {
+        } else {
             output = (Math.round(length * 100) / 100) + " " + "m";
         }
 
@@ -388,25 +374,19 @@ window.olexp.measure = window.olexp.measure || {};
      * @param {ol.MapBrowserEvent} event
      * @private
      */
-    Tool.prototype.onPointerMove = function (event)
-    {
-        
-        if (event.dragging)
-        {
+    Tool.prototype.onPointerMove = function (event) {
+
+        if (event.dragging) {
             return;
         }
-        
+
         var message = this.settings.messageStart;
 
-        if (this.sketch)
-        {
+        if (this.sketch) {
             var geometry = this.sketch.getGeometry();
-            if (geometry instanceof ol.geom.Polygon)
-            {
+            if (geometry instanceof ol.geom.Polygon) {
                 message = this.continuePolygonMsg;
-            }
-            else if (geometry instanceof ol.geom.LineString)
-            {
+            } else if (geometry instanceof ol.geom.LineString) {
                 message = this.continueLineMsg;
             }
         }
@@ -424,14 +404,10 @@ window.olexp.measure = window.olexp.measure || {};
      * @param {boolean} enable True if measurement tool is enabled otherwise false
      * @private
      */
-    Tool.prototype.setEnable = function (enable)
-    {
-        if (enable)
-        {
+    Tool.prototype.setEnable = function (enable) {
+        if (enable) {
             this.map.on("pointermove", this.pointerMoveCallback);
-        }
-        else
-        {
+        } else {
             this.map.un("pointermove", this.pointerMoveCallback);
         }
         this.setInteraction(enable);
@@ -443,34 +419,28 @@ window.olexp.measure = window.olexp.measure || {};
      * @param {boolean} enable True if drawing should be set otherwise false
      * @private
      */
-    Tool.prototype.setInteraction = function (enable)
-    {
+    Tool.prototype.setInteraction = function (enable) {
 
-        if (typeof enable === "undefined") {
+        if (enable === undefined) {
             enable = true;
         }
-        
+
         var me = this;
-        
+
         // ==================================================
         // Remove interactions and hidden overlays
         // --------------------------------------------------
-        if (this.draw)
-        {
+        if (this.draw) {
             this.map.removeInteraction(this.draw);
         }
-     
-        if (enable)
-        {
+
+        if (enable) {
             $(this.helpTooltipElement).removeClass("olexp-measure-hidden");
-        }
-        else
-        {
+        } else {
             $(this.helpTooltipElement).addClass("olexp-measure-hidden");
-            
+
             // If measure tool is disabled while drawing then clean up vector
-            if (this.drawing)
-            {
+            if (this.drawing) {
                 // Remove drawing vector
                 this.map.removeLayer(this.vector);
                 this.vector = null;
@@ -478,7 +448,7 @@ window.olexp.measure = window.olexp.measure || {};
                 // Remove measure tooltip
                 this.measureTooltipElement.parentNode.removeChild(this.measureTooltipElement);
                 this.measureTooltipElement = null;
-                
+
                 this.drawing = false;
             }
             return;
@@ -507,8 +477,7 @@ window.olexp.measure = window.olexp.measure || {};
         // --------------------------------------------------
         var listener = null;
         this.draw.on("drawstart",
-            function(event)
-            {
+            function (event) {
                 this.drawing = true;
 
                 // ==================================================
@@ -522,20 +491,16 @@ window.olexp.measure = window.olexp.measure || {};
                 var tooltipCoord = event.coordinate;
                 me.sketch = event.feature;
                 listener = me.sketch.getGeometry().on("change",
-                    function(event)
-                    {
+                    function (event) {
                         // ==================================================
                         // Compute new measurement
                         // --------------------------------------------------
                         var output = "";
                         var geometry = event.target;
-                        if (geometry instanceof ol.geom.Polygon)
-                        {
+                        if (geometry instanceof ol.geom.Polygon) {
                             output = me.formatArea(geometry);
                             tooltipCoord = geometry.getInteriorPoint().getCoordinates();
-                        }
-                        else if (geometry instanceof ol.geom.LineString)
-                        {
+                        } else if (geometry instanceof ol.geom.LineString) {
                             output = me.formatLength(geometry);
                             tooltipCoord = geometry.getLastCoordinate();
                         }
@@ -545,8 +510,7 @@ window.olexp.measure = window.olexp.measure || {};
             }, this);
 
         this.draw.on("drawend",
-            function(event)
-            {
+            function () {
                 this.drawing = false;
                 me.count += 1;
 
@@ -555,13 +519,10 @@ window.olexp.measure = window.olexp.measure || {};
                 // --------------------------------------------------
                 var geometry = me.sketch.getGeometry();
                 var property = {};
-                if (geometry instanceof ol.geom.Polygon)
-                {
+                if (geometry instanceof ol.geom.Polygon) {
                     property[olexp.measure.properties.area] = me.formatArea(geometry);
                     me.vector.setProperties(property);
-                }
-                else if (geometry instanceof ol.geom.LineString)
-                {
+                } else if (geometry instanceof ol.geom.LineString) {
                     property[olexp.measure.properties.length] = me.formatLength(geometry);
                     me.vector.setProperties(property);
                 }
@@ -577,7 +538,7 @@ window.olexp.measure = window.olexp.measure || {};
                 me.measureTooltipElement.parentNode.removeChild(me.measureTooltipElement);
                 me.measureTooltipElement = null;
                 me.createMeasureTooltip();
-                
+
                 ol.Observable.unByKey(listener);
 
                 me.setInteraction(true);
@@ -592,8 +553,7 @@ window.olexp.measure = window.olexp.measure || {};
      * @param {olexp.measure.Type} type Measuring tool type
      * @private
      */
-    Tool.prototype.setType = function (type)
-    {
+    Tool.prototype.setType = function (type) {
         this.type = type;
     };
 
@@ -606,15 +566,15 @@ window.olexp.measure = window.olexp.measure || {};
      * @param {olexp.ExplorerSettings} options.settings Explorer settings
      * @public
      */
-    olexp.measure.Tool = function(map, options) {
+    olexp.measure.Tool = function (map, options) {
 
-        if (typeof options === "undefined") {
+        if (options === undefined) {
             options = {};
         }
-        if (typeof options.type === "undefined") {
+        if (options.type === undefined) {
             options.type = olexp.measure.Type.LINE;
         }
-        if (typeof options.settings === "undefined") {
+        if (options.settings === undefined) {
             options.settings = {};
         }
 
@@ -641,7 +601,7 @@ window.olexp.measure = window.olexp.measure || {};
      * @public
      * @readonly
      */
-     olexp.measure.Type = {
+    olexp.measure.Type = {
         /**
          * Area measurement type
          * @type string
@@ -663,5 +623,5 @@ window.olexp.measure = window.olexp.measure || {};
     olexp.measure.Overlay = Overlay;
 
     return olexp;
-    
+
 }(olexp || {}));

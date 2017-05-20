@@ -1,5 +1,6 @@
 
-/* global ol, olexp, w2alert */
+/*globals ol, olexp, w2alert, window */
+/*jslint vars: true */
 
 /**
  * @namespace olexp.item
@@ -9,7 +10,7 @@ window.olexp.item = window.olexp.item || {};
 //==================================================
 // Explorer managed item
 //--------------------------------------------------
-(function(olexp) {
+(function (olexp) {
 
     "use strict";
 
@@ -21,37 +22,37 @@ window.olexp.item = window.olexp.item || {};
      * @readonly
      */
     olexp.item.icons = {
-                            /**
-                             * Group icon css selector
-                             * @type string
-                             */
-                            group   : "olexp-item-group",
-                            /**
-                             * Heat Map icon css selector
-                             * @type string
-                             */
-                            heatmap : "olexp-item-heatmap",
-                            /**
-                             * Image icon css selector
-                             * @type string
-                             */
-                            image   : "olexp-item-image",
-                            /**
-                             * Overlay icon css selector
-                             * @type string
-                             */
-                            overlay : "olexp-item-overlay",
-                            /**
-                             * Tile Map icon css selector
-                             * @type string
-                             */
-                            tile    : "olexp-item-tile",
-                            /**
-                             * Vector icon css selector
-                             * @type string
-                             */
-                            vector  : "olexp-item-vector"
-                       };
+        /**
+         * Group icon css selector
+         * @type string
+         */
+        group   : "olexp-item-group",
+        /**
+         * Heat Map icon css selector
+         * @type string
+         */
+        heatmap : "olexp-item-heatmap",
+        /**
+         * Image icon css selector
+         * @type string
+         */
+        image   : "olexp-item-image",
+        /**
+         * Overlay icon css selector
+         * @type string
+         */
+        overlay : "olexp-item-overlay",
+        /**
+         * Tile Map icon css selector
+         * @type string
+         */
+        tile    : "olexp-item-tile",
+        /**
+         * Vector icon css selector
+         * @type string
+         */
+        vector  : "olexp-item-vector"
+    };
 
     /**
      * Item managed
@@ -60,8 +61,7 @@ window.olexp.item = window.olexp.item || {};
      * @param {ol.layer.Layer|ol.Overlay} layer ol3 layer/overlay object
      * @private
      */
-    var Item = function(id, name, layer)
-    {
+    var Item = function (id, name, layer) {
 
         /**
          * Item id
@@ -121,8 +121,7 @@ window.olexp.item = window.olexp.item || {};
      * @private
      * @returns {object} Object of item properties
      */
-    Item.prototype.getDetails = function()
-    {
+    Item.prototype.getDetails = function () {
         var properties = {};
 
         // ==================================================
@@ -131,20 +130,16 @@ window.olexp.item = window.olexp.item || {};
         properties.Name = this.name;
 
         var layerProperties = this.layer.getProperties();
-        if (layerProperties.hasOwnProperty(olexp.measure.properties.area))
-        {
+        if (layerProperties.hasOwnProperty(olexp.measure.properties.area)) {
             properties.Area = layerProperties[olexp.measure.properties.area];
-        }
-        else if (layerProperties.hasOwnProperty(olexp.measure.properties.length))
-        {
+        } else if (layerProperties.hasOwnProperty(olexp.measure.properties.length)) {
             properties.Length = layerProperties[olexp.measure.properties.length];
         }
 
         // ==================================================
         // Group properties
         // --------------------------------------------------
-        if (this.type === olexp.item.Type.GROUP)
-        {
+        if (this.type === olexp.item.Type.GROUP) {
             var layers = this.layer.getLayers();
             properties["Layer Count"] = layers.getLength();
         }
@@ -152,8 +147,7 @@ window.olexp.item = window.olexp.item || {};
         // ==================================================
         // Vector properties
         // --------------------------------------------------
-        if (this.type === olexp.item.Type.VECTOR)
-        {
+        if (this.type === olexp.item.Type.VECTOR) {
             var source = this.layer.getSource();
             var features = source.getFeatures();
             properties["Feature Count"] = features.length;
@@ -173,28 +167,19 @@ window.olexp.item = window.olexp.item || {};
      * @private
      * @returns {ol.Extent|null} Item extent or null if undefined
      */
-    Item.prototype.getExtent = function()
-    {
-        
-        if (this.type === olexp.item.Type.OVERLAY)
-        {
+    Item.prototype.getExtent = function () {
+
+        if (this.type === olexp.item.Type.OVERLAY) {
             return null;
         }
-        else if (this.type === olexp.item.Type.GROUP)
-        {
+        if (this.type === olexp.item.Type.GROUP) {
             var extent = null;
             var layers = this.layer.getLayers();
-            layers.forEach(function(layer, index, array)
-            {
+            layers.forEach(function (layer) {
                 var layerExtent = Item.getLayerExtent(layer);
-                if ((extent === null) &&
-                    (layerExtent !== null))
-                {
+                if ((extent === null) && (layerExtent !== null)) {
                     extent = layerExtent;
-                }
-                else if ((extent !== null) &&
-                         (layerExtent !== null))
-                {
+                } else if ((extent !== null) && (layerExtent !== null)) {
                     extent = ol.extent.extend(extent, layerExtent);
                 }
             }, this);
@@ -212,30 +197,23 @@ window.olexp.item = window.olexp.item || {};
      * @private
      * @returns {string} CSS selector of icon
      */
-    Item.getIcon = function(type)
-    {
-        if (type === olexp.item.Type.GROUP)
-        {
+    Item.getIcon = function (type) {
+        if (type === olexp.item.Type.GROUP) {
             return olexp.item.icons.group;
         }
-        else if (type === olexp.item.Type.HEATMAP)
-        {
+        if (type === olexp.item.Type.HEATMAP) {
             return olexp.item.icons.heatmap;
         }
-        else if (type === olexp.item.Type.IMAGE)
-        {
+        if (type === olexp.item.Type.IMAGE) {
             return olexp.item.icons.image;
         }
-        else if (type === olexp.item.Type.OVERLAY)
-        {
+        if (type === olexp.item.Type.OVERLAY) {
             return olexp.item.icons.overlay;
         }
-        else if (type === olexp.item.Type.TILE)
-        {
+        if (type === olexp.item.Type.TILE) {
             return olexp.item.icons.tile;
         }
-        else if (type === olexp.item.Type.VECTOR)
-        {
+        if (type === olexp.item.Type.VECTOR) {
             return olexp.item.icons.vector;
         }
         return "icon-page";
@@ -248,28 +226,25 @@ window.olexp.item = window.olexp.item || {};
      * @private
      * @returns {ol.Extent|null} Layer extent or null if undefined
      */
-    Item.getLayerExtent = function(layer)
-    {
+    Item.getLayerExtent = function (layer) {
 
         // ==================================================
         // Check if layer has extent defined
         // --------------------------------------------------
         var extent = layer.getExtent();
-        if (typeof extent === "undefined")
-        {
+        if (extent === undefined) {
             // ==================================================
             // Check if source has extent defined
             // --------------------------------------------------
             var source = layer.getSource();
             if (source !== null &&
-                (source instanceof ol.source.Cluster ||
-                source instanceof ol.source.VectorTile ||
-                source instanceof ol.source.Vector))
-            {
+                    (source instanceof ol.source.Cluster ||
+                    source instanceof ol.source.VectorTile ||
+                    source instanceof ol.source.Vector)) {
                 extent = source.getExtent();
             }
         }
-        if (typeof extent === "undefined") {
+        if (extent === undefined) {
             return null;
         }
         return extent;
@@ -282,14 +257,11 @@ window.olexp.item = window.olexp.item || {};
      * @private
      * @returns {object} Item properties names
      */
-    Item.prototype.getPropertyTypes = function()
-    {
-        if (this.layer instanceof ol.layer.Layer)
-        {
+    Item.prototype.getPropertyTypes = function () {
+        if (this.layer instanceof ol.layer.Layer) {
             return olexp.item.LayerProperties;
         }
-        else if (this.layer instanceof ol.Overlay)
-        {
+        if (this.layer instanceof ol.Overlay) {
             return olexp.item.OverlayProperties;
         }
         return {};
@@ -301,8 +273,7 @@ window.olexp.item = window.olexp.item || {};
      * @private
      * @returns {object} Item properties
      */
-    Item.prototype.getProperties = function()
-    {
+    Item.prototype.getProperties = function () {
         var properties = {name: this.name};
         var types = this.getPropertyTypes();
         var me = this;
@@ -319,30 +290,23 @@ window.olexp.item = window.olexp.item || {};
      * @private
      * @returns {olexp.item.Type} Type of item
      */
-    Item.getType = function(layer)
-    {
-        if (layer instanceof ol.layer.Group)
-        {
+    Item.getType = function (layer) {
+        if (layer instanceof ol.layer.Group) {
             return olexp.item.Type.GROUP;
         }
-        else if (layer instanceof ol.layer.Heatmap)
-        {
+        if (layer instanceof ol.layer.Heatmap) {
             return olexp.item.Type.HEATMAP;
         }
-        else if (layer instanceof ol.layer.Image)
-        {
+        if (layer instanceof ol.layer.Image) {
             return olexp.item.Type.IMAGE;
         }
-        else if (layer instanceof ol.layer.Tile)
-        {
+        if (layer instanceof ol.layer.Tile) {
             return olexp.item.Type.TILE;
         }
-        else if (layer instanceof ol.layer.Vector)
-        {
+        if (layer instanceof ol.layer.Vector) {
             return olexp.item.Type.VECTOR;
         }
-        else if (layer instanceof ol.Overlay)
-        {
+        if (layer instanceof ol.Overlay) {
             return olexp.item.Type.OVERLAY;
         }
         return null;
@@ -354,8 +318,7 @@ window.olexp.item = window.olexp.item || {};
      * @param {Object} properties Item properties to update
      * @private
      */
-    Item.prototype.setProperties = function(properties)
-    {
+    Item.prototype.setProperties = function (properties) {
         if (properties.hasOwnProperty("name")) {
             this.name = properties.name;
         }
@@ -376,12 +339,11 @@ window.olexp.item = window.olexp.item || {};
      * @param {object} value Property value
      * @private
      */
-    Item.prototype.property = function(name, value)
-    {
-        if (typeof this[name] === "undefined") {
+    Item.prototype.property = function (name, value) {
+        if (this[name] === undefined) {
             return;
         }
-        if (typeof value !== "undefined") {
+        if (value !== undefined) {
             this[name] = value;
         }
         return this[name];
@@ -393,36 +355,30 @@ window.olexp.item = window.olexp.item || {};
      * @param {ol.Map} map ol3 map to zoom
      * @private
      */
-    Item.prototype.zoomTo = function(map)
-    {
+    Item.prototype.zoomTo = function (map) {
 
         var view = map.getView();
 
-        if (this.type === olexp.item.Type.OVERLAY)
-        {
+        if (this.type === olexp.item.Type.OVERLAY) {
 
             // ==================================================
             // Check if overlay has position defined
             // --------------------------------------------------
             var position = this.layer.getPosition();
-            if (typeof position !== "undefined")
-            {
+            if (position !== undefined) {
                 view.setCenter(position);
                 return;
             }
 
             w2alert("Overlay has no position defined to which to zoom.", "Warning");
 
-        }
-        else
-        {
+        } else {
 
             // ==================================================
             // Check if layer has extent defined
             // --------------------------------------------------
             var extent = this.getExtent();
-            if (extent !== null)
-            {
+            if (extent !== null) {
                 view.fit(extent, map.getSize());
                 return;
             }
@@ -442,7 +398,7 @@ window.olexp.item = window.olexp.item || {};
      *        overlay object
      * @public
      */
-    olexp.item.Item = function(id, name, layer) {
+    olexp.item.Item = function (id, name, layer) {
         var item = new Item(id, name, layer);
         return {
             getDetails       : item.getDetails.bind(item),
@@ -451,12 +407,12 @@ window.olexp.item = window.olexp.item || {};
             icon             : item.icon,
             id               : item.id,
             layer            : item.layer,
-            moving           : function(moving) {
-                                   return item.property("moving", moving);
-                               },
-            name             : function(name) {
-                                   return item.property("name", name);
-                                },
+            moving           : function (moving) {
+                return item.property("moving", moving);
+            },
+            name             : function (name) {
+                return item.property("name", name);
+            },
             setProperties    : item.setProperties.bind(item),
             type             : item.type,
             zoomTo           : item.zoomTo.bind(item)
@@ -470,8 +426,7 @@ window.olexp.item = window.olexp.item || {};
      * @public
      * @readonly
      */
-    olexp.item.OverlayProperties =
-    {
+    olexp.item.OverlayProperties = {
     };
 
     /**
@@ -481,8 +436,7 @@ window.olexp.item = window.olexp.item || {};
      * @public
      * @readonly
      */
-    olexp.item.LayerProperties =
-    {
+    olexp.item.LayerProperties = {
         /**
          * Opacity property
          * @type object
@@ -504,36 +458,36 @@ window.olexp.item = window.olexp.item || {};
      * @readonly
      */
     olexp.item.Type = {
-       /**
-        * Group managed item
-        * @type number
-        */
-       GROUP   : 0,
-       /**
-        * Heat Map managed item
-        * @type number
-        */
-       HEATMAP : 1,
-       /**
-        * Image managed item
-        * @type number
-        */
-       IMAGE   : 2,
-       /**
-        * Overlay managed item
-        * @type number
-        */
-       OVERLAY : 3,
-       /**
-        * Tile managed item
-        * @type number
-        */
-       TILE    : 4,
-       /**
-        * Vector managed item
-        * @type number
-        */
-       VECTOR  : 5
+        /**
+         * Group managed item
+         * @type number
+         */
+        GROUP   : 0,
+        /**
+         * Heat Map managed item
+         * @type number
+         */
+        HEATMAP : 1,
+        /**
+         * Image managed item
+         * @type number
+         */
+        IMAGE   : 2,
+        /**
+         * Overlay managed item
+         * @type number
+         */
+        OVERLAY : 3,
+        /**
+         * Tile managed item
+         * @type number
+         */
+        TILE    : 4,
+        /**
+         * Vector managed item
+         * @type number
+         */
+        VECTOR  : 5
     };
 
     return olexp;
