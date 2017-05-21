@@ -1,12 +1,12 @@
 OpenLayers Explorer
 ============================================================
 
-[![build](https://travis-ci.org/dpmcmlxxvi/olexp.svg?branch=development)](https://travis-ci.org/dpmcmlxxvi/olexp)
-[![coverage](https://img.shields.io/coveralls/dpmcmlxxvi/olexp/development.svg)](https://coveralls.io/github/dpmcmlxxvi/olexp?branch=development)
-[![codacy](https://img.shields.io/codacy/grade/df098e3d833a44a3af028f712c4ee75e/development.svg)](https://www.codacy.com/app/dpmcmlxxvi/olexp?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=dpmcmlxxvi/olexp&amp;utm_campaign=Badge_Grade)
+[![build](https://travis-ci.org/dpmcmlxxvi/olexp.svg?branch=master)](https://travis-ci.org/dpmcmlxxvi/olexp)
+[![coverage](https://img.shields.io/coveralls/dpmcmlxxvi/olexp/master.svg)](https://coveralls.io/github/dpmcmlxxvi/olexp?branch=master)
+[![codacy](https://img.shields.io/codacy/grade/df098e3d833a44a3af028f712c4ee75e/master.svg)](https://www.codacy.com/app/dpmcmlxxvi/olexp?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=dpmcmlxxvi/olexp&amp;utm_campaign=Badge_Grade)
 [![npm](https://badge.fury.io/js/olexp.svg)](https://badge.fury.io/js/olexp)
 [![dependencies](https://img.shields.io/david/dpmcmlxxvi/olexp.svg)](https://david-dm.org/dpmcmlxxvi/olexp)
-[![devdependencies](https://img.shields.io/david/dev/dpmcmlxxvi/olexp/development.svg)](https://david-dm.org/dpmcmlxxvi/olexp/development#info=devDependencies)
+[![devdependencies](https://img.shields.io/david/dev/dpmcmlxxvi/olexp/master.svg)](https://david-dm.org/dpmcmlxxvi/olexp/master#info=devDependencies)
 [![Greenkeeper](https://badges.greenkeeper.io/dpmcmlxxvi/olexp.svg)](https://greenkeeper.io/)
 [![grunt](https://cdn.gruntjs.com/builtwith.png)](http://gruntjs.com/)
 
