@@ -25,7 +25,7 @@
     "explorer"
   ],
   "devDependencies": {
-    "browserify-istanbul": "^2.0.0",
+    "browserify-istanbul": "^3.0.0",
     "chai": "^3.5.0",
     "coveralls": "^2.11.16",
     "grunt": "^1.0.1",
