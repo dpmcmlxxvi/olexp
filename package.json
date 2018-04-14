@@ -27,7 +27,7 @@
   "devDependencies": {
     "browserify-istanbul": "^2.0.0",
     "chai": "^4.1.2",
-    "coveralls": "^2.11.16",
+    "coveralls": "^3.0.0",
     "grunt": "^1.0.1",
     "grunt-browserify": "^5.0.0",
     "grunt-contrib-clean": "^1.0.0",
