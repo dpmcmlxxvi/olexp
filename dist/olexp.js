@@ -1,4 +1,4 @@
-/* olexp 0.2.0 (c) Daniel Pulido <dpmcmlxxvi@gmail.com> */
+/* olexp 0.3.0 (c) Daniel Pulido <dpmcmlxxvi@gmail.com> */
 
 /*globals $, ol, olexp, w2ui, window */
 /*jslint vars: true */
