@@ -26,7 +26,7 @@
   ],
   "devDependencies": {
     "browserify-istanbul": "^2.0.0",
-    "chai": "^3.5.0",
+    "chai": "^4.1.2",
     "coveralls": "^3.0.0",
     "grunt": "^1.0.1",
     "grunt-browserify": "^5.0.0",
@@ -44,7 +44,7 @@
     "grunt-release": "^0.14.0",
     "ink-docstrap": "^1.1.2",
     "jsdoc": "^3.4.0",
-    "mocha": "^3.2.0"
+    "mocha": "^5.1.0"
   },
   "preferGlobal": false,
   "private": false,
