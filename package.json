@@ -44,7 +44,7 @@
     "grunt-release": "^0.14.0",
     "ink-docstrap": "^1.1.2",
     "jsdoc": "^3.4.0",
-    "mocha": "^3.2.0"
+    "mocha": "^5.1.0"
   },
   "preferGlobal": false,
   "private": false,
