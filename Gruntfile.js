@@ -251,5 +251,6 @@ module.exports = function (grunt) {
     grunt.registerTask("concat-sa", ["concat:css-sa", "concat:js-sa"]);
     grunt.registerTask("default", ["clean", "lint", "concat-core", "minify", "concat-sa", "jsdoc", "copy"]);
     grunt.registerTask("test", ["clean:test", "browserify:coverage", "mocha"]);
+    grunt.registerTask("web", ["gh-pages"]);
 
 };
