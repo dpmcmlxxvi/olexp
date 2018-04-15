@@ -1042,12 +1042,12 @@ window.olexp.manager = window.olexp.manager || {};
         // --------------------------------------------------
         var me = this;
         var itemRemoved = false;
-        this.items.forEach(function (item) {
+        this.items.forEach(function (itemChild) {
             if (itemRemoved) {
                 return;
             }
-            if (item.type === olexp.item.Type.GROUP) {
-                if (me.managers[item.id].remove(item)) {
+            if (itemChild.type === olexp.item.Type.GROUP) {
+                if (me.managers[itemChild.id].remove(item)) {
                     itemRemoved = true;
                     return;
                 }
@@ -1074,12 +1074,12 @@ window.olexp.manager = window.olexp.manager || {};
         // --------------------------------------------------
         var me = this;
         var itemRemoved = null;
-        this.items.forEach(function (item) {
+        this.items.forEach(function (itemChild) {
             if (itemRemoved !== null) {
                 return;
             }
-            if (item.type === olexp.item.Type.GROUP) {
-                var layerChild = me.managers[item.id].removeFromMap(item);
+            if (itemChild.type === olexp.item.Type.GROUP) {
+                var layerChild = me.managers[itemChild.id].removeFromMap(item);
                 if (layerChild !== null) {
                     itemRemoved = layerChild;
                     return;
