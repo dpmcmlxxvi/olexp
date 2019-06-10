@@ -1717,7 +1717,7 @@ const olexp = {
      * @private
      * @type {olexp.ol.ToolbarShow}
      */
-    this.show = olexp.ol.ToolbarShow(this.explorer, options);
+    this.show = olexp.ol.toolbarShow(this.explorer, options);
   };
 
   /**

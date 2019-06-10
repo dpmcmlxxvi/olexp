@@ -87,7 +87,7 @@ const olexp = {
    * @return {external:jQuery.fn.w2toolbar.properties} ToolbarShow toolbar
    *          control
    */
-  olexp.ol.ToolbarShow = function(explorer, options) {
+  olexp.ol.toolbarShow = function(explorer, options) {
     const opts = $.extend({hidden: false}, options);
 
     const control = new ToolbarShow(explorer, opts.settings);
