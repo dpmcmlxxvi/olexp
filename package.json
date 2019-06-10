@@ -11,6 +11,7 @@
   "unpkg": "dist/olexp.min.js",
   "jsdelivr": "dist/olexp.min.js",
   "scripts": {
+    "build": "run-s lint bundle docs",
     "bundle": "run-s bundle:js bundle:css",
     "bundle:css": "run-s bundle:css:*",
     "bundle:css:cat": "shx cat src/css/*.css > dist/olexp.css",
@@ -21,6 +22,8 @@
     "docs:clean": "shx rm -rf docs/api",
     "docs:copy": "shx cp docs/web/img/* docs/api/docs/web/img/",
     "docs:mkdir": "shx mkdir -p docs/api/docs/web/img/",
+    "lint": "run-s lint:css",
+    "lint:css": "stylelint 'src/css/*css'",
     "test": "jest"
   },
   "repository": {
@@ -66,7 +69,9 @@
     "rollup-plugin-commonjs": "^10.0.0",
     "rollup-plugin-node-resolve": "^5.0.1",
     "rollup-plugin-terser": "^5.0.0",
-    "shx": "^0.3.2"
+    "shx": "^0.3.2",
+    "stylelint": "^10.1.0",
+    "stylelint-config-standard": "^18.3.0"
   },
   "preferGlobal": false,
   "private": false,
