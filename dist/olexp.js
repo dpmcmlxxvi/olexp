@@ -6292,7 +6292,6 @@
           // ==================================================
           // Layer manager
           // --------------------------------------------------
-          console.log('olexp = ', olexp);
           this.manager = new olexp.manager.Manager(this.map,
                                                    this.outline,
                                                    this.details,
