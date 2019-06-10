@@ -178,7 +178,7 @@ const olexp = {
    * @public
    * @return {object} Properties menu item
    */
-  olexp.menu.Properties = function(manager, settings) {
+  olexp.menu.properties = function(manager, settings) {
     const control = new Properties(manager, settings);
 
     return {
@@ -284,7 +284,7 @@ const olexp = {
    * @public
    * @return {object} Remove menu item
    */
-  olexp.menu.Remove = function(manager, settings) {
+  olexp.menu.remove = function(manager, settings) {
     const control = new Remove(manager, settings);
 
     return {
@@ -382,7 +382,7 @@ const olexp = {
    * @public
    * @return {object} Zoom menu item.
    */
-  olexp.menu.Zoom = function(manager, settings) {
+  olexp.menu.zoom = function(manager, settings) {
     const control = new Zoom(manager, settings);
 
     return {

@@ -774,9 +774,9 @@ const olexp = {
     // --------------------------------------------------
 
     const settings = this.options.settings;
-    const zoom = olexp.menu.Zoom(this.manager, settings);
-    const properties = olexp.menu.Properties(this.manager, settings);
-    const remove = olexp.menu.Remove(this.manager, settings);
+    const zoom = olexp.menu.zoom(this.manager, settings);
+    const properties = olexp.menu.properties(this.manager, settings);
+    const remove = olexp.menu.remove(this.manager, settings);
 
     this.menu = {items: [], callbacks: {}};
 

@@ -5006,7 +5006,7 @@
      * @public
      * @return {object} Properties menu item
      */
-    olexp.menu.Properties = function(manager, settings) {
+    olexp.menu.properties = function(manager, settings) {
       const control = new Properties(manager, settings);
 
       return {
@@ -5111,7 +5111,7 @@
      * @public
      * @return {object} Remove menu item
      */
-    olexp.menu.Remove = function(manager, settings) {
+    olexp.menu.remove = function(manager, settings) {
       const control = new Remove(manager, settings);
 
       return {
@@ -5208,7 +5208,7 @@
      * @public
      * @return {object} Zoom menu item.
      */
-    olexp.menu.Zoom = function(manager, settings) {
+    olexp.menu.zoom = function(manager, settings) {
       const control = new Zoom(manager, settings);
 
       return {
@@ -6102,9 +6102,9 @@
       // --------------------------------------------------
 
       const settings = this.options.settings;
-      const zoom = olexp.menu.Zoom(this.manager, settings);
-      const properties = olexp.menu.Properties(this.manager, settings);
-      const remove = olexp.menu.Remove(this.manager, settings);
+      const zoom = olexp.menu.zoom(this.manager, settings);
+      const properties = olexp.menu.properties(this.manager, settings);
+      const remove = olexp.menu.remove(this.manager, settings);
 
       this.menu = {items: [], callbacks: {}};
 
