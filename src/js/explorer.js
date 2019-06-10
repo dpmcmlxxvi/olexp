@@ -360,7 +360,7 @@ const olexp = {
  *
  * @property {object} [util] olexp.util settings
  *
- * @property {function} [util.Cluster] Function that returns ol.style.Style for
+ * @property {function} [util.cluster] Function that returns ol.style.Style for
  *           a given cluster size.
  * @property {external:ol.style.Style} [util.Point] Point style
  * @property {external:ol.style.Style} [util.LineString] LineString style

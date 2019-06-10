@@ -24,7 +24,7 @@ const olexp = {
     // with user provided values.
     // --------------------------------------------------
     const olexpSettings = $.extend(true, {util: {Util: {
-      Cluster: function(size) {
+      cluster: function(size) {
         const style = [
           new ol.style.Style({
             image: new ol.style.Circle({
@@ -216,7 +216,7 @@ const olexp = {
     const size = feature.get('features').length;
     let style = this.clusterStyleCache[size];
     if (!style) {
-      style = this.settings.Cluster(size);
+      style = this.settings.cluster(size);
       this.clusterStyleCache[size] = style;
     }
 
@@ -259,7 +259,7 @@ const olexp = {
 
     const interaction = new ol.interaction.DragAndDrop({
       formatConstructors: $.map(olexp.util.FileTypes, function(o) {
-        return o.format;
+        return o.Format;
       }),
     });
 
@@ -372,22 +372,22 @@ const olexp = {
   olexp.util.FileTypes = {
     gpx: {
       extensions: ['gpx'],
-      format: ol.format.GPX,
+      Format: ol.format.GPX,
       name: 'GPX',
     },
     igc: {
       extensions: ['igc'],
-      format: ol.format.IGC,
+      Format: ol.format.IGC,
       name: 'IGC',
     },
     json: {
       extensions: ['json', 'geojson'],
-      format: ol.format.GeoJSON,
+      Format: ol.format.GeoJSON,
       name: 'GeoJSON',
     },
     kml: {
       extensions: ['kml'],
-      format: ol.format.KML,
+      Format: ol.format.KML,
       name: 'KML',
     },
   };
@@ -413,7 +413,7 @@ const olexp = {
           return;
         }
         if (extension === ext) {
-          formatFound = new type.format();
+          formatFound = new type.Format();
         }
       });
     });
