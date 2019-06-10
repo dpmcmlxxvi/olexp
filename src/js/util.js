@@ -5,7 +5,9 @@
 /**
  * @namespace olexp.util
  */
-window.olexp.util = window.olexp.util || {};
+const olexp = {
+  util: {},
+};
 
 //==================================================
 // Utility tools
@@ -634,3 +636,5 @@ window.olexp.util = window.olexp.util || {};
     return olexp;
 
 }(olexp || {}));
+
+export default olexp.util;

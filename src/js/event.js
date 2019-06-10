@@ -5,7 +5,9 @@
 /**
  * @namespace olexp.event
  */
-window.olexp.event = window.olexp.event || {};
+const olexp = {
+  event: {},
+};
 
 //==================================================
 // Event Handler
@@ -146,6 +148,6 @@ window.olexp.event = window.olexp.event || {};
 
     };
 
-    return olexp;
-
 }(olexp || {}));
+
+export default olexp.event;

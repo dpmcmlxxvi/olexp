@@ -5,7 +5,9 @@
 /**
  * @namespace olexp.measure
  */
-window.olexp.measure = window.olexp.measure || {};
+const olexp = {
+  measure: {},
+};
 
 //==================================================
 // Measuring Tool
@@ -625,3 +627,5 @@ window.olexp.measure = window.olexp.measure || {};
     return olexp;
 
 }(olexp || {}));
+
+export default olexp.measure;

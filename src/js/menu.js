@@ -1,3 +1,4 @@
+import olexpUtil from './util';
 
 /*globals $, olexp, w2confirm, window */
 /*jslint vars: true */
@@ -5,7 +6,10 @@
 /**
  * @namespace olexp.menu
  */
-window.olexp.menu = window.olexp.menu || {};
+const olexp = {
+  menu: {},
+  util: olexpUtil,
+};
 
 //==================================================
 // Properties menu item
@@ -418,3 +422,5 @@ window.olexp.menu = window.olexp.menu || {};
     return olexp;
 
 }(olexp || {}));
+
+export default olexp.menu;

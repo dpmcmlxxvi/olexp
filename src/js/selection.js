@@ -1,3 +1,4 @@
+import olexpUtil from './util';
 
 /*globals ol, olexp, window */
 /*jslint vars: true */
@@ -5,7 +6,10 @@
 /**
  * @namespace olexp.selection
  */
-window.olexp.selection = window.olexp.selection || {};
+const olexp = {
+  selection: {},
+  util: olexpUtil,
+};
 
 //==================================================
 // Selection Tool
@@ -108,3 +112,5 @@ window.olexp.selection = window.olexp.selection || {};
     return olexp;
 
 }(olexp || {}));
+
+export default olexp.selection;

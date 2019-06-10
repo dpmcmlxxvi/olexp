@@ -1,3 +1,7 @@
+import olexpEvent from './event';
+import olexpItem from './item';
+import olexpMeasure from './measure';
+import olexpUtil from './util';
 
 /*globals $, olexp, window */
 /*jslint vars: true */
@@ -5,7 +9,13 @@
 /**
  * @namespace olexp.manager
  */
-window.olexp.manager = window.olexp.manager || {};
+const olexp = {
+  event: olexpEvent,
+  item: olexpItem,
+  manager: {},
+  measure: olexpMeasure,
+  util: olexpUtil,
+};
 
 //==================================================
 // Manager
@@ -1160,3 +1170,5 @@ window.olexp.manager = window.olexp.manager || {};
     return olexp;
 
 }(olexp || {}));
+
+export default olexp.manager;

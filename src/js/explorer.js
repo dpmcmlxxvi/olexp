@@ -1,3 +1,8 @@
+import olexpControl from './control';
+import olexpManager from './manager';
+import olexpMenu from './menu';
+import olexpSelection from './selection';
+import olexpUtil from './util';
 
 /*globals $, ol, olexp, w2ui, window */
 /*jslint vars: true */
@@ -5,7 +10,13 @@
 /**
  * @namespace olexp
  */
-window.olexp = window.olexp || {};
+const olexp = {
+  control: olexpControl,
+  manager: olexpManager,
+  menu: olexpMenu,
+  selection: olexpSelection,
+  util: olexpUtil,
+};
 
 //==================================================
 // Documentation definitions
@@ -756,7 +767,7 @@ window.olexp = window.olexp || {};
         // ==================================================
         // Layer manager
         // --------------------------------------------------
-
+        console.log('olexp = ', olexp);
         this.manager = new olexp.manager.Manager(this.map,
                                                  this.outline,
                                                  this.details,
@@ -976,3 +987,8 @@ window.olexp = window.olexp || {};
     };
 
 }(olexp || {}));
+
+export default {
+  destroy: olexp.destroy,
+  Explorer: olexp.Explorer,
+};

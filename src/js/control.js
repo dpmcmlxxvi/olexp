@@ -1,3 +1,6 @@
+import olexpMeasure from './measure';
+import olexpOl from './ol';
+import olexpUtil from './util';
 
 /*globals $, atob, document, ol, olexp, w2alert, window */
 /*jslint vars: true */
@@ -5,7 +8,12 @@
 /**
  * @namespace olexp.control
  */
-window.olexp.control = window.olexp.control || {};
+const olexp = {
+  control: {},
+  measure: olexpMeasure,
+  ol: olexpOl,
+  util: olexpUtil,
+};
 
 //==================================================
 // Edit Settings Control
@@ -1799,3 +1807,5 @@ window.olexp.control = window.olexp.control || {};
     return olexp;
 
 }(olexp || {}));
+
+export default olexp.control;

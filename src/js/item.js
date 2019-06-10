@@ -1,3 +1,5 @@
+import olexpMeasure from './measure';
+import olexpUtil from './util';
 
 /*globals ol, olexp, w2alert, window */
 /*jslint vars: true */
@@ -5,7 +7,12 @@
 /**
  * @namespace olexp.item
  */
-window.olexp.item = window.olexp.item || {};
+const olexp = {
+  item: {},
+  measure: olexpMeasure,
+  util: olexpUtil,
+};
+
 
 //==================================================
 // Explorer managed item
@@ -493,3 +500,5 @@ window.olexp.item = window.olexp.item || {};
     return olexp;
 
 }(olexp || {}));
+
+export default olexp.item;
