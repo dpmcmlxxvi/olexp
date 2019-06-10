@@ -1,42 +1,41 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>OpenLayers Explorer Test Driver</title>
-    <meta charset="utf-8">
-    <link href="../libs/ol3/ol.css" rel="stylesheet" type="text/css" />
-    <link href="../libs/w2ui/w2ui.css" rel="stylesheet" type="text/css" />
-    <link href="../src/css/explorer.css" rel="stylesheet" type="text/css" />
-    <link href="../src/css/control.css" rel="stylesheet" type="text/css" />
-    <link href="../src/css/item.css" rel="stylesheet" type="text/css" />
-    <link href="../src/css/measure.css" rel="stylesheet" type="text/css" />
-    <link href="../src/css/menu.css" rel="stylesheet" type="text/css" />
-    <link href="../src/css/ol.css" rel="stylesheet" type="text/css" />
-    <link href="../src/css/olexp.ol3.css" rel="stylesheet" type="text/css" />
-    <link href="../src/css/olexp.w2ui.css" rel="stylesheet" type="text/css" />
-    <link href="../node_modules/mocha/mocha.css" rel="stylesheet" type="text/css" >
+  <title>OpenLayers Explorer Test</title>
+  <meta charset="utf-8">
+  <link href="../libs/ol3/ol.css" rel="stylesheet" type="text/css" />
+  <link href="../libs/w2ui/w2ui.css" rel="stylesheet" type="text/css" />
+  <link href="../dist/olexp.css" rel="stylesheet" type="text/css" />
+  <style>
+    #explorer {
+      width: 1000px;
+      height: 500px;
+    }
+  </style>
 </head>
 <body>
-    <div id="mocha"></div>
-    <script src="../libs/jquery/jquery.js" type="text/javascript"></script>
-    <script src="../libs/ol3/ol.js" type="text/javascript"></script>
-    <script src="../libs/w2ui/w2ui.js" type="text/javascript"></script>
-    <script src="../instrumented-code/olexp.js" type="text/javascript"></script>
-    <script src="../node_modules/chai/chai.js" type="text/javascript"></script>
-    <script src="../node_modules/mocha/mocha.js" type="text/javascript"></script>
-    <script>
-        mocha.setup({
-            ui   : 'bdd',
-            bail : false
-        });
-    </script>
-    <script src="polyfill.js" type="text/javascript"></script>
-    <script src="test.js" type="text/javascript"></script>
-    <script>
-        mocha.allowUncaught();
-        mocha.globals(['jQuery', '$', 'w2ui', 'olexp', 'ol']);
-        if (navigator.userAgent.indexOf('PhantomJS') < 0) {
-            mocha.run();
-        }
-    </script>
+  <div id="explorer"></div>
+  <div id="overlay"></div>
+  <script src="../libs/jquery/jquery.js" type="text/javascript"></script>
+  <script src="../libs/ol3/ol.js" type="text/javascript"></script>
+  <script src="../libs/w2ui/w2ui.js" type="text/javascript"></script>
+  <script src="../dist/olexp.js" type="text/javascript"></script>
+  <script>
+    const explorer = new olexp.Explorer('explorer');
+    const {group, overlay, position, tile, vector} = (() => {
+      const coordinate = [-77.016389, 38.904722];
+      const position = ol.proj.transform(coordinate, 'EPSG:4326', 'EPSG:3857');
+      const geometry = {type: 'Point', coordinates: position};
+      const geojson = {type: 'Feature', geometry: geometry, properties: {}};
+      const features = (new ol.format.GeoJSON()).readFeatures(geojson);
+      const source = new ol.source.Vector({features: features});
+      const element = document.getElementById('overlay');
+      const vector = new ol.layer.Vector({source: source});
+      const group = new ol.layer.Group({layers: [vector]});
+      const overlay = new ol.Overlay({position, element, stopEvent: false});
+      const tile = new ol.layer.Tile({source: new ol.source.OSM()});
+      return {group, overlay, position, tile, vector};
+    })();
+  </script>
 </body>
 </html>
