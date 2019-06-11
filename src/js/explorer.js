@@ -874,7 +874,7 @@ const olexp = {
     // --------------------------------------------------
 
     if (this.options.controls.toolbarhide) {
-      this.toolbar.add(olexp.control.ToolbarHide(this.api, {
+      this.toolbar.add(olexp.control.toolbarHide(this.api, {
         hidden: this.options.toolbar.hidden,
         settings: this.options.settings,
       }));
@@ -882,7 +882,7 @@ const olexp = {
     }
 
     if (this.options.controls.layermanager) {
-      this.toolbar.add(olexp.control.LayerManager(this.api, this.manager, {
+      this.toolbar.add(olexp.control.layerManager(this.api, this.manager, {
         details: {checked: !this.options.details.hidden},
         navigation: {checked: !this.options.navigation.hidden},
         settings: this.options.settings,
@@ -891,41 +891,41 @@ const olexp = {
     }
 
     if (this.options.controls.layermenu) {
-      this.toolbar.add(olexp.control.LayerMenu(this.api, this.manager,
+      this.toolbar.add(olexp.control.layerMenu(this.api, this.manager,
           this.menu, {settings: this.options.settings}));
       this.toolbar.add({id: 'break-item-menu', type: 'break'});
     }
 
     if (this.options.controls.layercontrol) {
-      this.toolbar.add(olexp.control.LayerControl(this.api, {
+      this.toolbar.add(olexp.control.layerControl(this.api, {
         settings: this.options.settings,
       }));
       this.toolbar.add({id: 'break-layer-control', type: 'break'});
     }
 
     if (this.options.controls.graticule) {
-      this.toolbar.add(olexp.control.Graticule(this.api, {
+      this.toolbar.add(olexp.control.graticule(this.api, {
         settings: this.options.settings,
       }));
       this.toolbar.add({id: 'break-graticule', type: 'break'});
     }
 
     if (this.options.controls.measure) {
-      this.toolbar.add(olexp.control.Measure(this.api, {
+      this.toolbar.add(olexp.control.measure(this.api, {
         settings: this.options.settings,
       }));
       this.toolbar.add({id: 'break-measure', type: 'break'});
     }
 
     if (this.options.controls.exportmap) {
-      this.toolbar.add(olexp.control.ExportMap(this.api, {
+      this.toolbar.add(olexp.control.exportMap(this.api, {
         settings: this.options.settings,
       }));
       this.toolbar.add({id: 'break-export-map', type: 'break'});
     }
 
     if (this.options.controls.editsettings) {
-      this.toolbar.add(olexp.control.EditSettings(this.api, {
+      this.toolbar.add(olexp.control.editSettings(this.api, {
         settings: this.options.settings,
       }));
       this.toolbar.add({id: 'break-edit-settings', type: 'break'});

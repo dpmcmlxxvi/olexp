@@ -1618,7 +1618,7 @@
      * @return {external:jQuery.fn.w2toolbar.properties} EditSettings toolbar
      *          control
      */
-    olexp.control.EditSettings = function(explorer, options) {
+    olexp.control.editSettings = function(explorer, options) {
       const control = new EditSettings(explorer.map, options.settings);
 
       return {
@@ -1747,7 +1747,7 @@
      * @return {external:jQuery.fn.w2toolbar.properties} ExportMap toolbar
      *          control
      */
-    olexp.control.ExportMap = function(explorer, options) {
+    olexp.control.exportMap = function(explorer, options) {
       const control = new ExportMap(explorer.map, options.settings);
 
       return {
@@ -1963,7 +1963,7 @@
      * @return {external:jQuery.fn.w2toolbar.properties} Graticule toolbar
      *          control
      */
-    olexp.control.Graticule = function(explorer, options) {
+    olexp.control.graticule = function(explorer, options) {
       if (options === undefined) {
         options = {};
       }
@@ -2290,7 +2290,7 @@
      * @public
      * @return {array} Array of w2toolbar properties
      */
-    olexp.control.LayerControl = function(explorer, options) {
+    olexp.control.layerControl = function(explorer, options) {
       if (options === undefined) {
         options = {};
       }
@@ -2545,7 +2545,7 @@
      * @public
      * @return {array} Array of external:jQuery.fn.w2toolbar.properties
      */
-    olexp.control.LayerManager = function(explorer, manager, options) {
+    olexp.control.layerManager = function(explorer, manager, options) {
       if (options === undefined) {
         options = {};
       }
@@ -2766,7 +2766,7 @@
      * @return {external:jQuery.fn.w2toolbar.properties} LayerMenu toolbar
      *          control
      */
-    olexp.control.LayerMenu = function(explorer, manager, menu, options) {
+    olexp.control.layerMenu = function(explorer, manager, menu, options) {
       const control = new LayerMenu(explorer, manager, menu, options.settings);
 
       explorer.toolbar.on('click', function(event) {
@@ -2924,7 +2924,7 @@
      * @public
      * @return {array} Array of w2toolbar properties
      */
-    olexp.control.Measure = function(explorer, options) {
+    olexp.control.measure = function(explorer, options) {
       if (options === undefined) {
         options = {};
       }
@@ -3064,7 +3064,7 @@
      * @return {external:jQuery.fn.w2toolbar.properties} ToolbarHide toolbar
      *          control
      */
-    olexp.control.ToolbarHide = function(explorer, options) {
+    olexp.control.toolbarHide = function(explorer, options) {
       const control = new ToolbarHide(explorer, options);
 
       return {
@@ -6202,7 +6202,7 @@
       // --------------------------------------------------
 
       if (this.options.controls.toolbarhide) {
-        this.toolbar.add(olexp.control.ToolbarHide(this.api, {
+        this.toolbar.add(olexp.control.toolbarHide(this.api, {
           hidden: this.options.toolbar.hidden,
           settings: this.options.settings,
         }));
@@ -6210,7 +6210,7 @@
       }
 
       if (this.options.controls.layermanager) {
-        this.toolbar.add(olexp.control.LayerManager(this.api, this.manager, {
+        this.toolbar.add(olexp.control.layerManager(this.api, this.manager, {
           details: {checked: !this.options.details.hidden},
           navigation: {checked: !this.options.navigation.hidden},
           settings: this.options.settings,
@@ -6219,41 +6219,41 @@
       }
 
       if (this.options.controls.layermenu) {
-        this.toolbar.add(olexp.control.LayerMenu(this.api, this.manager,
+        this.toolbar.add(olexp.control.layerMenu(this.api, this.manager,
             this.menu, {settings: this.options.settings}));
         this.toolbar.add({id: 'break-item-menu', type: 'break'});
       }
 
       if (this.options.controls.layercontrol) {
-        this.toolbar.add(olexp.control.LayerControl(this.api, {
+        this.toolbar.add(olexp.control.layerControl(this.api, {
           settings: this.options.settings,
         }));
         this.toolbar.add({id: 'break-layer-control', type: 'break'});
       }
 
       if (this.options.controls.graticule) {
-        this.toolbar.add(olexp.control.Graticule(this.api, {
+        this.toolbar.add(olexp.control.graticule(this.api, {
           settings: this.options.settings,
         }));
         this.toolbar.add({id: 'break-graticule', type: 'break'});
       }
 
       if (this.options.controls.measure) {
-        this.toolbar.add(olexp.control.Measure(this.api, {
+        this.toolbar.add(olexp.control.measure(this.api, {
           settings: this.options.settings,
         }));
         this.toolbar.add({id: 'break-measure', type: 'break'});
       }
 
       if (this.options.controls.exportmap) {
-        this.toolbar.add(olexp.control.ExportMap(this.api, {
+        this.toolbar.add(olexp.control.exportMap(this.api, {
           settings: this.options.settings,
         }));
         this.toolbar.add({id: 'break-export-map', type: 'break'});
       }
 
       if (this.options.controls.editsettings) {
-        this.toolbar.add(olexp.control.EditSettings(this.api, {
+        this.toolbar.add(olexp.control.editSettings(this.api, {
           settings: this.options.settings,
         }));
         this.toolbar.add({id: 'break-edit-settings', type: 'break'});

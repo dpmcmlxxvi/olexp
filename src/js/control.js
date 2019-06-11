@@ -287,7 +287,7 @@ const olexp = {
    * @return {external:jQuery.fn.w2toolbar.properties} EditSettings toolbar
    *          control
    */
-  olexp.control.EditSettings = function(explorer, options) {
+  olexp.control.editSettings = function(explorer, options) {
     const control = new EditSettings(explorer.map, options.settings);
 
     return {
@@ -417,7 +417,7 @@ const olexp = {
    * @return {external:jQuery.fn.w2toolbar.properties} ExportMap toolbar
    *          control
    */
-  olexp.control.ExportMap = function(explorer, options) {
+  olexp.control.exportMap = function(explorer, options) {
     const control = new ExportMap(explorer.map, options.settings);
 
     return {
@@ -634,7 +634,7 @@ const olexp = {
    * @return {external:jQuery.fn.w2toolbar.properties} Graticule toolbar
    *          control
    */
-  olexp.control.Graticule = function(explorer, options) {
+  olexp.control.graticule = function(explorer, options) {
     if (options === undefined) {
       options = {};
     }
@@ -962,7 +962,7 @@ const olexp = {
    * @public
    * @return {array} Array of w2toolbar properties
    */
-  olexp.control.LayerControl = function(explorer, options) {
+  olexp.control.layerControl = function(explorer, options) {
     if (options === undefined) {
       options = {};
     }
@@ -1218,7 +1218,7 @@ const olexp = {
    * @public
    * @return {array} Array of external:jQuery.fn.w2toolbar.properties
    */
-  olexp.control.LayerManager = function(explorer, manager, options) {
+  olexp.control.layerManager = function(explorer, manager, options) {
     if (options === undefined) {
       options = {};
     }
@@ -1440,7 +1440,7 @@ const olexp = {
    * @return {external:jQuery.fn.w2toolbar.properties} LayerMenu toolbar
    *          control
    */
-  olexp.control.LayerMenu = function(explorer, manager, menu, options) {
+  olexp.control.layerMenu = function(explorer, manager, menu, options) {
     const control = new LayerMenu(explorer, manager, menu, options.settings);
 
     explorer.toolbar.on('click', function(event) {
@@ -1599,7 +1599,7 @@ const olexp = {
    * @public
    * @return {array} Array of w2toolbar properties
    */
-  olexp.control.Measure = function(explorer, options) {
+  olexp.control.measure = function(explorer, options) {
     if (options === undefined) {
       options = {};
     }
@@ -1740,7 +1740,7 @@ const olexp = {
    * @return {external:jQuery.fn.w2toolbar.properties} ToolbarHide toolbar
    *          control
    */
-  olexp.control.ToolbarHide = function(explorer, options) {
+  olexp.control.toolbarHide = function(explorer, options) {
     const control = new ToolbarHide(explorer, options);
 
     return {
