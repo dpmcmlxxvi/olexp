@@ -25,9 +25,9 @@ DOCUMENTATION
 The following help is available at the olexp
 [website](http://dpmcmlxxvi.github.io/olexp):
 
-- [Documentation](http://dpmcmlxxvi.github.io/olexp/docs/web/)
-- [Examples](http://dpmcmlxxvi.github.io/olexp/docs/web/demos.html)
-- [API](http://dpmcmlxxvi.github.io/olexp/docs/api/)
+- [Documentation](http://dpmcmlxxvi.github.io/olexp/web/)
+- [Examples](http://dpmcmlxxvi.github.io/olexp/web/demos.html)
+- [API](http://dpmcmlxxvi.github.io/olexp/api/)
 
 BUILD
 ------------------------------------------------------------
