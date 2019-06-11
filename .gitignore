@@ -2,6 +2,4 @@
 /.project
 /.settings
 coverage
-docs/api
-instrumented-code
 node_modules
