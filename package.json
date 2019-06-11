@@ -1,7 +1,7 @@
 {
   "name": "olexp",
   "version": "0.3.2",
-  "description": "OpenLayers Explorer is a JavaScript application that combines the power of OpenLayers 3 interactive mapping and the layout management of w2ui.",
+  "description": "OpenLayers Explorer is a simple out-of-the-box web mapping solution.",
   "author": {
     "name": "Daniel Pulido",
     "email": "dpmcmlxxvi@gmail.com"
@@ -25,6 +25,7 @@
     "lint": "run-s lint:css lint:js",
     "lint:css": "stylelint 'src/css/*.css'",
     "lint:js": "eslint *.js 'src/js/*.js'",
+    "prepare": "npm run build",
     "test": "jest"
   },
   "repository": {
@@ -76,7 +77,5 @@
     "stylelint": "^10.1.0",
     "stylelint-config-standard": "^18.3.0"
   },
-  "preferGlobal": false,
-  "private": false,
   "license": "MIT"
 }
