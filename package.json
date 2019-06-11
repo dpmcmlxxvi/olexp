@@ -24,7 +24,7 @@
     "docs:mkdir": "shx mkdir -p docs/api/docs/web/img/",
     "lint": "run-s lint:css lint:js",
     "lint:css": "stylelint 'src/css/*.css'",
-    "lint:js": "eslint *.js 'src/js/*.js'",
+    "lint:js": "eslint '*.js' 'docs/examples/js/example.*.js' 'src/js/*.js'",
     "prepare": "npm run build",
     "test": "jest"
   },

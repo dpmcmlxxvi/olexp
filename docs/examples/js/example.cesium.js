@@ -1,26 +1,27 @@
-
 /**
  * Run explorer cesium example
- * @param id Explorer DOM id
+ * @param {string} id Explorer DOM id
+ * @return {Explorer} OpenLayers Explorer instance
  */
-var runExampleCesium = function(id) {
+// eslint-disable-next-line no-unused-vars
+const runExampleCesium = function(id) {
+  // ==================================================
+  // Add explorer
+  // --------------------------------------------------
 
-    // ==================================================
-    // Add explorer
-    // --------------------------------------------------
+  const explorer = new olexp.Explorer(id);
+  const layerstm = new ol.layer.Tile({
+    source: new ol.source.Stamen({layer: 'watercolor'}),
+  });
+  layerstm.set('name', 'Stamen');
+  explorer.map.addLayer(layerstm);
 
-    var explorer = new olexp.Explorer(id);
-    var layerstm = new ol.layer.Tile({
-        source: new ol.source.Stamen({layer: 'watercolor'})
-    });
-    layerstm.set('name','Stamen');
-    explorer.map.addLayer(layerstm);
+  // ==================================================
+  // Add cesium
+  // --------------------------------------------------
 
-    // ==================================================
-    // Add cesium
-    // --------------------------------------------------
+  explorer.ol3d = new olcs.OLCesium({map: explorer.map});
+  explorer.ol3d.setEnabled(true);
 
-    this.ol3d = new olcs.OLCesium({map: explorer.map});
-    this.ol3d.setEnabled(true);
-
+  return explorer;
 };
