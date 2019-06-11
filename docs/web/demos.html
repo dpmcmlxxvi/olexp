@@ -1,40 +1,51 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
     <!-- The above 3 meta tags *must* come first in the head;
          any other head content must come *after* these tags -->
-    <meta name="description" content="">
-    <meta name="author" content="">
+    <meta name="description" content="" />
+    <meta name="author" content="" />
 
     <title>OpenLayers Explorer | Demos</title>
 
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/ol3/3.14.2/ol.min.css"
-          rel="stylesheet"
-          type="text/css" />
-    <link href="https://unpkg.com/w2ui@1.4.3/w2ui.min.css"
-          rel="stylesheet"
-          type="text/css" />
-    <link href="https://unpkg.com/olexp/dist/olexp.min.css"
-          rel="stylesheet"
-          type="text/css" />
-    <link href="https://unpkg.com/bootstrap@3.3.6/dist/css/bootstrap.min.css"
-          rel="stylesheet"
-          type="text/css" />
-    <link href="css/olexp.css"
-          rel="stylesheet"
-          type="text/css" />
-
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/ol3/3.14.2/ol.min.css"
+      rel="stylesheet"
+      type="text/css"
+    />
+    <link
+      href="https://unpkg.com/w2ui@1.4.3/w2ui.min.css"
+      rel="stylesheet"
+      type="text/css"
+    />
+    <link
+      href="https://unpkg.com/olexp/dist/olexp.min.css"
+      rel="stylesheet"
+      type="text/css"
+    />
+    <link
+      href="https://unpkg.com/bootstrap@3.3.6/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      type="text/css"
+    />
+    <link href="css/olexp.css" rel="stylesheet" type="text/css" />
   </head>
 
   <body>
-
     <nav class="navbar navbar-inverse navbar-fixed-top">
       <div class="container">
         <div class="navbar-header">
-          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+          <button
+            type="button"
+            class="navbar-toggle collapsed"
+            data-toggle="collapse"
+            data-target="#navbar"
+            aria-expanded="false"
+            aria-controls="navbar"
+          >
             <span class="sr-only">Toggle navigation</span>
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
@@ -49,11 +60,14 @@
             <li><a href="../api/">Docs</a></li>
           </ul>
           <ul class="nav navbar-nav navbar-right olexp-github-logo">
-            <li><a href="https://github.com/dpmcmlxxvi/olexp">
-            <img src="./img/GitHub-Mark-Light-32px.png">
-            </a></li>
+            <li>
+              <a href="https://github.com/dpmcmlxxvi/olexp">
+                <img src="./img/GitHub-Mark-Light-32px.png" />
+              </a>
+            </li>
           </ul>
-        </div><!--/.nav-collapse -->
+        </div>
+        <!--/.nav-collapse -->
       </div>
     </nav>
 
@@ -76,8 +90,8 @@
           <h2>Options</h2>
           <p>
             This example shows how to pass an optional constructor argument to
-            modify application options. This example moves the location of
-            the navigation and toolbar panels, disables a control, hides the
+            modify application options. This example moves the location of the
+            navigation and toolbar panels, disables a control, hides the
             overlays node, changes various settings, and adds an additional
             context menu to the layer manager items. Click
             <a href="../examples/options.html">here</a> for a stand alone
@@ -91,19 +105,22 @@
           <h2>Layers</h2>
           <p>
             This example shows how to add additional map layers and group them
-            using the explorer API. Click <a href="../examples/explorer.html">
-            here</a> for a stand alone example.
+            using the explorer API. Click
+            <a href="../examples/explorer.html"> here</a> for a stand alone
+            example.
           </p>
           <div id="explorer-layers" style="height: 500px; width: 100%;"></div>
 
           <!-- Link label for Washington, D.C. -->
           <div style="display: none;">
-              <a id="label"
-                 target="_blank"
-                 href="http://en.wikipedia.org/wiki/Washington,_D.C.">
-                  Washington D.C.
-              </a>
-              <div id="marker" title="Marker"></div>
+            <a
+              id="label"
+              target="_blank"
+              href="http://en.wikipedia.org/wiki/Washington,_D.C."
+            >
+              Washington D.C.
+            </a>
+            <div id="marker" title="Marker"></div>
           </div>
         </div>
       </div>
@@ -126,27 +143,28 @@
             example that shows how to use the proj4 library. The example loads a
             GeoJSON file with a custom coordinate reference system, queries
             <a href="http://epsg.io">epsg.io</a> for its corresponding
-            definition, adds that definition to <a href="http://proj4js.org/">
-            proj4</a>, and then loads the GeoJSON layer to the explorer map.
+            definition, adds that definition to
+            <a href="http://proj4js.org/"> proj4</a>, and then loads the GeoJSON
+            layer to the explorer map.
           </p>
         </div>
       </div>
     </div>
 
     <div class="container">
-      <hr>
+      <hr />
       <footer>
         <p>&copy; 2016 Daniel Pulido &lt;dpmcmlxxvi@gmail.com&gt;</p>
         <p>
-            Source code is released under the
-            <a href="http://opensource.org/licenses/MIT">MIT</a> license.
-            Documentation is released under the
-            <a href="http://creativecommons.org/licenses/by-sa/4.0/">CC BY 4.0</a>
-            license.
-            Icons are from <a href="http://trac.osgeo.org/osgeo/wiki">OSGeo</a>
-            and released under the
-            <a href="http://creativecommons.org/licenses/by-sa/4.0/">CC BY 4.0</a>
-            license.
+          Source code is released under the
+          <a href="http://opensource.org/licenses/MIT">MIT</a> license.
+          Documentation is released under the
+          <a href="http://creativecommons.org/licenses/by-sa/4.0/">CC BY 4.0</a>
+          license. Icons are from
+          <a href="http://trac.osgeo.org/osgeo/wiki">OSGeo</a>
+          and released under the
+          <a href="http://creativecommons.org/licenses/by-sa/4.0/">CC BY 4.0</a>
+          license.
         </p>
       </footer>
     </div>
@@ -160,20 +178,15 @@
     <script src="../examples/js/example.options.js"></script>
     <script src="../examples/js/example.layers.js"></script>
     <script>
+      var explorerSimple = null;
+      var explorerOptions = null;
+      var explorerLayers = null;
 
-        var explorerSimple = null;
-        var explorerOptions = null;
-        var explorerLayers = null;
-
-        window.onload = function() {
-
-            explorerSimple = runExampleSimple('explorer-simple');
-            explorerOptions = runExampleOptions('explorer-options', '../examples');
-            explorerLayers = runExampleLayers('explorer-layers', '../examples');
-
-        };
-    
+      window.onload = function() {
+        explorerSimple = runExampleSimple("explorer-simple");
+        explorerOptions = runExampleOptions("explorer-options", "../examples");
+        explorerLayers = runExampleLayers("explorer-layers", "../examples");
+      };
     </script>
-
   </body>
 </html>
