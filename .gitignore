@@ -1,5 +1,6 @@
 /.grunt
 /.project
 /.settings
-coverage
-node_modules
+/coverage/
+/dist/
+/node_modules/

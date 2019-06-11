@@ -28,6 +28,10 @@
     "prepare": "npm run build",
     "test": "jest"
   },
+  "files": [
+    "src/**/*",
+    "dist/*"
+  ],
   "repository": {
     "type": "git",
     "url": "https://github.com/dpmcmlxxvi/olexp"
