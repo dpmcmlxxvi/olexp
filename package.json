@@ -18,7 +18,7 @@
     "bundle:css:min": "cleancss -o dist/olexp.min.css -O2 src/css/*.css",
     "bundle:js": "rollup --silent -c",
     "docs": "run-s docs:clean docs:build docs:mkdir docs:copy",
-    "docs:build": "jsdoc -t ./node_modules/ink-docstrap/template -d docs/api -R readme.md -r src",
+    "docs:build": "jsdoc -t ./node_modules/ink-docstrap/template -c conf.json",
     "docs:clean": "shx rm -rf docs/api",
     "docs:copy": "shx cp docs/web/img/* docs/api/docs/web/img/",
     "docs:mkdir": "shx mkdir -p docs/api/docs/web/img/",
