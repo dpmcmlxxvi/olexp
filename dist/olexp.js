@@ -5645,10 +5645,12 @@
    * @property {object} [measure] olexp.measure settings
    *
    * @property {object} [measure.Tool] Properties menu settings
-   * @property {string} [measure.Tool.continueLineMsg='Click to continue drawing
-   *           the line'] Message displayed to continue drawing line
-   * @property {string} [measure.Tool.continuePolygonMsg='Click to continue
-   *           drawing the polygon'] Message displayed to continue drawing polygon
+   * @property {string}
+   *           [measure.Tool.continueLineMsg='Click to continue drawing the line']
+   *           Message displayed to continue drawing line
+   * @property {string}
+   *           [measure.Tool.continuePolygonMsg='Click to continue drawing']
+   *           Message displayed to continue drawing polygon
    * @property {Array} [measure.Tool.helpTooltipOffset=[20, 0]] Pixel offset of
    *           help tooltip
    * @property {string} [measure.Tool.helpTooltipPositioning='center-left']
@@ -5661,8 +5663,9 @@
    *           of measuring tooltip
    * @property {string} [measure.Tool.measureTooltipPositioning='bottom-center']
    *           Position of measuring tooltip
-   * @property {string} [measure.Tool.messageStart='Click to start drawing.
-   *           Double click to stop.'] Message to display to start drawing.
+   * @property {string}
+   *           [measure.Tool.messageStart='Click to start. Double click to stop.']
+   *           Message to display to start drawing.
    *
    * @property {object} [menu] olexp.menu settings
    *
