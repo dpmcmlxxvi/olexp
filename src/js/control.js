@@ -6,6 +6,7 @@ import olexpUtil from './util';
 
 /**
  * @namespace olexp.control
+ * @private
  */
 const olexp = {
   control: {},
@@ -1736,7 +1737,7 @@ const olexp = {
    * @param {object} options Control options
    * @param {boolean} options.hidden True if toolbar is initially hidden
    * @param {olexp.ExplorerSettings} options.settings Explorer settings
-   * @public
+   * @private
    * @return {external:jQuery.fn.w2toolbar.properties} ToolbarHide toolbar
    *          control
    */

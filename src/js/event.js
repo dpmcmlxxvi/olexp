@@ -2,6 +2,7 @@
 
 /**
  * @namespace olexp.event
+ * @private
  */
 const olexp = {
   event: {},
@@ -124,7 +125,7 @@ const olexp = {
    * Event handler
    * @memberOf olexp.event
    * @param {object} listeners Initial listeners
-   * @public
+   * @private
    * @return {object} Handler.
    */
   olexp.event.Event = function(listeners) {

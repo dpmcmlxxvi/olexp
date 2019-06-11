@@ -7,6 +7,7 @@ import olexpUtil from './util';
 
 /**
  * @namespace olexp.manager
+ * @private
  */
 const olexp = {
   event: olexpEvent,
@@ -419,7 +420,7 @@ const olexp = {
    * @param {external:jQuery.fn.w2grid} details Details grid
    * @param {string} layers w2ui name of layers node
    * @param {string} overlays w2ui name of overlays node
-   * @public
+   * @private
    * @return {olexp.manager.ManagerAPI}
    */
   olexp.manager.Manager = function(map, outline, details, layers, overlays) {

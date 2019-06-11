@@ -4,6 +4,7 @@ import olexpUtil from './util';
 
 /**
  * @namespace olexp.menu
+ * @private
  */
 const olexp = {
   menu: {},
@@ -175,7 +176,7 @@ const olexp = {
    * @memberOf olexp.menu
    * @param {olexp.manager.Manager} manager Explorer manager
    * @param {olexp.ExplorerSettings} settings olexp settings
-   * @public
+   * @private
    * @return {object} Properties menu item
    */
   olexp.menu.properties = function(manager, settings) {
@@ -281,7 +282,7 @@ const olexp = {
    * @memberOf olexp.menu
    * @param {olexp.manager.Manager} manager Explorer manager
    * @param {olexp.ExplorerSettings} settings olexp settings
-   * @public
+   * @private
    * @return {object} Remove menu item
    */
   olexp.menu.remove = function(manager, settings) {
@@ -379,7 +380,7 @@ const olexp = {
    * @memberOf olexp.menu
    * @param {olexp.manager.Manager} manager Explorer manager
    * @param {olexp.ExplorerSettings} settings olexp settings
-   * @public
+   * @private
    * @return {object} Zoom menu item.
    */
   olexp.menu.zoom = function(manager, settings) {

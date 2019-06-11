@@ -17,6 +17,7 @@
 
   /**
    * @namespace olexp.measure
+   * @private
    */
   const olexp = {
     measure: {},
@@ -31,7 +32,7 @@
      * Enumeration of item measurements types. Key where measurement is stored.
      * @enum {string}
      * @memberOf olexp.measure
-     * @public
+     * @private
      * @readonly
      */
     olexp.measure.properties = {
@@ -557,7 +558,7 @@
      * @param {Object} options Measurement options
      * @param {olexp.measure.Type} options.type Type of measurement to compute
      * @param {olexp.ExplorerSettings} options.settings Explorer settings
-     * @public
+     * @private
      * @return {object} measure.Tool API.
      */
     olexp.measure.Tool = function(map, options) {
@@ -590,7 +591,7 @@
      * Enumeration of allowable measurement types
      * @enum {string}
      * @memberOf olexp.measure
-     * @public
+     * @private
      * @readonly
      */
     olexp.measure.Type = {
@@ -610,7 +611,7 @@
      * Measurement tool overlay
      * @memberOf olexp.measure
      * @param {object} options ol.Overlay options
-     * @public
+     * @private
      */
     olexp.measure.Overlay = Overlay;
 
@@ -624,6 +625,7 @@
   /**
    * @description olexp specific OpenLayers 3 classes
    * @namespace olexp.ol
+   * @private
    */
   const olexp$1 = {
     ol: {},
@@ -703,7 +705,7 @@
      * @param {object} options Control options
      * @param {boolean} options.hidden True if toolbar is initially hidden
      * @param {olexp.ExplorerSettings} options.settings Explorer settings
-     * @public
+     * @private
      * @return {external:jQuery.fn.w2toolbar.properties} ToolbarShow toolbar
      *          control
      */
@@ -726,6 +728,7 @@
 
   /**
    * @namespace olexp.util
+   * @private
    */
   const olexp$2 = {
     util: {},
@@ -873,7 +876,7 @@
      * @param {string} name Name of new vector layer
      * @param {array<external:ol.Feature>} features Array of features
      * @param {boolean} cluster True if features should be clustered
-     * @public
+     * @private
      */
     Util.prototype.addLayerVector = function(map, name, features, cluster) {
       if (cluster === undefined) {
@@ -932,7 +935,7 @@
      * Get feature style
      * @memberOf Util.prototype
      * @param {external:ol.Feature} feature Feature to style
-     * @public
+     * @private
      * @return {ol.Style} Cluster style
      */
     Util.prototype.getClusterStyle = function(feature) {
@@ -949,7 +952,7 @@
     /**
      * Create map controls
      * @memberOf Util.prototype
-     * @public
+     * @private
      * @return {object} Object of ol.control objects by key name
      */
     Util.prototype.getControls = function() {
@@ -974,7 +977,7 @@
      * Create drag and drop interaction
      * @memberOf Util.prototype
      * @param {ol.Map} map Source map
-     * @public
+     * @private
      * @return {ol.interaction.DragAndDrop} ol3 drag and drop interaction
      */
     Util.prototype.getDragAndDrop = function(map) {
@@ -1001,7 +1004,7 @@
      * @memberOf Util.prototype
      * @param {external:ol.Map} map Source map
      * @param {object} options ol.Graticule constructor options
-     * @public
+     * @private
      * @return {external:ol.Graticule} New graticule based on settings
      */
     Util.prototype.getGraticule = function(map, options) {
@@ -1021,7 +1024,7 @@
      * Create map interactions
      * @memberOf Util.prototype
      * @param {external:ol.Map} map Source map
-     * @public
+     * @private
      * @return {object} Object of ol.interaction objects by key name
      */
     Util.prototype.getInteractions = function(map) {
@@ -1035,7 +1038,7 @@
     /**
      * Get object of ol3 tile types
      * @memberOf Util.prototype
-     * @public
+     * @private
      * @return {object} Object of ol.source objects
      */
     Util.prototype.getTileTypes = function() {
@@ -1088,7 +1091,7 @@
     /**
      * Supported ol3 file types
      * @memberOf olexp.util
-     * @public
+     * @private
      * @readonly
      * @returns {object} ol3 file types
      */
@@ -1119,7 +1122,7 @@
      * Find feature reader based on filename extension
      * @memberOf olexp.util
      * @param {string} filename Filename to be read
-     * @public
+     * @private
      * @return {external:ol.format.Feature|null} File reader
      */
     olexp.util.getReader = function(filename) {
@@ -1149,7 +1152,7 @@
      * @memberOf olexp.util
      * @param {external:ol.Collection} layers Map layers
      * @param {external:ol.layer.Layer|external:ol.Overlay} layer Layer to find
-     * @public
+     * @private
      * @return {number} Index of layer
      */
     olexp.util.indexOf = function(layers, layer) {
@@ -1173,7 +1176,7 @@
      *        properties
      * @param {external:jQuery.fn.w2popup.properties} popupOptions w2popup
      *        properties
-     * @public
+     * @private
      */
     olexp.util.popup = function(id, onChanges, formOptions, popupOptions) {
       const name = formOptions.name;
@@ -1235,7 +1238,7 @@
      * @memberOf olexp.util
      * @param {string} filename Filename whose extension will be replaced
      * @param {string} extension New extension (including dot)
-     * @public
+     * @private
      * @return {string} New filename with extension replaced
      */
     olexp.util.setExtension = function(filename, extension) {
@@ -1251,7 +1254,7 @@
      * Get properties from feature accounting for clustered features
      * @memberOf olexp.util
      * @param {external:ol.Feature} feature Source feature
-     * @public
+     * @private
      * @return {object} Feature properties
      */
     olexp.util.toProperties = function(feature) {
@@ -1292,7 +1295,7 @@
      * Convert properties object to record for w2ui grid
      * @memberOf olexp.util
      * @param {object} properties Object properties to convert to grid record
-     * @public
+     * @private
      * @return {array} Properties in record format
      */
     olexp.util.toRecords = function(properties) {
@@ -1315,7 +1318,7 @@
      * Utility functions
      * @memberOf olexp.util
      * @param {olexp.ExplorerSettings} settings olexp settings
-     * @public
+     * @private
      * @return {object} Utility API.
      */
     olexp.util.Util = function(settings) {
@@ -1338,6 +1341,7 @@
 
   /**
    * @namespace olexp.control
+   * @private
    */
   const olexp$3 = {
     control: {},
@@ -3060,7 +3064,7 @@
      * @param {object} options Control options
      * @param {boolean} options.hidden True if toolbar is initially hidden
      * @param {olexp.ExplorerSettings} options.settings Explorer settings
-     * @public
+     * @private
      * @return {external:jQuery.fn.w2toolbar.properties} ToolbarHide toolbar
      *          control
      */
@@ -3087,6 +3091,7 @@
 
   /**
    * @namespace olexp.event
+   * @private
    */
   const olexp$4 = {
     event: {},
@@ -3208,7 +3213,7 @@
      * Event handler
      * @memberOf olexp.event
      * @param {object} listeners Initial listeners
-     * @public
+     * @private
      * @return {object} Handler.
      */
     olexp.event.Event = function(listeners) {
@@ -3223,6 +3228,7 @@
 
   /**
    * @namespace olexp.item
+   * @private
    */
   const olexp$5 = {
     item: {},
@@ -3240,7 +3246,7 @@
      * Item icons
      * @enum {string}
      * @memberOf olexp.item
-     * @public
+     * @private
      * @readonly
      */
     olexp.item.icons = {
@@ -3608,7 +3614,7 @@
      * @param {string} name Item name
      * @param {external:ol.layer.Layer|external:ol.Overlay} layer ol3 layer or
      *        overlay object
-     * @public
+     * @private
      * @return {Item} Item to be managed.
      */
     olexp.item.Item = function(id, name, layer) {
@@ -3636,7 +3642,7 @@
      * Enumeration of Overlay properties
      * @enum {string}
      * @memberOf olexp.item
-     * @public
+     * @private
      * @readonly
      */
     olexp.item.OverlayProperties = {
@@ -3646,7 +3652,7 @@
      * Enumeration of Layer properties
      * @enum {string}
      * @memberOf olexp.item
-     * @public
+     * @private
      * @readonly
      */
     olexp.item.LayerProperties = {
@@ -3667,7 +3673,7 @@
      * Enumeration of types of allowable managed items
      * @enum {string}
      * @memberOf olexp.item
-     * @public
+     * @private
      * @readonly
      */
     olexp.item.Type = {
@@ -3712,6 +3718,7 @@
 
   /**
    * @namespace olexp.manager
+   * @private
    */
   const olexp$6 = {
     event: olexpEvent,
@@ -4123,7 +4130,7 @@
      * @param {external:jQuery.fn.w2grid} details Details grid
      * @param {string} layers w2ui name of layers node
      * @param {string} overlays w2ui name of overlays node
-     * @public
+     * @private
      * @return {olexp.manager.ManagerAPI}
      */
     olexp.manager.Manager = function(map, outline, details, layers, overlays) {
@@ -4833,6 +4840,7 @@
 
   /**
    * @namespace olexp.menu
+   * @private
    */
   const olexp$7 = {
     menu: {},
@@ -5003,7 +5011,7 @@
      * @memberOf olexp.menu
      * @param {olexp.manager.Manager} manager Explorer manager
      * @param {olexp.ExplorerSettings} settings olexp settings
-     * @public
+     * @private
      * @return {object} Properties menu item
      */
     olexp.menu.properties = function(manager, settings) {
@@ -5108,7 +5116,7 @@
      * @memberOf olexp.menu
      * @param {olexp.manager.Manager} manager Explorer manager
      * @param {olexp.ExplorerSettings} settings olexp settings
-     * @public
+     * @private
      * @return {object} Remove menu item
      */
     olexp.menu.remove = function(manager, settings) {
@@ -5205,7 +5213,7 @@
      * @memberOf olexp.menu
      * @param {olexp.manager.Manager} manager Explorer manager
      * @param {olexp.ExplorerSettings} settings olexp settings
-     * @public
+     * @private
      * @return {object} Zoom menu item.
      */
     olexp.menu.zoom = function(manager, settings) {
@@ -5232,6 +5240,7 @@
 
   /**
    * @namespace olexp.selection
+   * @private
    */
   const olexp$8 = {
     selection: {},
@@ -5309,7 +5318,7 @@
      * @memberOf olexp.selection
      * @param {external:ol.Map} map Managed map
      * @param {external:jQuery.fn.w2grid} details Details grid
-     * @public
+     * @private
      * @return {olexp.selection.Feature} Feature selector
      */
     olexp.selection.Feature = function(map, details) {

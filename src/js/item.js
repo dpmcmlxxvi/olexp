@@ -5,6 +5,7 @@ import olexpUtil from './util';
 
 /**
  * @namespace olexp.item
+ * @private
  */
 const olexp = {
   item: {},
@@ -23,7 +24,7 @@ const olexp = {
    * Item icons
    * @enum {string}
    * @memberOf olexp.item
-   * @public
+   * @private
    * @readonly
    */
   olexp.item.icons = {
@@ -391,7 +392,7 @@ const olexp = {
    * @param {string} name Item name
    * @param {external:ol.layer.Layer|external:ol.Overlay} layer ol3 layer or
    *        overlay object
-   * @public
+   * @private
    * @return {Item} Item to be managed.
    */
   olexp.item.Item = function(id, name, layer) {
@@ -419,7 +420,7 @@ const olexp = {
    * Enumeration of Overlay properties
    * @enum {string}
    * @memberOf olexp.item
-   * @public
+   * @private
    * @readonly
    */
   olexp.item.OverlayProperties = {
@@ -429,7 +430,7 @@ const olexp = {
    * Enumeration of Layer properties
    * @enum {string}
    * @memberOf olexp.item
-   * @public
+   * @private
    * @readonly
    */
   olexp.item.LayerProperties = {
@@ -450,7 +451,7 @@ const olexp = {
    * Enumeration of types of allowable managed items
    * @enum {string}
    * @memberOf olexp.item
-   * @public
+   * @private
    * @readonly
    */
   olexp.item.Type = {

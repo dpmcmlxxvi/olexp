@@ -3,6 +3,7 @@
 /**
  * @description olexp specific OpenLayers 3 classes
  * @namespace olexp.ol
+ * @private
  */
 const olexp = {
   ol: {},
@@ -83,7 +84,7 @@ const olexp = {
    * @param {object} options Control options
    * @param {boolean} options.hidden True if toolbar is initially hidden
    * @param {olexp.ExplorerSettings} options.settings Explorer settings
-   * @public
+   * @private
    * @return {external:jQuery.fn.w2toolbar.properties} ToolbarShow toolbar
    *          control
    */

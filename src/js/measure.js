@@ -2,6 +2,7 @@
 
 /**
  * @namespace olexp.measure
+ * @private
  */
 const olexp = {
   measure: {},
@@ -17,7 +18,7 @@ const olexp = {
    * Enumeration of item measurements types. Key where measurement is stored.
    * @enum {string}
    * @memberOf olexp.measure
-   * @public
+   * @private
    * @readonly
    */
   olexp.measure.properties = {
@@ -543,7 +544,7 @@ const olexp = {
    * @param {Object} options Measurement options
    * @param {olexp.measure.Type} options.type Type of measurement to compute
    * @param {olexp.ExplorerSettings} options.settings Explorer settings
-   * @public
+   * @private
    * @return {object} measure.Tool API.
    */
   olexp.measure.Tool = function(map, options) {
@@ -576,7 +577,7 @@ const olexp = {
    * Enumeration of allowable measurement types
    * @enum {string}
    * @memberOf olexp.measure
-   * @public
+   * @private
    * @readonly
    */
   olexp.measure.Type = {
@@ -596,7 +597,7 @@ const olexp = {
    * Measurement tool overlay
    * @memberOf olexp.measure
    * @param {object} options ol.Overlay options
-   * @public
+   * @private
    */
   olexp.measure.Overlay = Overlay;
 

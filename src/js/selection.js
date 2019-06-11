@@ -4,6 +4,7 @@ import olexpUtil from './util';
 
 /**
  * @namespace olexp.selection
+ * @private
  */
 const olexp = {
   selection: {},
@@ -82,7 +83,7 @@ const olexp = {
    * @memberOf olexp.selection
    * @param {external:ol.Map} map Managed map
    * @param {external:jQuery.fn.w2grid} details Details grid
-   * @public
+   * @private
    * @return {olexp.selection.Feature} Feature selector
    */
   olexp.selection.Feature = function(map, details) {

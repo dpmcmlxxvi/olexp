@@ -2,6 +2,7 @@
 
 /**
  * @namespace olexp.util
+ * @private
  */
 const olexp = {
   util: {},
@@ -150,7 +151,7 @@ const olexp = {
    * @param {string} name Name of new vector layer
    * @param {array<external:ol.Feature>} features Array of features
    * @param {boolean} cluster True if features should be clustered
-   * @public
+   * @private
    */
   Util.prototype.addLayerVector = function(map, name, features, cluster) {
     if (cluster === undefined) {
@@ -209,7 +210,7 @@ const olexp = {
    * Get feature style
    * @memberOf Util.prototype
    * @param {external:ol.Feature} feature Feature to style
-   * @public
+   * @private
    * @return {ol.Style} Cluster style
    */
   Util.prototype.getClusterStyle = function(feature) {
@@ -226,7 +227,7 @@ const olexp = {
   /**
    * Create map controls
    * @memberOf Util.prototype
-   * @public
+   * @private
    * @return {object} Object of ol.control objects by key name
    */
   Util.prototype.getControls = function() {
@@ -251,7 +252,7 @@ const olexp = {
    * Create drag and drop interaction
    * @memberOf Util.prototype
    * @param {ol.Map} map Source map
-   * @public
+   * @private
    * @return {ol.interaction.DragAndDrop} ol3 drag and drop interaction
    */
   Util.prototype.getDragAndDrop = function(map) {
@@ -278,7 +279,7 @@ const olexp = {
    * @memberOf Util.prototype
    * @param {external:ol.Map} map Source map
    * @param {object} options ol.Graticule constructor options
-   * @public
+   * @private
    * @return {external:ol.Graticule} New graticule based on settings
    */
   Util.prototype.getGraticule = function(map, options) {
@@ -298,7 +299,7 @@ const olexp = {
    * Create map interactions
    * @memberOf Util.prototype
    * @param {external:ol.Map} map Source map
-   * @public
+   * @private
    * @return {object} Object of ol.interaction objects by key name
    */
   Util.prototype.getInteractions = function(map) {
@@ -312,7 +313,7 @@ const olexp = {
   /**
    * Get object of ol3 tile types
    * @memberOf Util.prototype
-   * @public
+   * @private
    * @return {object} Object of ol.source objects
    */
   Util.prototype.getTileTypes = function() {
@@ -365,7 +366,7 @@ const olexp = {
   /**
    * Supported ol3 file types
    * @memberOf olexp.util
-   * @public
+   * @private
    * @readonly
    * @returns {object} ol3 file types
    */
@@ -396,7 +397,7 @@ const olexp = {
    * Find feature reader based on filename extension
    * @memberOf olexp.util
    * @param {string} filename Filename to be read
-   * @public
+   * @private
    * @return {external:ol.format.Feature|null} File reader
    */
   olexp.util.getReader = function(filename) {
@@ -426,7 +427,7 @@ const olexp = {
    * @memberOf olexp.util
    * @param {external:ol.Collection} layers Map layers
    * @param {external:ol.layer.Layer|external:ol.Overlay} layer Layer to find
-   * @public
+   * @private
    * @return {number} Index of layer
    */
   olexp.util.indexOf = function(layers, layer) {
@@ -450,7 +451,7 @@ const olexp = {
    *        properties
    * @param {external:jQuery.fn.w2popup.properties} popupOptions w2popup
    *        properties
-   * @public
+   * @private
    */
   olexp.util.popup = function(id, onChanges, formOptions, popupOptions) {
     const name = formOptions.name;
@@ -512,7 +513,7 @@ const olexp = {
    * @memberOf olexp.util
    * @param {string} filename Filename whose extension will be replaced
    * @param {string} extension New extension (including dot)
-   * @public
+   * @private
    * @return {string} New filename with extension replaced
    */
   olexp.util.setExtension = function(filename, extension) {
@@ -528,7 +529,7 @@ const olexp = {
    * Get properties from feature accounting for clustered features
    * @memberOf olexp.util
    * @param {external:ol.Feature} feature Source feature
-   * @public
+   * @private
    * @return {object} Feature properties
    */
   olexp.util.toProperties = function(feature) {
@@ -569,7 +570,7 @@ const olexp = {
    * Convert properties object to record for w2ui grid
    * @memberOf olexp.util
    * @param {object} properties Object properties to convert to grid record
-   * @public
+   * @private
    * @return {array} Properties in record format
    */
   olexp.util.toRecords = function(properties) {
@@ -592,7 +593,7 @@ const olexp = {
    * Utility functions
    * @memberOf olexp.util
    * @param {olexp.ExplorerSettings} settings olexp settings
-   * @public
+   * @private
    * @return {object} Utility API.
    */
   olexp.util.Util = function(settings) {
