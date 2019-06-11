@@ -1,6 +1,6 @@
 /**
  * olexp v0.3.2
- * OpenLayers Explorer is a JavaScript application that combines the power of OpenLayers 3 interactive mapping and the layout management of w2ui.
+ * OpenLayers Explorer is a simple out-of-the-box web mapping solution.
  *
  * @author [object Object]
  * @license MIT
