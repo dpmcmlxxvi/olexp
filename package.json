@@ -85,10 +85,8 @@
     ]
   },
   "nyc": {
-    "exclude": [
-      "**/jquery.js",
-      "**/ol.js",
-      "**/w2ui.js"
+    "include": [
+      "**/olexp.js"
     ]
   }
 }
