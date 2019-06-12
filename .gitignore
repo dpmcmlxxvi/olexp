@@ -1,4 +1,5 @@
 /.grunt
+/.nyc_output/
 /.project
 /.settings
 /coverage/

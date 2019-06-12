@@ -10,6 +10,7 @@ describe('olexp', () => {
       page.coverage.startJSCoverage(),
       page.coverage.startCSSCoverage(),
     ]);
+    await page.goto(url);
   });
 
   afterAll(async () => {
@@ -22,8 +23,7 @@ describe('olexp', () => {
 
   describe('API', () => {
     beforeEach(async () => {
-      await jestPuppeteer.resetPage()
-      await page.goto(url);
+      await page.reload();
     });
 
     it('creates a valid explorer object', async () => {
@@ -58,8 +58,7 @@ describe('olexp', () => {
 
   describe('Manager', () => {
     beforeEach(async () => {
-      await jestPuppeteer.resetPage()
-      await page.goto(url);
+      await page.reload();
     });
 
     it('there is initially two nodes (Layers and Overlays)', async () => {
