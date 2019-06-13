@@ -3,6 +3,22 @@ const pti = require('puppeteer-to-istanbul');
 
 const url = 'file://' + __dirname + '/index.html';
 
+// Check if element exists.
+const isExist = async (selector) => {
+  await page.waitFor(1000);
+  const elements = await page.$$(selector);
+  return elements.length > 0;
+};
+
+// Check if element or parent is visible.
+// w2ui hides some components by hiding its parent.
+const isVisible = async (selector) => {
+  await page.waitFor(1000);
+  return await page.evaluate((selector) => {
+    return $(selector).parent().css('display') !== 'none';
+  }, selector);
+};
+
 describe('olexp', () => {
 
   beforeAll(async () => {
@@ -22,10 +38,6 @@ describe('olexp', () => {
   });
 
   describe('API', () => {
-    beforeEach(async () => {
-      await page.reload();
-    });
-
     it('creates a valid explorer object', async () => {
       const explorer = await page.evaluate(() => explorer);
       expect(explorer).not.toBeNull();
@@ -57,10 +69,6 @@ describe('olexp', () => {
   });
 
   describe('Manager', () => {
-    beforeEach(async () => {
-      await page.reload();
-    });
-
     it('there is initially two nodes (Layers and Overlays)', async () => {
       const nodes = await page.evaluate(() => explorer.outline.get());
       expect(nodes.length).toEqual(2);
@@ -80,6 +88,85 @@ describe('olexp', () => {
         return explorer.outline.find({parent : nodes});
       });
       expect(node.length).toEqual(0);
+    });
+  });
+
+  describe('Toolbar', () => {
+    it('show/hide toolbar', async () => {
+      const selector = '[name=olexp-explorer-explorer-name-toolbar]';
+      await expect(await isVisible(selector)).toEqual(true);
+      await expect(page).toClick('.olexp-control-toolbar-hide');
+      await expect(await isVisible(selector)).toEqual(false);
+      await expect(page).toClick('.olexp-ol-toolbar-show');
+      await expect(await isVisible(selector)).toEqual(true);
+    });
+
+    it('show/hide outline panel', async () => {
+      const selector = '[name=olexp-explorer-explorer-name-navigation]';
+      await expect(await isVisible(selector)).toEqual(true);
+      await expect(page).toClick('.olexp-control-layer-manager-navigation');
+      await expect(await isVisible(selector)).toEqual(false);
+      await expect(page).toClick('.olexp-control-layer-manager-navigation');
+      await expect(await isVisible(selector)).toEqual(true);
+    });
+
+    it('show/hide details panel', async () => {
+      const selector = '[name=olexp-explorer-explorer-name-details]';
+      await expect(await isVisible(selector)).toEqual(false);
+      await expect(page).toClick('.olexp-control-layer-manager-details');
+      await expect(await isVisible(selector)).toEqual(true);
+      await expect(page).toClick('.olexp-control-layer-manager-details');
+      await expect(await isVisible(selector)).toEqual(false);
+    });
+
+    it('show/hide add tile layer popup', async () => {
+      const selector = '#w2ui-popup';
+      await expect(await isExist(selector)).toEqual(false);
+      await expect(page).toClick('.olexp-control-layer-control-add-tile');
+      await expect(await isExist(selector)).toEqual(true);
+      await expect(page).toClick('.w2ui-msg-close');
+      await expect(await isExist(selector)).toEqual(false);
+    });
+
+    it('show/hide add tile vector popup', async () => {
+      const selector = '#w2ui-popup';
+      await expect(await isExist(selector)).toEqual(false);
+      await expect(page).toClick('.olexp-control-layer-control-add-vector');
+      await expect(await isExist(selector)).toEqual(true);
+      await expect(page).toClick('.w2ui-msg-close');
+      await expect(await isExist(selector)).toEqual(false);
+    });
+
+    it('show/hide graticule popup', async () => {
+      const selector = '#w2ui-popup';
+      await expect(await isExist(selector)).toEqual(false);
+      await expect(page).toClick('.olexp-control-graticule');
+      await expect(await isExist(selector)).toEqual(true);
+      await expect(page).toClick('.w2ui-msg-close');
+      await expect(await isExist(selector)).toEqual(false);
+    });
+
+    it('show/hide measure area cursor', async () => {
+      const selector = '.olexp-measure-hidden';
+      await expect(page).toClick('.olexp-control-measure-area');
+      await expect(page).toClick('.olexp-control-measure-area');
+      await expect(page).toMatchElement(selector);
+    });
+
+    it('show/hide measure length cursor', async () => {
+      const selector = '.olexp-measure-hidden';
+      await expect(page).toClick('.olexp-control-measure-length');
+      await expect(page).toClick('.olexp-control-measure-length');
+      await expect(page).toMatchElement(selector);
+    });
+
+    it('show/hide edit settings popup', async () => {
+      const selector = '#w2ui-popup';
+      await expect(await isExist(selector)).toEqual(false);
+      await expect(page).toClick('.olexp-control-edit-settings');
+      await expect(await isExist(selector)).toEqual(true);
+      await expect(page).toClick('.w2ui-msg-close');
+      await expect(await isExist(selector)).toEqual(false);
     });
   });
 });
