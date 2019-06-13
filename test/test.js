@@ -3,6 +3,47 @@ const pti = require('puppeteer-to-istanbul');
 
 const url = 'file://' + __dirname + '/index.html';
 
+// Add and remove layer type from map.
+// Returns node count before and after removal.
+const addRemoveLayer = async (type) => {
+  return await page.evaluate((type) => {
+    // Get layer based on type
+    const layer = data[type];
+
+    // Add to map
+    explorer.map.addLayer(layer);
+    const before = explorer.outline.find({
+      parent : explorer.outline.get(explorer.options.layers.id),
+    }).length;
+
+    // Remove from map
+    explorer.map.removeLayer(layer);
+    const after = explorer.outline.find({
+      parent : explorer.outline.get(explorer.options.layers.id),
+    }).length;
+    return {before, after}
+  }, type);
+};
+
+// Add and remove overlay type from map.
+// Returns node count before and after removal.
+const addRemoveOverlay = async () => {
+  return await page.evaluate(() => {
+    // Add to map
+    explorer.map.addOverlay(data.overlay);
+    const before = explorer.outline.find({
+      parent : explorer.outline.get(explorer.options.overlays.id),
+    }).length;
+
+    // Remove from map
+    explorer.map.removeOverlay(data.overlay);
+    const after = explorer.outline.find({
+      parent : explorer.outline.get(explorer.options.overlays.id),
+    }).length;
+    return {before, after}
+  });
+};
+
 // Check if element exists.
 const isExist = async (selector) => {
   await page.waitFor(1000);
@@ -88,6 +129,32 @@ describe('olexp', () => {
         return explorer.outline.find({parent : nodes});
       });
       expect(node.length).toEqual(0);
+    });
+  });
+
+  describe('Map', () => {
+    it('loads layer - group', async () => {
+      const {before, after} = await addRemoveLayer('group');
+      expect(before).toEqual(1);
+      expect(after).toEqual(0);
+    });
+
+    it('loads layer - tile', async () => {
+      const {before, after} = await addRemoveLayer('tile');
+      expect(before).toEqual(1);
+      expect(after).toEqual(0);
+    });
+
+    it('loads layer - vector', async () => {
+      const {before, after} = await addRemoveLayer('vector');
+      expect(before).toEqual(1);
+      expect(after).toEqual(0);
+    });
+
+    it('loads overlay', async () => {
+      const {before, after} = await addRemoveOverlay();
+      expect(before).toEqual(1);
+      expect(after).toEqual(0);
     });
   });
 
