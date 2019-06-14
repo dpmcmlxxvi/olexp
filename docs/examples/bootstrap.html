@@ -69,7 +69,7 @@
     <script>
       window.onload = function() {
         window.explorer = new olexp.Explorer("explorer");
-        var layerstm = new ol.layer.Tile({
+        const layerstm = new ol.layer.Tile({
           source: new ol.source.Stamen({ layer: "watercolor" })
         });
         layerstm.set("name", "Stamen");

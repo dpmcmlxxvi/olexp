@@ -184,20 +184,17 @@
     <script>
       $(document).ready(function() {
         (function() {
-          var api =
+          const api =
             "https://api.github.com/repos/dpmcmlxxvi/olexp/releases/latest";
           $.getJSON(api).done(function(json) {
-            var anchor = $("#olexp-download");
+            const anchor = $("#olexp-download");
             anchor.attr("href", json.zipball_url);
             anchor.html("Download " + json.tag_name + " &raquo;");
           });
         })();
       });
-
-      var explorer = null;
-
       window.onload = function() {
-        explorer = runExampleLayers("explorer", "../examples");
+        window.explorer = runExampleLayers("explorer", "../examples");
       };
     </script>
   </body>

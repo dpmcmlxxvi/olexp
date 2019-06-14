@@ -178,14 +178,16 @@
     <script src="../examples/js/example.options.js"></script>
     <script src="../examples/js/example.layers.js"></script>
     <script>
-      var explorerSimple = null;
-      var explorerOptions = null;
-      var explorerLayers = null;
-
       window.onload = function() {
-        explorerSimple = runExampleSimple("explorer-simple");
-        explorerOptions = runExampleOptions("explorer-options", "../examples");
-        explorerLayers = runExampleLayers("explorer-layers", "../examples");
+        window.explorerSimple = runExampleSimple("explorer-simple");
+        window.explorerOptions = runExampleOptions(
+          "explorer-options",
+          "../examples"
+        );
+        window.explorerLayers = runExampleLayers(
+          "explorer-layers",
+          "../examples"
+        );
       };
     </script>
   </body>
