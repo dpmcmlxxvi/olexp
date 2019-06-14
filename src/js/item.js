@@ -315,6 +315,28 @@ const olexp = {
   };
 
   /**
+   * Get item map visibility
+   * @memberOf Item
+   * @private
+   * @return {Boolean} True if visible otherwise false
+   */
+  Item.prototype.getVisible = function() {
+    // Check overlay DOM visibility
+    if (this.type === olexp.item.Type.OVERLAY) {
+      const properties = this.layer.getProperties();
+      if (properties.hasOwnProperty('element')) {
+        const dom = $(properties.element);
+        return dom.css('display') !== 'none' &&
+          dom.css('visibility') !== 'hidden';
+      }
+      return false;
+    }
+
+    // Check layer visibilty
+    return this.layer.getVisible();
+  };
+
+  /**
    * Update item editable properties
    * @memberOf Item.prototype
    * @param {Object} properties Item properties to update
@@ -349,6 +371,41 @@ const olexp = {
       this[name] = value;
     }
     return this[name];
+  };
+
+  /**
+   * Set item map visibility
+   * @memberOf Item
+   * @param{Boolean} enable True if enable visibility otherwise false
+   * @private
+   */
+  Item.prototype.setVisible = function(enable) {
+    // Overlays don't have visibility so we hide DOM element
+    if (this.type === olexp.item.Type.OVERLAY) {
+      const properties = this.layer.getProperties();
+      if (properties.hasOwnProperty('element')) {
+        const dom = $(properties.element);
+        if (enable) {
+          if (dom.css('visibility') === 'hidden') {
+            dom.css('visibility', 'visible');
+          }
+          if (dom.css('display') === 'none') {
+            dom.show();
+          }
+        } else {
+          if (dom.css('visibility') !== 'hidden') {
+            dom.css('visibility', 'hidden');
+          }
+          if (dom.css('display') !== 'none') {
+            dom.hide();
+          }
+        }
+      }
+      return;
+    }
+
+    // Check layer visibilty
+    this.layer.setVisible(enable);
   };
 
   /**
@@ -401,6 +458,7 @@ const olexp = {
       getDetails: item.getDetails.bind(item),
       getProperties: item.getProperties.bind(item),
       getPropertyTypes: item.getPropertyTypes.bind(item),
+      getVisible: item.getVisible.bind(item),
       icon: item.icon,
       id: item.id,
       layer: item.layer,
@@ -411,6 +469,7 @@ const olexp = {
         return item.property('name', name);
       },
       setProperties: item.setProperties.bind(item),
+      setVisible: item.setVisible.bind(item),
       type: item.type,
       zoomTo: item.zoomTo.bind(item),
     };

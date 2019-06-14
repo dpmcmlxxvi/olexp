@@ -3,8 +3,6 @@ import olexpItem from './item';
 import olexpMeasure from './measure';
 import olexpUtil from './util';
 
-/* globals $ */
-
 /**
  * @namespace olexp.manager
  * @private
@@ -350,30 +348,11 @@ const olexp = {
     }
 
     // ==================================================
-    // Toggle map layer visibility
+    // Toggle item visibility on map
     // --------------------------------------------------
-
-    // Check if this is a layer node
-    if (this.isIdLayerNode(id)) {
-      const itemLayer = this.managerLayers.getById(id);
-      if (itemLayer !== null) {
-        itemLayer.layer.setVisible(enable);
-      }
-    } else if (this.isIdOverlayNode(id)) {
-      // Check if this is a overlay node
-      const itemOverlay = this.managerOverlays.getById(id);
-      if (itemOverlay !== null) {
-        // Overlays don't have visibility so we hide DOM element
-        const properties = itemOverlay.layer.getProperties();
-        if (properties.hasOwnProperty('element')) {
-          const dom = $(properties.element);
-          if (enable) {
-            dom.show();
-          } else {
-            dom.hide();
-          }
-        }
-      }
+    const item = this.getById(id);
+    if (item !== null) {
+      item.setVisible(enable);
     }
   };
 
@@ -541,6 +520,7 @@ const olexp = {
     // --------------------------------------------------
     const node = {
       id: item.id,
+      disabled: item.getVisible() === false,
       img: item.icon,
       text: item.name(),
     };

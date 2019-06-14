@@ -90,6 +90,7 @@ const runExampleLayers = function(id, examples) {
     radius: 10,
   });
   heatMap.set('name', 'Heat Map');
+  heatMap.setVisible(false);
 
   // ==================================================
   // Add heatmap source
