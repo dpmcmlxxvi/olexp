@@ -31,9 +31,15 @@
     "lint:js": "eslint '*.js' 'docs/examples/js/example.*.js' 'src/js/*.js'",
     "lint:md": "remark -q .",
     "prepare": "npm run build",
-    "test": "run-s test:clean test:run test:coverage",
+    "test": "run-s test:clean test:lint test:run test:coverage",
     "test:clean": "shx rm -rf coverage .nyc_output",
     "test:coverage": "nyc report --reporter=lcov",
+    "test:lint": "run-s test:lint:*",
+    "test:lint:css": "stylelint 'test/*.css'",
+    "test:lint:html": "run-s test:lint:html:*",
+    "test:lint:html:hint": "htmlhint 'test/*.html'",
+    "test:lint:html:pretty": "prettier --check 'test/*.html'",
+    "test:lint:js": "eslint 'test/*.js'",
     "test:run": "jest"
   },
   "files": [

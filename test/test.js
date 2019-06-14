@@ -13,15 +13,15 @@ const addRemoveLayer = async (type) => {
     // Add to map
     explorer.map.addLayer(layer);
     const before = explorer.outline.find({
-      parent : explorer.outline.get(explorer.options.layers.id),
+      parent: explorer.outline.get(explorer.options.layers.id),
     }).length;
 
     // Remove from map
     explorer.map.removeLayer(layer);
     const after = explorer.outline.find({
-      parent : explorer.outline.get(explorer.options.layers.id),
+      parent: explorer.outline.get(explorer.options.layers.id),
     }).length;
-    return {before, after}
+    return {before, after};
   }, type);
 };
 
@@ -32,15 +32,15 @@ const addRemoveOverlay = async () => {
     // Add to map
     explorer.map.addOverlay(data.overlay);
     const before = explorer.outline.find({
-      parent : explorer.outline.get(explorer.options.overlays.id),
+      parent: explorer.outline.get(explorer.options.overlays.id),
     }).length;
 
     // Remove from map
     explorer.map.removeOverlay(data.overlay);
     const after = explorer.outline.find({
-      parent : explorer.outline.get(explorer.options.overlays.id),
+      parent: explorer.outline.get(explorer.options.overlays.id),
     }).length;
-    return {before, after}
+    return {before, after};
   });
 };
 
@@ -61,20 +61,13 @@ const isVisible = async (selector) => {
 };
 
 describe('olexp', () => {
-
   beforeAll(async () => {
-    await Promise.all([
-      page.coverage.startJSCoverage(),
-      page.coverage.startCSSCoverage(),
-    ]);
+    await page.coverage.startJSCoverage();
     await page.goto(url);
   });
 
   afterAll(async () => {
-    const [jsCoverage, cssCoverage] = await Promise.all([
-      page.coverage.stopJSCoverage(),
-      page.coverage.stopCSSCoverage(),
-    ]);
+    const jsCoverage = await page.coverage.stopJSCoverage();
     pti.write(jsCoverage);
   });
 
@@ -117,8 +110,8 @@ describe('olexp', () => {
 
     it('there is initially an empty Layers node', async () => {
       const node = await page.evaluate(() => {
-        const nodes = explorer.outline.get(explorer.options.layers.id)
-        return explorer.outline.find({parent : nodes});
+        const nodes = explorer.outline.get(explorer.options.layers.id);
+        return explorer.outline.find({parent: nodes});
       });
       expect(node.length).toEqual(0);
     });
@@ -126,7 +119,7 @@ describe('olexp', () => {
     it('there is initially an empty Overlays node', async () => {
       const node = await page.evaluate(() => {
         const nodes = explorer.outline.get(explorer.options.overlays.id);
-        return explorer.outline.find({parent : nodes});
+        return explorer.outline.find({parent: nodes});
       });
       expect(node.length).toEqual(0);
     });
