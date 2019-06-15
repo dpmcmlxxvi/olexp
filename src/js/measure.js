@@ -196,12 +196,6 @@ const olexp = {
     this.source = null;
 
     /**
-     * WGS84 ellipsoid on which to perform measurements
-     * @type {ol.Sphere}
-     */
-    this.sphere = new ol.Sphere(6378137);
-
-    /**
      * Measurement tool type
      * @type {olexp.measure.Type}
      */
@@ -303,7 +297,7 @@ const olexp = {
       const projection = this.map.getView().getProjection();
       const geometry = polygon.clone().transform(projection, 'EPSG:4326');
       const coordinates = geometry.getLinearRing(0).getCoordinates();
-      area = Math.abs(this.sphere.geodesicArea(coordinates));
+      area = Math.abs(ol.sphere.getArea(coordinates));
     } else {
       area = polygon.getArea();
     }
@@ -337,7 +331,7 @@ const olexp = {
       for (i = 0; i < numCoordinates - 1; i += 1) {
         c1 = ol.proj.transform(coordinates[i], projection, 'EPSG:4326');
         c2 = ol.proj.transform(coordinates[i + 1], projection, 'EPSG:4326');
-        length += this.sphere.haversineDistance(c1, c2);
+        length += ol.sphere.getDistance(c1, c2);
       }
     } else {
       length = Math.round(line.getLength() * 100) / 100;

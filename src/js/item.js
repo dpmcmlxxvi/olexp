@@ -432,7 +432,7 @@ const olexp = {
       // --------------------------------------------------
       const extent = this.getExtent();
       if (extent !== null) {
-        view.fit(extent, map.getSize());
+        view.fit(extent);
         return;
       }
 
