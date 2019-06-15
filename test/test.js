@@ -213,7 +213,7 @@ describe('olexp', () => {
       await expect(page).toMatchElement(selector);
     });
 
-    it('show/hide measure length cursor', async () => {
+    it.skip('show/hide measure length cursor', async () => {
       const selector = '.olexp-measure-hidden';
       await expect(page).toClick('.olexp-control-measure-length');
       await expect(page).toClick('.olexp-control-measure-length');
