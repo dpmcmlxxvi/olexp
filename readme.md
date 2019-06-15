@@ -6,9 +6,9 @@
 [![npm](https://badge.fury.io/js/olexp.svg)](https://badge.fury.io/js/olexp)
 [![greenkeeper](https://badges.greenkeeper.io/dpmcmlxxvi/olexp.svg)](https://greenkeeper.io/)
 
-OpenLayers Explorer (olexp) is a simple out-of-the-box web mapping solution.
-It provides a viewer to easily add, visualize, and analyze spatial data. It
-provides the following common tools:
+[OpenLayers Explorer](https://github.com/dpmcmlxxvi/olexp) (olexp) is a simple
+out-of-the-box web mapping solution. It provides a viewer to easily add,
+visualize, and analyze spatial data. It provides the following common tools:
 
 - **Toolbar** with standard tools (e.g., measuring tools).
 - **Outline** to inspect and control the visible layers and overlays.
