@@ -11,9 +11,7 @@ const olexp = {
 // ==================================================
 // Utility tools
 // --------------------------------------------------
-(function(olexp) {
-  'use strict';
-
+((olexp) => {
   /**
    * Utility tools
    * @param {olexp.ExplorerSettings} settings olexp settings
@@ -25,7 +23,7 @@ const olexp = {
     // with user provided values.
     // --------------------------------------------------
     const olexpSettings = $.extend(true, {util: {Util: {
-      cluster: function(size) {
+      cluster(size) {
         const style = [
           new ol.style.Style({
             image: new ol.style.Circle({
@@ -161,7 +159,7 @@ const olexp = {
     const me = this;
 
     // Detect if clustering is on for non-points and disable clustering
-    features.forEach(function(feature) {
+    features.forEach((feature) => {
       if (cluster === false) {
         return;
       }
@@ -173,17 +171,17 @@ const olexp = {
 
     // Build layer source
     let source = new ol.source.Vector({
-      features: features,
+      features,
     });
 
     if (cluster) {
       source = new ol.source.Cluster({
-        source: source,
+        source,
       });
     }
 
     // Build layer style
-    let style = function(feature, resolution) {
+    let style = (feature, resolution) => {
       const styleFunction = feature.getStyleFunction();
       if (styleFunction) {
         return styleFunction.call(feature, resolution);
@@ -192,15 +190,13 @@ const olexp = {
     };
 
     if (cluster) {
-      style = function(feature) {
-        return me.getClusterStyle(feature);
-      };
+      style = (feature) => me.getClusterStyle(feature);
     }
 
     // Add layer to map
     const layer = new ol.layer.Vector({
-      source: source,
-      style: style,
+      source,
+      style,
     });
     layer.set('name', name);
     map.getLayers().push(layer);
@@ -230,7 +226,7 @@ const olexp = {
    * @private
    * @return {object} Object of ol.control objects by key name
    */
-  Util.prototype.getControls = function() {
+  Util.prototype.getControls = () => {
     const controls = {
       fullscreen: new ol.control.FullScreen(),
       mouseposition: new ol.control.MousePosition({
@@ -259,12 +255,10 @@ const olexp = {
     const me = this;
 
     const interaction = new ol.interaction.DragAndDrop({
-      formatConstructors: $.map(olexp.util.FileTypes, function(o) {
-        return o.Format;
-      }),
+      formatConstructors: $.map(olexp.util.FileTypes, (o) => o.Format),
     });
 
-    interaction.on('addfeatures', function(event) {
+    interaction.on('addfeatures', (event) => {
       // Get filename and remove any extensions
       const filename = olexp.util.setExtension(event.file.name, '');
 
@@ -282,10 +276,10 @@ const olexp = {
    * @private
    * @return {external:ol.Graticule} New graticule based on settings
    */
-  Util.prototype.getGraticule = function(map, options) {
+  Util.prototype.getGraticule = (map, options) => {
     const opts = $.extend($.extend({}, options), {color: '#' + options.color});
     const graticule = new ol.Graticule({
-      map: map,
+      map,
       strokeStyle: new ol.style.Stroke(opts),
     });
     graticule.olexpRecord = $.extend({
@@ -316,7 +310,7 @@ const olexp = {
    * @private
    * @return {object} Object of ol.source objects
    */
-  Util.prototype.getTileTypes = function() {
+  Util.prototype.getTileTypes = () => {
     // ==================================================
     // Define tile types object
     // --------------------------------------------------
@@ -400,16 +394,16 @@ const olexp = {
    * @private
    * @return {external:ol.format.Feature|null} File reader
    */
-  olexp.util.getReader = function(filename) {
+  olexp.util.getReader = (filename) => {
     const extension = filename.substring(
         filename.lastIndexOf('.') + 1).toLowerCase();
     let formatFound = null;
-    Object.keys(olexp.util.FileTypes).forEach(function(key) {
+    Object.keys(olexp.util.FileTypes).forEach((key) => {
       if (formatFound !== null) {
         return;
       }
       const type = olexp.util.FileTypes[key];
-      type.extensions.forEach(function(ext) {
+      type.extensions.forEach((ext) => {
         if (formatFound !== null) {
           return;
         }
@@ -430,7 +424,7 @@ const olexp = {
    * @private
    * @return {number} Index of layer
    */
-  olexp.util.indexOf = function(layers, layer) {
+  olexp.util.indexOf = (layers, layer) => {
     let i = 0;
     const length = layers.getLength();
     for (i = 0; i < length; i += 1) {
@@ -453,7 +447,7 @@ const olexp = {
    *        properties
    * @private
    */
-  olexp.util.popup = function(id, onChanges, formOptions, popupOptions) {
+  olexp.util.popup = (id, onChanges, formOptions, popupOptions) => {
     const name = formOptions.name;
     const record = formOptions.record;
 
@@ -465,7 +459,7 @@ const olexp = {
     }
     $().w2form($.extend(formOptions, {
       actions: {
-        save: function() {
+        save() {
           // Check for errors
           const errors = this.validate();
           if (errors.length === 0) {
@@ -476,10 +470,10 @@ const olexp = {
             onChanges(changes);
           }
         },
-        reset: function() {
+        reset() {
           // Reset properties to original item values
           const form = w2ui[name];
-          Object.keys(record).forEach(function(rname) {
+          Object.keys(record).forEach((rname) => {
             form.record[rname] = record[rname];
           });
           form.refresh();
@@ -492,15 +486,15 @@ const olexp = {
     // --------------------------------------------------
     w2popup.open($.extend(popupOptions, {
       body: ('<div id="' + id + '"></div>'),
-      onOpen: function(event) {
-        event.onComplete = function() {
+      onOpen(event) {
+        event.onComplete = () => {
           $('#w2ui-popup #' + id).w2render(name);
         };
       },
-      onToggle: function(event) {
+      onToggle(event) {
         const form = w2ui[name];
         $(form.box).hide();
-        event.onComplete = function() {
+        event.onComplete = () => {
           $(form.box).show();
           form.resize();
         };
@@ -516,7 +510,7 @@ const olexp = {
    * @private
    * @return {string} New filename with extension replaced
    */
-  olexp.util.setExtension = function(filename, extension) {
+  olexp.util.setExtension = (filename, extension) => {
     const parts = filename.split('.');
     if (parts.length === 1) {
       return parts[0];
@@ -532,7 +526,7 @@ const olexp = {
    * @private
    * @return {object} Feature properties
    */
-  olexp.util.toProperties = function(feature) {
+  olexp.util.toProperties = (feature) => {
     let properties = feature.getProperties();
 
     // ==================================================
@@ -553,7 +547,7 @@ const olexp = {
           // If more than one feature get feature count
           // --------------------------------------------------
           let count = 0;
-          features.forEach(function(feature) {
+          features.forEach((feature) => {
             if (feature instanceof ol.Feature) {
               count += 1;
               properties['Cluster Size'] = count;
@@ -573,17 +567,17 @@ const olexp = {
    * @private
    * @return {array} Properties in record format
    */
-  olexp.util.toRecords = function(properties) {
+  olexp.util.toRecords = (properties) => {
     const records = [];
     let recid = 0;
 
     // ==================================================
     // Push properties into record
     // --------------------------------------------------
-    Object.keys(properties).forEach(function(name) {
+    Object.keys(properties).forEach((name) => {
       const value = properties[name];
       recid += 1;
-      records.push({recid: recid, property: name, value: value});
+      records.push({recid, property: name, value});
     });
 
     return records;
@@ -608,6 +602,6 @@ const olexp = {
   };
 
   return olexp;
-}(olexp || {}));
+})(olexp || {});
 
 export default olexp.util;

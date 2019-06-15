@@ -14,9 +14,7 @@ const olexp = {
 // ==================================================
 // Selection Tool
 // --------------------------------------------------
-(function(olexp) {
-  'use strict';
-
+((olexp) => {
   /**
    * Handles the selection of features on the map
    * @param {ol.Map} map Managed map
@@ -46,11 +44,11 @@ const olexp = {
     // Add callback for feature selection
     // --------------------------------------------------
     const me = this;
-    this.interaction.on('select', function(event) {
+    this.interaction.on('select', (event) => {
       if (event.selected.length === 1) {
         const feature = event.selected[0];
         const properties = olexp.util.toProperties(feature);
-        Object.keys(properties).forEach(function(name) {
+        Object.keys(properties).forEach((name) => {
           const type = typeof properties[name];
           if ((type !== 'boolean') &&
               (type !== 'number') &&
@@ -96,13 +94,13 @@ const olexp = {
      * @property {function} setEnable Enable/disable feature selection
      */
     return {
-      setEnable: function(enable) {
+      setEnable(enable) {
         selector.setEnable(enable);
       },
     };
   };
 
   return olexp;
-}(olexp || {}));
+})(olexp || {});
 
 export default olexp.selection;

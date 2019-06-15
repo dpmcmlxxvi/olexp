@@ -18,9 +18,7 @@ const olexp = {
 // ==================================================
 // Manager
 // --------------------------------------------------
-(function(olexp) {
-  'use strict';
-
+((olexp) => {
   /**
    * Item manager that synchronizes adding and removing items from the map
    * sidebar and the corresponding layers on the ol3 map
@@ -422,14 +420,12 @@ const olexp = {
   };
 
   return olexp;
-}(olexp || {}));
+})(olexp || {});
 
 // ==================================================
 // Node Manager
 // --------------------------------------------------
-(function(olexp) {
-  'use strict';
-
+((olexp) => {
   /**
    * Node manager that synchronizes adding and removing items
    * @param {string} id Node id
@@ -546,7 +542,7 @@ const olexp = {
       const manager = new NodeManager(item.id, layers, this.outline,
           this.details);
 
-      layers.forEach(function(childLayer) {
+      layers.forEach((childLayer) => {
         manager.addLayer(childLayer);
       }, this);
       this.managers[item.id] = manager;
@@ -571,7 +567,7 @@ const olexp = {
 
     const me = this;
     let itemFound = null;
-    this.items.forEach(function(item) {
+    this.items.forEach((item) => {
       if (itemFound !== null) {
         return;
       }
@@ -605,7 +601,7 @@ const olexp = {
 
     const me = this;
     let itemFound = null;
-    this.items.forEach(function(item) {
+    this.items.forEach((item) => {
       if (itemFound !== null) {
         return;
       }
@@ -653,7 +649,7 @@ const olexp = {
    * @private
    * @return {boolean} True if item is hidden otherwise false
    */
-  NodeManager.prototype.isHidden = function(layer) {
+  NodeManager.prototype.isHidden = (layer) => {
     if (layer instanceof olexp.measure.Overlay) {
       return true;
     }
@@ -683,7 +679,7 @@ const olexp = {
     // Check if item in child managers
     const me = this;
     let itemFound = null;
-    this.items.forEach(function(item) {
+    this.items.forEach((item) => {
       if (itemFound !== null) {
         return;
       }
@@ -850,7 +846,7 @@ const olexp = {
     // Check if item in child managers
     const me = this;
     let itemFound = null;
-    this.items.forEach(function(item) {
+    this.items.forEach((item) => {
       if (itemFound !== null) {
         return;
       }
@@ -957,7 +953,7 @@ const olexp = {
 
     const me = this;
     const items = this.toList();
-    items.forEach(function(item) {
+    items.forEach((item) => {
       // Check if item is just being moved by user
       if (item.moving() === false) {
         if (olexp.util.indexOf(me.layers, item.layer) === -1) {
@@ -990,7 +986,7 @@ const olexp = {
     // --------------------------------------------------
     const me = this;
     let itemRemoved = false;
-    this.items.forEach(function(itemChild) {
+    this.items.forEach((itemChild) => {
       if (itemRemoved) {
         return;
       }
@@ -1023,7 +1019,7 @@ const olexp = {
     // --------------------------------------------------
     const me = this;
     let itemRemoved = null;
-    this.items.forEach(function(itemChild) {
+    this.items.forEach((itemChild) => {
       if (itemRemoved !== null) {
         return;
       }
@@ -1103,6 +1099,6 @@ const olexp = {
   };
 
   return olexp;
-}(olexp || {}));
+})(olexp || {});
 
 export default olexp.manager;

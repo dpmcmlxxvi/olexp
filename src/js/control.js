@@ -18,9 +18,7 @@ const olexp = {
 // ==================================================
 // Edit Settings Control
 // --------------------------------------------------
-(function(olexp) {
-  'use strict';
-
+((olexp) => {
   /**
    * Control to edit settings
    * @param {ol.Map} map Source map
@@ -185,8 +183,8 @@ const olexp = {
     // ==================================================
     // Function to process form changes
     // --------------------------------------------------
-    const onChanges = function(changes) {
-      Object.keys(changes).forEach(function(name) {
+    const onChanges = (changes) => {
+      Object.keys(changes).forEach((name) => {
         const enable = changes[name];
         me.setControl(name, enable);
       });
@@ -197,9 +195,9 @@ const olexp = {
     // --------------------------------------------------
 
     const formOptions = $.extend(this.settings.form, {
-      fields: fields,
+      fields,
       name: this.name,
-      record: record,
+      record,
     });
 
     const popupOptions = this.settings.popup;
@@ -216,7 +214,7 @@ const olexp = {
   EditSettings.prototype.getControl = function(name) {
     const controls = this.map.getControls().getArray();
     let ctrl = null;
-    controls.forEach(function(control) {
+    controls.forEach((control) => {
       if (ctrl !== null) {
         return;
       }
@@ -288,14 +286,14 @@ const olexp = {
    * @return {external:jQuery.fn.w2toolbar.properties} EditSettings toolbar
    *          control
    */
-  olexp.control.editSettings = function(explorer, options) {
+  olexp.control.editSettings = (explorer, options) => {
     const control = new EditSettings(explorer.map, options.settings);
 
     return {
       hint: control.settings.hint,
       id: control.button,
       img: control.icon,
-      onClick: function() {
+      onClick() {
         control.display();
       },
       type: 'button',
@@ -303,14 +301,12 @@ const olexp = {
   };
 
   return olexp;
-}(olexp || {}));
+})(olexp || {});
 
 // ==================================================
 // Export Map Control
 // --------------------------------------------------
-(function(olexp) {
-  'use strict';
-
+((olexp) => {
   /**
    * Control to export map to image
    * @param {ol.Map} map Map on which to render measurements
@@ -395,8 +391,8 @@ const olexp = {
     $('body').append('<a id="' + id + '" download="' + filename + '"></a>');
     const anchor = document.getElementById(id);
     const self = this;
-    const callback = function() {
-      self.map.once('postcompose', function(event) {
+    const callback = () => {
+      self.map.once('postcompose', (event) => {
         anchor.href = event.context.canvas.toDataURL('image/png');
       });
       self.map.renderSync();
@@ -418,14 +414,14 @@ const olexp = {
    * @return {external:jQuery.fn.w2toolbar.properties} ExportMap toolbar
    *          control
    */
-  olexp.control.exportMap = function(explorer, options) {
+  olexp.control.exportMap = (explorer, options) => {
     const control = new ExportMap(explorer.map, options.settings);
 
     return {
       hint: control.settings.hint,
       id: control.button,
       img: control.icon,
-      onClick: function() {
+      onClick() {
         control.toImage();
       },
       type: 'button',
@@ -433,14 +429,12 @@ const olexp = {
   };
 
   return olexp;
-}(olexp || {}));
+})(olexp || {});
 
 // ==================================================
 // Graticule Controls
 // --------------------------------------------------
-(function(olexp) {
-  'use strict';
-
+((olexp) => {
   /**
    * Control to display graticule
    * @param {ol.Map} map Source map
@@ -599,8 +593,8 @@ const olexp = {
     // ==================================================
     // Function to process form changes
     // --------------------------------------------------
-    const onChanges = function(changes) {
-      Object.keys(changes).forEach(function(name) {
+    const onChanges = (changes) => {
+      Object.keys(changes).forEach((name) => {
         record[name] = changes[name];
       });
       const options = $.extend({}, record);
@@ -615,9 +609,9 @@ const olexp = {
     // --------------------------------------------------
 
     const formOptions = $.extend(this.settings.form, {
-      fields: fields,
+      fields,
       name: this.name,
-      record: record,
+      record,
     });
 
     const popupOptions = this.settings.popup;
@@ -635,7 +629,7 @@ const olexp = {
    * @return {external:jQuery.fn.w2toolbar.properties} Graticule toolbar
    *          control
    */
-  olexp.control.graticule = function(explorer, options) {
+  olexp.control.graticule = (explorer, options) => {
     if (options === undefined) {
       options = {};
     }
@@ -649,7 +643,7 @@ const olexp = {
       hint: control.settings.hint,
       id: control.button,
       img: control.icon,
-      onClick: function() {
+      onClick() {
         control.display();
       },
       type: 'button',
@@ -657,14 +651,12 @@ const olexp = {
   };
 
   return olexp;
-}(olexp || {}));
+})(olexp || {});
 
 // ==================================================
 // Layer Controls
 // --------------------------------------------------
-(function(olexp) {
-  'use strict';
-
+((olexp) => {
   /**
    * Control to add layers
    * @param {ol.Map} map
@@ -694,9 +686,8 @@ const olexp = {
         },
         LayerControlVector: {
           form: {
-            header: ('File Types: ' + $.map(olexp.util.FileTypes, function(o) {
-              return ' ' + o.name;
-            })),
+            header: ('File Types: ' + $.map(olexp.util.FileTypes,
+                (o) => ' ' + o.name)),
             style: 'border: 0px; background-color: transparent;',
           },
           hint: 'Add Vector Layer',
@@ -799,9 +790,7 @@ const olexp = {
     // Define allowable tile types
     // --------------------------------------------------
     const tileTypes = this.util.getTileTypes();
-    const items = $.map(tileTypes, function(val) {
-      return val.name;
-    });
+    const items = $.map(tileTypes, (val) => val.name);
 
     // ==================================================
     // Form fields
@@ -813,7 +802,7 @@ const olexp = {
         span: this.settingsTile.span,
       },
       options: {
-        items: items,
+        items,
       },
       required: true,
       type: 'list',
@@ -828,15 +817,15 @@ const olexp = {
     // ==================================================
     // Function to process form changes
     // --------------------------------------------------
-    const onChanges = function(changes) {
-      Object.keys(changes).forEach(function(fieldName) {
+    const onChanges = (changes) => {
+      Object.keys(changes).forEach((fieldName) => {
         if (fieldName !== fields[0].field) {
           return;
         }
 
         // Search for selected tile in list
         const typeName = changes[fieldName].id;
-        Object.keys(tileTypes).forEach(function(key) {
+        Object.keys(tileTypes).forEach((key) => {
           if (typeName !== tileTypes[key].name) {
             return;
           }
@@ -856,9 +845,9 @@ const olexp = {
     // --------------------------------------------------
 
     const formOptions = $.extend(this.settingsTile.form, {
-      fields: fields,
+      fields,
       name: this.names.tile,
-      record: record,
+      record,
     });
 
     const popupOptions = this.settingsTile.popup;
@@ -899,14 +888,14 @@ const olexp = {
     // ==================================================
     // Function to process form changes
     // --------------------------------------------------
-    const onChanges = function(changes) {
-      Object.keys(changes).forEach(function(fieldName) {
+    const onChanges = (changes) => {
+      Object.keys(changes).forEach((fieldName) => {
         if (fieldName !== fields[0].field) {
           return;
         }
 
         // Search for selected tile in list
-        Object.keys(changes[fieldName]).forEach(function(change) {
+        Object.keys(changes[fieldName]).forEach((change) => {
           // Check that file contents are valid
           const content = changes[fieldName][change].content;
           if (content === undefined || content === null) {
@@ -942,9 +931,9 @@ const olexp = {
     // --------------------------------------------------
 
     const formOptions = $.extend(this.settingsVector.form, {
-      fields: fields,
+      fields,
       name: this.names.vector,
-      record: record,
+      record,
     });
 
     const popupOptions = this.settingsVector.popup;
@@ -963,7 +952,7 @@ const olexp = {
    * @public
    * @return {array} Array of w2toolbar properties
    */
-  olexp.control.layerControl = function(explorer, options) {
+  olexp.control.layerControl = (explorer, options) => {
     if (options === undefined) {
       options = {};
     }
@@ -986,7 +975,7 @@ const olexp = {
         hint: tool.settingsTile.hint,
         id: tool.buttons.tile,
         img: tool.icons.tile,
-        onClick: function() {
+        onClick() {
           tool.tile();
         },
         type: 'button',
@@ -997,7 +986,7 @@ const olexp = {
         hint: tool.settingsVector.hint,
         id: tool.buttons.vector,
         img: tool.icons.vector,
-        onClick: function() {
+        onClick() {
           tool.vector();
         },
         type: 'button',
@@ -1008,14 +997,12 @@ const olexp = {
   };
 
   return olexp;
-}(olexp || {}));
+})(olexp || {});
 
 // ==================================================
 // Layer Manager Controls
 // --------------------------------------------------
-(function(olexp) {
-  'use strict';
-
+((olexp) => {
   /**
    * Control to manage layers
    * @param {olexp.Explorer} explorer Explorer
@@ -1219,7 +1206,7 @@ const olexp = {
    * @public
    * @return {array} Array of external:jQuery.fn.w2toolbar.properties
    */
-  olexp.control.layerManager = function(explorer, manager, options) {
+  olexp.control.layerManager = (explorer, manager, options) => {
     if (options === undefined) {
       options = {};
     }
@@ -1260,7 +1247,7 @@ const olexp = {
         hint: tool.hintNavigation(!options.navigation.checked),
         id: tool.buttons.navigation,
         img: tool.icons.navigation,
-        onClick: function() {
+        onClick() {
           tool.navigation();
         },
         type: 'check',
@@ -1273,7 +1260,7 @@ const olexp = {
         hint: tool.hintDetails(!options.details.checked),
         id: tool.buttons.details,
         img: tool.icons.details,
-        onClick: function() {
+        onClick() {
           tool.details();
         },
         type: 'check',
@@ -1285,7 +1272,7 @@ const olexp = {
         hint: tool.settings.hintMoveUp,
         id: tool.buttons.up,
         img: tool.icons.up,
-        onClick: function() {
+        onClick() {
           tool.up();
         },
         type: 'button',
@@ -1297,7 +1284,7 @@ const olexp = {
         hint: tool.settings.hintMoveDown,
         id: tool.buttons.down,
         img: tool.icons.down,
-        onClick: function() {
+        onClick() {
           tool.down();
         },
         type: 'button',
@@ -1308,14 +1295,12 @@ const olexp = {
   };
 
   return olexp;
-}(olexp || {}));
+})(olexp || {});
 
 // ==================================================
 // Layer Menu Control
 // --------------------------------------------------
-(function(olexp) {
-  'use strict';
-
+((olexp) => {
   /**
    * Control to display layer menu properties
    * @param {olexp.Explorer} explorer Explorer
@@ -1441,10 +1426,10 @@ const olexp = {
    * @return {external:jQuery.fn.w2toolbar.properties} LayerMenu toolbar
    *          control
    */
-  olexp.control.layerMenu = function(explorer, manager, menu, options) {
+  olexp.control.layerMenu = (explorer, manager, menu, options) => {
     const control = new LayerMenu(explorer, manager, menu, options.settings);
 
-    explorer.toolbar.on('click', function(event) {
+    explorer.toolbar.on('click', (event) => {
       // Check if any item is selected
       if (explorer.outline.selected === null) {
         return;
@@ -1476,14 +1461,12 @@ const olexp = {
   };
 
   return olexp;
-}(olexp || {}));
+})(olexp || {});
 
 // ==================================================
 // Measurement Controls
 // --------------------------------------------------
-(function(olexp) {
-  'use strict';
-
+((olexp) => {
   /**
    * Control to calculate measurements
    * @param {olexp.Explorer} explorer Explorer
@@ -1550,7 +1533,7 @@ const olexp = {
      */
     this.tool = new olexp.measure.Tool(explorer.map, {
       type: olexp.measure.Type.LINE,
-      settings: settings,
+      settings,
     });
   };
 
@@ -1600,7 +1583,7 @@ const olexp = {
    * @public
    * @return {array} Array of w2toolbar properties
    */
-  olexp.control.measure = function(explorer, options) {
+  olexp.control.measure = (explorer, options) => {
     if (options === undefined) {
       options = {};
     }
@@ -1623,7 +1606,7 @@ const olexp = {
         hint: tool.settings.hintArea,
         id: tool.ids.area,
         img: tool.icons.area,
-        onClick: function() {
+        onClick() {
           if (options.length) {
             explorer.toolbar.uncheck(tool.ids.length);
           }
@@ -1637,7 +1620,7 @@ const olexp = {
         hint: tool.settings.hintLength,
         id: tool.ids.length,
         img: tool.icons.length,
-        onClick: function() {
+        onClick() {
           if (options.area) {
             explorer.toolbar.uncheck(tool.ids.area);
           }
@@ -1651,14 +1634,12 @@ const olexp = {
   };
 
   return olexp;
-}(olexp || {}));
+})(olexp || {});
 
 // ==================================================
 // Toolbar Hide Control
 // --------------------------------------------------
-(function(olexp) {
-  'use strict';
-
+((olexp) => {
   /**
    * Control to hide toolbar
    * @param {olexp.Explorer} explorer Source explorer
@@ -1741,14 +1722,14 @@ const olexp = {
    * @return {external:jQuery.fn.w2toolbar.properties} ToolbarHide toolbar
    *          control
    */
-  olexp.control.toolbarHide = function(explorer, options) {
+  olexp.control.toolbarHide = (explorer, options) => {
     const control = new ToolbarHide(explorer, options);
 
     return {
       hint: control.settings.hint,
       id: control.button,
       img: control.icon,
-      onClick: function() {
+      onClick() {
         control.hide();
       },
       type: 'button',
@@ -1756,6 +1737,6 @@ const olexp = {
   };
 
   return olexp;
-}(olexp || {}));
+})(olexp || {});
 
 export default olexp.control;

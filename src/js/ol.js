@@ -12,9 +12,7 @@ const olexp = {
 // ==================================================
 // Toolbar show Control
 // --------------------------------------------------
-(function(olexp) {
-  'use strict';
-
+((olexp) => {
   /**
    * Control to show toolbar
    * @param {olexp.Explorer} explorer Source explorer
@@ -64,7 +62,7 @@ const olexp = {
     element.className = 'olexp-ol-toolbar-show ol-unselectable ol-control';
     element.appendChild(button);
 
-    ol.control.Control.call(this, {element: element});
+    ol.control.Control.call(this, {element});
   };
   ol.inherits(ToolbarShow, ol.control.Control);
 
@@ -88,7 +86,7 @@ const olexp = {
    * @return {external:jQuery.fn.w2toolbar.properties} ToolbarShow toolbar
    *          control
    */
-  olexp.ol.toolbarShow = function(explorer, options) {
+  olexp.ol.toolbarShow = (explorer, options) => {
     const opts = $.extend({hidden: false}, options);
 
     const control = new ToolbarShow(explorer, opts.settings);
@@ -99,6 +97,6 @@ const olexp = {
   };
 
   return olexp;
-}(olexp || {}));
+})(olexp || {});
 
 export default olexp.ol;

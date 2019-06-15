@@ -11,9 +11,7 @@ const olexp = {
 // ==================================================
 // Measuring Tool
 // --------------------------------------------------
-(function(olexp) {
-  'use strict';
-
+((olexp) => {
   /**
    * Enumeration of item measurements types. Key where measurement is stored.
    * @enum {string}
@@ -461,7 +459,7 @@ const olexp = {
     // Define behavior when drawing starts and ends
     // --------------------------------------------------
     let listener = null;
-    this.draw.on('drawstart', function(event) {
+    this.draw.on('drawstart', (event) => {
       me.drawing = true;
 
       // ==================================================
@@ -474,7 +472,7 @@ const olexp = {
       // --------------------------------------------------
       let tooltipCoord = event.coordinate;
       me.sketch = event.feature;
-      listener = me.sketch.getGeometry().on('change', function(event) {
+      listener = me.sketch.getGeometry().on('change', (event) => {
         // ==================================================
         // Compute new measurement
         // --------------------------------------------------
@@ -492,7 +490,7 @@ const olexp = {
       });
     }, this);
 
-    this.draw.on('drawend', function() {
+    this.draw.on('drawend', () => {
       me.drawing = false;
       me.count += 1;
 
@@ -564,10 +562,10 @@ const olexp = {
      * olexp.measure.Tool API
      */
     return {
-      setEnable: function(enable) {
+      setEnable(enable) {
         tool.setEnable(enable);
       },
-      setType: function(type) {
+      setType(type) {
         tool.setType(type);
       },
     };
@@ -602,6 +600,6 @@ const olexp = {
   olexp.measure.Overlay = Overlay;
 
   return olexp;
-}(olexp || {}));
+})(olexp || {});
 
 export default olexp.measure;

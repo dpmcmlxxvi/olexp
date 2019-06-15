@@ -380,9 +380,7 @@ const olexp = {
 /**
  * olexp main module
  */
-(function(olexp) {
-  'use strict';
-
+((olexp) => {
   /**
    * Main OpenLayers Explorer object that provides a layout manager to an
    * Open Layers 3 map.
@@ -645,7 +643,7 @@ const olexp = {
         id: prefix + '-explorer-id-overlays',
       },
       settings: {
-        prefix: prefix,
+        prefix,
       },
     });
 
@@ -689,7 +687,7 @@ const olexp = {
 
     this.navigation = $('').w2layout({
       name: this.options.explorer.navigation,
-      onResize: function() {
+      onResize() {
         if (me.hasOwnProperty('map')) {
           me.map.updateSize();
         }
@@ -713,20 +711,20 @@ const olexp = {
         this.options.layers,
         this.options.overlays,
       ],
-      onClick: function(event) {
+      onClick(event) {
         const targetId = event.target;
         const records = me.manager.getDetails(targetId);
         me.details.clear();
         me.details.add(records);
         me.manager.onItemSelected(targetId);
       },
-      onDblClick: function(event) {
+      onDblClick(event) {
         const targetId = event.target;
         me.manager.toggleNode(targetId);
         me.manager.onItemSelected(targetId);
       },
-      onRender: function(event) {
-        event.onComplete = function() {
+      onRender(event) {
+        event.onComplete = () => {
           const targetId = me.outline.selected;
           me.manager.onItemSelected(targetId);
         };
@@ -793,7 +791,7 @@ const olexp = {
 
     // Add menu items and callbacks to outline
     this.outline.menu = this.menu.items;
-    this.outline.onMenuClick = function(event) {
+    this.outline.onMenuClick = (event) => {
       const targetId = event.menuItem.id;
       if (me.menu.callbacks[targetId] !== undefined) {
         me.menu.callbacks[targetId](event);
@@ -808,7 +806,7 @@ const olexp = {
 
     // Add map interactions
     const interactions = this.util.getInteractions(this.map);
-    Object.keys(this.options.olinteractions).forEach(function(iname) {
+    Object.keys(this.options.olinteractions).forEach((iname) => {
       const interaction = interactions[iname];
       if (me.options.olinteractions[iname]) {
         me.map.addInteraction(interaction);
@@ -817,7 +815,7 @@ const olexp = {
 
     // Add map controls
     const controls = this.util.getControls();
-    Object.keys(this.options.olcontrols).forEach(function(cname) {
+    Object.keys(this.options.olcontrols).forEach((cname) => {
       const control = controls[cname];
       me.map.addControl(control);
       control.setMap((me.options.olcontrols[cname] ? me.map : null));
@@ -948,7 +946,7 @@ const olexp = {
    * @param {olexp.ExplorerAPI} explorer Explorer API object
    * @public
    */
-  olexp.destroy = function(explorer) {
+  olexp.destroy = (explorer) => {
     if (explorer.map !== undefined) {
       explorer.map.setTarget(null);
     }
@@ -987,7 +985,7 @@ const olexp = {
     const explorer = new Explorer(id, options);
     return explorer.api;
   };
-}(olexp || {}));
+})(olexp || {});
 
 export default {
   destroy: olexp.destroy,

@@ -17,9 +17,7 @@ const olexp = {
 // ==================================================
 // Explorer managed item
 // --------------------------------------------------
-(function(olexp) {
-  'use strict';
-
+((olexp) => {
   /**
    * Item icons
    * @enum {string}
@@ -180,7 +178,7 @@ const olexp = {
     if (this.type === olexp.item.Type.GROUP) {
       let extent = null;
       const layers = this.layer.getLayers();
-      layers.forEach(function(layer) {
+      layers.forEach((layer) => {
         const layerExtent = Item.getLayerExtent(layer);
         if ((extent === null) && (layerExtent !== null)) {
           extent = layerExtent;
@@ -201,7 +199,7 @@ const olexp = {
    * @private
    * @return {string} CSS selector of icon
    */
-  Item.getIcon = function(type) {
+  Item.getIcon = (type) => {
     if (type === olexp.item.Type.GROUP) {
       return olexp.item.icons.group;
     }
@@ -230,7 +228,7 @@ const olexp = {
    * @private
    * @return {ol.Extent|null} Layer extent or null if undefined
    */
-  Item.getLayerExtent = function(layer) {
+  Item.getLayerExtent = (layer) => {
     // ==================================================
     // Check if layer has extent defined
     // --------------------------------------------------
@@ -279,7 +277,7 @@ const olexp = {
     const properties = {name: this.name};
     const types = this.getPropertyTypes();
     const me = this;
-    Object.keys(types).forEach(function(key) {
+    Object.keys(types).forEach((key) => {
       properties[key] = me.layer.get(key);
     });
     return properties;
@@ -292,7 +290,7 @@ const olexp = {
    * @private
    * @return {olexp.item.Type} Type of item
    */
-  Item.getType = function(layer) {
+  Item.getType = (layer) => {
     if (layer instanceof ol.layer.Group) {
       return olexp.item.Type.GROUP;
     }
@@ -348,7 +346,7 @@ const olexp = {
     }
     const types = this.getPropertyTypes();
     const me = this;
-    Object.keys(types).forEach(function(key) {
+    Object.keys(types).forEach((key) => {
       if (properties.hasOwnProperty(key)) {
         me.layer.set(key, properties[key]);
       }
@@ -462,10 +460,10 @@ const olexp = {
       icon: item.icon,
       id: item.id,
       layer: item.layer,
-      moving: function(moving) {
+      moving(moving) {
         return item.property('moving', moving);
       },
-      name: function(name) {
+      name(name) {
         return item.property('name', name);
       },
       setProperties: item.setProperties.bind(item),
@@ -547,6 +545,6 @@ const olexp = {
   };
 
   return olexp;
-}(olexp || {}));
+})(olexp || {});
 
 export default olexp.item;

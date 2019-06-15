@@ -11,9 +11,7 @@ const olexp = {
 // ==================================================
 // Event Handler
 // --------------------------------------------------
-(function(olexp) {
-  'use strict';
-
+((olexp) => {
   /**
    * Handles listening for registered events
    * @param {object} listeners Initial listeners
@@ -76,7 +74,7 @@ const olexp = {
 
     // Call listeners with remaining arguments
     const me = this;
-    this.listeners[type].forEach(function(listener) {
+    this.listeners[type].forEach((listener) => {
       listener.apply(me, args);
     });
   };
@@ -132,6 +130,6 @@ const olexp = {
     const handler = new Event(listeners);
     return handler;
   };
-}(olexp || {}));
+})(olexp || {});
 
 export default olexp.event;

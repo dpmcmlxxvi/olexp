@@ -14,9 +14,7 @@ const olexp = {
 // ==================================================
 // Properties menu item
 // --------------------------------------------------
-(function(olexp) {
-  'use strict';
-
+((olexp) => {
   /**
    * Properties menu item
    * @param {olexp.manager.Manager} manager Explorer manager
@@ -131,10 +129,8 @@ const olexp = {
 
     // Add numeric fields
     const propertyTypes = item.getPropertyTypes();
-    const numerics = $.map(propertyTypes, function(value) {
-      return value.title;
-    });
-    numerics.forEach(function(title) {
+    const numerics = $.map(propertyTypes, (value) => value.title);
+    numerics.forEach((title) => {
       formHeight += fieldHeight;
       fields.push({
         field: title.toLowerCase(),
@@ -150,7 +146,7 @@ const olexp = {
     // ==================================================
     // Function to process form changes
     // --------------------------------------------------
-    const onChanges = function(changes) {
+    const onChanges = (changes) => {
       me.manager.updateItem(id, changes);
     };
 
@@ -159,9 +155,9 @@ const olexp = {
     // --------------------------------------------------
 
     const formOptions = $.extend(this.settings.form, {
-      fields: fields,
+      fields,
       name: this.name,
-      record: record,
+      record,
     });
 
     const popupOptions = $.extend($.extend({}, this.settings.popup), {
@@ -179,7 +175,7 @@ const olexp = {
    * @private
    * @return {object} Properties menu item
    */
-  olexp.menu.properties = function(manager, settings) {
+  olexp.menu.properties = (manager, settings) => {
     const control = new Properties(manager, settings);
 
     return {
@@ -188,21 +184,19 @@ const olexp = {
         img: control.icon,
         text: control.settings.text,
       },
-      click: function(event) {
+      click(event) {
         control.onClick(event);
       },
     };
   };
 
   return olexp;
-}(olexp || {}));
+})(olexp || {});
 
 // ==================================================
 // Remove menu item
 // --------------------------------------------------
-(function(olexp) {
-  'use strict';
-
+((olexp) => {
   /**
    * Remove menu item
    * @param {olexp.manager.Manager} manager Explorer manager
@@ -272,7 +266,7 @@ const olexp = {
 
     // Confirm user wants to delete item
     // Remove item from map and manager
-    w2confirm('Do you want to delete "' + item.name() + '"?').yes(function() {
+    w2confirm('Do you want to delete "' + item.name() + '"?').yes(() => {
       me.manager.removeFromMap(item);
     });
   };
@@ -285,7 +279,7 @@ const olexp = {
    * @private
    * @return {object} Remove menu item
    */
-  olexp.menu.remove = function(manager, settings) {
+  olexp.menu.remove = (manager, settings) => {
     const control = new Remove(manager, settings);
 
     return {
@@ -294,21 +288,19 @@ const olexp = {
         img: control.icon,
         text: control.settings.text,
       },
-      click: function(event) {
+      click(event) {
         control.onClick(event);
       },
     };
   };
 
   return olexp;
-}(olexp || {}));
+})(olexp || {});
 
 // ==================================================
 // Zoom menu item
 // --------------------------------------------------
-(function(olexp) {
-  'use strict';
-
+((olexp) => {
   /**
    * Zoom menu item
    * @param {olexp.manager.Manager} manager Explorer manager
@@ -383,7 +375,7 @@ const olexp = {
    * @private
    * @return {object} Zoom menu item.
    */
-  olexp.menu.zoom = function(manager, settings) {
+  olexp.menu.zoom = (manager, settings) => {
     const control = new Zoom(manager, settings);
 
     return {
@@ -392,13 +384,13 @@ const olexp = {
         img: control.icon,
         text: control.settings.text,
       },
-      click: function(event) {
+      click(event) {
         control.onClick(event);
       },
     };
   };
 
   return olexp;
-}(olexp || {}));
+})(olexp || {});
 
 export default olexp.menu;
