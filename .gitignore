@@ -1,7 +1,7 @@
 /.grunt
+/.nyc_output/
 /.project
 /.settings
-coverage
-docs/api
-instrumented-code
-node_modules
+/coverage/
+/dist/
+/node_modules/

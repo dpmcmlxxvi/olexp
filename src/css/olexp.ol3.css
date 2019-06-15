@@ -3,40 +3,35 @@
  * OpenLayers override
  */
 
-.ol-mouse-position
-{
-    background: #95b9e6;
-    background: rgba(0,60,136,.5);
-    bottom: 8px;
-    color: #eee;
-    font-size: 10px;
-    left: auto;
-    margin: 1px;
-    padding: 2px;
-    position: absolute;
-    right: 0.5em;
-    text-align: center;
-    top: auto;
- }
-
-.ol-overviewmap
-{
-    bottom: 2.25em;
+.ol-mouse-position {
+  background: #95b9e6;
+  background: rgba(0, 60, 136, 0.5);
+  bottom: 8px;
+  color: #eee;
+  font-size: 10px;
+  left: auto;
+  margin: 1px;
+  padding: 2px;
+  position: absolute;
+  right: 0.5em;
+  text-align: center;
+  top: auto;
 }
 
-.ol-rotate
-{
-    top: 5.0em;
+.ol-overviewmap {
+  bottom: 2.25em;
 }
 
-.ol-zoom-extent
-{
-    left: auto;
-    right: 0.5em;
-	top: 2.75em;
+.ol-rotate {
+  top: 5em;
 }
 
-.ol-zoomslider
-{
-    width: 28px;
+.ol-zoom-extent {
+  left: auto;
+  right: 0.5em;
+  top: 2.75em;
+}
+
+.ol-zoomslider {
+  width: 28px;
 }

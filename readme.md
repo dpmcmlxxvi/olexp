@@ -1,70 +1,57 @@
-OpenLayers Explorer
-============================================================
+# OpenLayers Explorer
 
 [![build](https://travis-ci.org/dpmcmlxxvi/olexp.svg?branch=master)](https://travis-ci.org/dpmcmlxxvi/olexp)
 [![coverage](https://img.shields.io/coveralls/dpmcmlxxvi/olexp/master.svg)](https://coveralls.io/github/dpmcmlxxvi/olexp?branch=master)
 [![codacy](https://img.shields.io/codacy/grade/df098e3d833a44a3af028f712c4ee75e/master.svg)](https://www.codacy.com/app/dpmcmlxxvi/olexp?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=dpmcmlxxvi/olexp&amp;utm_campaign=Badge_Grade)
 [![npm](https://badge.fury.io/js/olexp.svg)](https://badge.fury.io/js/olexp)
-[![dependencies](https://img.shields.io/david/dpmcmlxxvi/olexp.svg)](https://david-dm.org/dpmcmlxxvi/olexp)
-[![devdependencies](https://img.shields.io/david/dev/dpmcmlxxvi/olexp/master.svg)](https://david-dm.org/dpmcmlxxvi/olexp/master#info=devDependencies)
-[![Greenkeeper](https://badges.greenkeeper.io/dpmcmlxxvi/olexp.svg)](https://greenkeeper.io/)
-[![grunt](https://cdn.gruntjs.com/builtwith.png)](http://gruntjs.com/)
+[![greenkeeper](https://badges.greenkeeper.io/dpmcmlxxvi/olexp.svg)](https://greenkeeper.io/)
 
-OpenLayers Explorer (olexp) is a Javascript library that combines the mapping
-power of [OpenLayers](http://openlayers.org/) and the layout management of
-[w2ui](http://w2ui.com). The olexp library can be used to create web
-applications to explore spatial data. The library provides an out-of-the-box
-solution to display map content along with easy-to-use common interface tools -
-a layer manager and a toolbar.
+OpenLayers Explorer (olexp) is a simple out-of-the-box web mapping solution.
+It provides a viewer to easily add, visualize, and analyze spatial data. It
+provides the following common tools:
 
-  ![](docs/web/img/olexp-example-screenshot.png)
+- **Toolbar** with standard tools (e.g., measuring tools).
+- **Outline** to inspect and control the visible layers and overlays.
+- **Map** to display raster tiles, vectors, and overlays.
 
-DOCUMENTATION
-------------------------------------------------------------
+It's a Javascript library that combines the mapping power of
+[OpenLayers](http://openlayers.org/) and the layout management of
+[w2ui](http://w2ui.com). An explorer can be created easily by creating a `div`
+element and provding it's `id` to the `olexp.Explorer` constructor as follows:
+
+```html
+<div id="explorer" style="height: 500px; width: 500px;"></div>
+<script>
+  const explorer = new olexp.Explorer('explorer');
+</script>
+```
+
+![](docs/web/img/olexp-example-screenshot.png)
+
+## DOCUMENTATION
 
 The following help is available at the olexp
 [website](http://dpmcmlxxvi.github.io/olexp):
 
-- [Documentation](http://dpmcmlxxvi.github.io/olexp/docs/web/)
-- [Examples](http://dpmcmlxxvi.github.io/olexp/docs/web/demos.html)
-- [API](http://dpmcmlxxvi.github.io/olexp/docs/api/)
+- [Documentation](http://dpmcmlxxvi.github.io/olexp/web/)
+- [Examples](http://dpmcmlxxvi.github.io/olexp/web/demos.html)
+- [API](http://dpmcmlxxvi.github.io/olexp/api/)
 
-BUILD
-------------------------------------------------------------
+## BUILD
 
-The only requirement for building olexp is [node.js](https://nodejs.org). The
-following instructions assume that `grunt-cli` has been installed globally:
+To build and test the library locally:
 
-    npm install -g grunt-cli
+```shell
+npm install
+npm test
+```
 
-To build the library clone it, install it, then grunt it
+Then bundled library and stylesheet are at `dist/olexp.min.js` and
+`dist/olexp.min.css`.
 
-    git clone https://github.com/dpmcmlxxvi/olexp.git
-    npm install
-    grunt
+## LICENSE
 
-TEST
-------------------------------------------------------------
-
-To run the unit tests
-
-    grunt test
-
-Then open the coverage report in the `coverage` directory in a browser.
-
-NPM
-------------------------------------------------------------
-
-The olexp library source and distribution is also available as a npm package
-[here](https://www.npmjs.com/package/olexp). The following installs the olexp
-package:
-
-    npm install olexp
-
-LICENSE
-------------------------------------------------------------
-
-Copyright (c) 2015 Daniel Pulido <dpmcmlxxvi@gmail.com>
+Copyright (c) 2015 Daniel Pulido <mailto:dpmcmlxxvi@gmail.com>
 
 Source code is released under the [MIT License](http://opensource.org/licenses/MIT).
 Documentation is released under the [CC BY 4.0](http://creativecommons.org/licenses/by-sa/4.0/).
