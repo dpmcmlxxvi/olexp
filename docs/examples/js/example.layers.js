@@ -39,20 +39,11 @@ const runExampleLayers = function(id, examples) {
   explorer.map.addLayer(tiles);
 
   // ==================================================
-  // Add overlay marker and label
+  // Add overlay label
   // --------------------------------------------------
   const position = ol.proj.transform([-77.016389, 38.904722],
       'EPSG:4326',
       'EPSG:3857');
-
-  const marker = new ol.Overlay({
-    position: position,
-    positioning: 'center-center',
-    element: document.getElementById('marker'),
-    stopEvent: false,
-  });
-  marker.set('name', 'Washington D.C. Marker');
-  explorer.map.addOverlay(marker);
 
   const label = new ol.Overlay({
     position: position,
@@ -61,22 +52,20 @@ const runExampleLayers = function(id, examples) {
   label.set('name', 'Washington D.C. Label');
   explorer.map.addOverlay(label);
 
-  // set center to marker
+  // set center to label
   explorer.map.getView().setCenter(position);
 
   // ==================================================
-  // Add image vector
+  // Add vector
   // --------------------------------------------------
-  const image = new ol.layer.Image({
-    source: new ol.source.ImageVector({
-      source: new ol.source.Vector({
-        format: new ol.format.GeoJSON(),
-        url: examples + '/data/geojson/world_cities.json',
-      }),
+  const vector = new ol.layer.Vector({
+    source: new ol.source.Vector({
+      format: new ol.format.GeoJSON(),
+      url: examples + '/data/geojson/world_cities.json',
     }),
   });
-  image.set('name', 'World Cities');
-  explorer.map.addLayer(image);
+  vector.set('name', 'World Cities');
+  explorer.map.addLayer(vector);
 
   // ==================================================
   // Add heatmap
