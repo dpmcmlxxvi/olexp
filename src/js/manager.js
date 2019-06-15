@@ -649,7 +649,7 @@ const olexp = {
    * @private
    * @return {boolean} True if item is hidden otherwise false
    */
-  NodeManager.prototype.isHidden = (layer) => {
+  NodeManager.prototype.isHidden = function(layer) {
     if (layer instanceof olexp.measure.Overlay) {
       return true;
     }

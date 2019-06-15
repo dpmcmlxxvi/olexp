@@ -226,7 +226,7 @@ const olexp = {
    * @private
    * @return {object} Object of ol.control objects by key name
    */
-  Util.prototype.getControls = () => {
+  Util.prototype.getControls = function() {
     const controls = {
       fullscreen: new ol.control.FullScreen(),
       mouseposition: new ol.control.MousePosition({
@@ -276,7 +276,7 @@ const olexp = {
    * @private
    * @return {external:ol.Graticule} New graticule based on settings
    */
-  Util.prototype.getGraticule = (map, options) => {
+  Util.prototype.getGraticule = function(map, options) {
     const opts = $.extend($.extend({}, options), {color: '#' + options.color});
     const graticule = new ol.Graticule({
       map,
@@ -310,7 +310,7 @@ const olexp = {
    * @private
    * @return {object} Object of ol.source objects
    */
-  Util.prototype.getTileTypes = () => {
+  Util.prototype.getTileTypes = function() {
     // ==================================================
     // Define tile types object
     // --------------------------------------------------
