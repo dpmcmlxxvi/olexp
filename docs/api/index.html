@@ -107,7 +107,7 @@
 <a href="https://badge.fury.io/js/olexp"><img src="https://badge.fury.io/js/olexp.svg" alt="npm"></a>
 <a href="https://greenkeeper.io/"><img src="https://badges.greenkeeper.io/dpmcmlxxvi/olexp.svg" alt="greenkeeper"></a></p>
 <p><a href="https://github.com/dpmcmlxxvi/olexp">OpenLayers Explorer</a> (olexp) is a simple
-out-of-the-box web mapping solution. It provides a viewer to easily add,
+out-of-the-box web mapping solution. It provides a web application to add,
 visualize, and analyze spatial data. It provides the following common tools:</p>
 <ul>
 <li><strong>Toolbar</strong> with standard tools (e.g., measuring tools).</li>
@@ -116,8 +116,8 @@ visualize, and analyze spatial data. It provides the following common tools:</p>
 </ul>
 <p>It's a Javascript library that combines the mapping power of
 <a href="http://openlayers.org/">OpenLayers</a> and the layout management of
-<a href="http://w2ui.com">w2ui</a>. An explorer can be created easily by creating a <code>div</code>
-element and provding it's <code>id</code> to the <code>olexp.Explorer</code> constructor as follows:</p>
+<a href="http://w2ui.com">w2ui</a>. An explorer can be created easily by adding a <code>div</code>
+element and provding the <code>id</code> to the <code>olexp.Explorer</code> constructor as follows:</p>
 <pre class="prettyprint source lang-html"><code>&lt;div id=&quot;explorer&quot; style=&quot;height: 500px; width: 500px;&quot;>&lt;/div>
 &lt;script>
   const explorer = new olexp.Explorer('explorer');
@@ -137,7 +137,7 @@ element and provding it's <code>id</code> to the <code>olexp.Explorer</code> con
 <pre class="prettyprint source lang-shell"><code>npm install
 npm test
 </code></pre>
-<p>Then bundled library and stylesheet are at <code>dist/olexp.min.js</code> and
+<p>The bundled library and stylesheet are at <code>dist/olexp.min.js</code> and
 <code>dist/olexp.min.css</code>.</p>
 <h2>LICENSE</h2>
 <p>Copyright (c) 2015 Daniel Pulido <a href="mailto:dpmcmlxxvi@gmail.com">mailto:dpmcmlxxvi@gmail.com</a></p>

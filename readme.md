@@ -7,7 +7,7 @@
 [![greenkeeper](https://badges.greenkeeper.io/dpmcmlxxvi/olexp.svg)](https://greenkeeper.io/)
 
 [OpenLayers Explorer](https://github.com/dpmcmlxxvi/olexp) (olexp) is a simple
-out-of-the-box web mapping solution. It provides a viewer to easily add,
+out-of-the-box web mapping solution. It provides a web application to add,
 visualize, and analyze spatial data. It provides the following common tools:
 
 - **Toolbar** with standard tools (e.g., measuring tools).
@@ -16,8 +16,8 @@ visualize, and analyze spatial data. It provides the following common tools:
 
 It's a Javascript library that combines the mapping power of
 [OpenLayers](http://openlayers.org/) and the layout management of
-[w2ui](http://w2ui.com). An explorer can be created easily by creating a `div`
-element and provding it's `id` to the `olexp.Explorer` constructor as follows:
+[w2ui](http://w2ui.com). An explorer can be created easily by adding a `div`
+element and provding the `id` to the `olexp.Explorer` constructor as follows:
 
 ```html
 <div id="explorer" style="height: 500px; width: 500px;"></div>
@@ -46,7 +46,7 @@ npm install
 npm test
 ```
 
-Then bundled library and stylesheet are at `dist/olexp.min.js` and
+The bundled library and stylesheet are at `dist/olexp.min.js` and
 `dist/olexp.min.css`.
 
 ## LICENSE
