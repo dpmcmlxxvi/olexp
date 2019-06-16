@@ -95,7 +95,7 @@ const olexp = {
    * @private
    */
   Properties.prototype.onClick = function(event) {
-    const me = this;
+    const self = this;
 
     // ==================================================
     // Extract node item id
@@ -136,7 +136,7 @@ const olexp = {
         field: title.toLowerCase(),
         html: {
           caption: title,
-          span: me.settings.span,
+          span: self.settings.span,
         },
         required: true,
         type: 'float',
@@ -147,7 +147,7 @@ const olexp = {
     // Function to process form changes
     // --------------------------------------------------
     const onChanges = (changes) => {
-      me.manager.updateItem(id, changes);
+      self.manager.updateItem(id, changes);
     };
 
     // ==================================================
@@ -252,7 +252,7 @@ const olexp = {
    * @private
    */
   Remove.prototype.onClick = function(event) {
-    const me = this;
+    const self = this;
 
     // ==================================================
     // Extract node item id
@@ -267,7 +267,7 @@ const olexp = {
     // Confirm user wants to delete item
     // Remove item from map and manager
     w2confirm('Do you want to delete "' + item.name() + '"?').yes(() => {
-      me.manager.removeFromMap(item);
+      self.manager.removeFromMap(item);
     });
   };
 

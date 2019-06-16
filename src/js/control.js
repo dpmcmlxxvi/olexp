@@ -103,7 +103,7 @@ const olexp = {
    * @private
    */
   EditSettings.prototype.display = function() {
-    const me = this;
+    const self = this;
 
     // ==================================================
     // Form fields
@@ -186,7 +186,7 @@ const olexp = {
     const onChanges = (changes) => {
       Object.keys(changes).forEach((name) => {
         const enable = changes[name];
-        me.setControl(name, enable);
+        self.setControl(name, enable);
       });
     };
 
@@ -543,7 +543,7 @@ const olexp = {
    * @private
    */
   Graticule.prototype.display = function() {
-    const me = this;
+    const self = this;
 
     // ==================================================
     // Form fields
@@ -599,8 +599,8 @@ const olexp = {
       });
       const options = $.extend({}, record);
       delete options.enable;
-      me.graticule.setMap(null);
-      me.graticule = me.util.getGraticule((record.enable ? me.map : null),
+      self.graticule.setMap(null);
+      self.graticule = self.util.getGraticule((record.enable ? self.map : null),
           options);
     };
 
@@ -784,7 +784,7 @@ const olexp = {
    * @private
    */
   LayerControl.prototype.tile = function() {
-    const me = this;
+    const self = this;
 
     // ==================================================
     // Define allowable tile types
@@ -835,7 +835,7 @@ const olexp = {
             source: new TileClass(tileType.settings),
           });
           tile.set('name', typeName);
-          me.map.addLayer(tile);
+          self.map.addLayer(tile);
         });
       });
     };
@@ -860,7 +860,7 @@ const olexp = {
    * @private
    */
   LayerControl.prototype.vector = function() {
-    const me = this;
+    const self = this;
 
     // ==================================================
     // Form fields
@@ -916,12 +916,12 @@ const olexp = {
           // Convert file contents from base64 to text
           // Read features and convert to map coordinates
           const text = atob(content);
-          const projection = me.map.getView().getProjection();
+          const projection = self.map.getView().getProjection();
           const options = {'featureProjection': projection};
           const features = reader.readFeatures(text, options);
 
           // Add features to map
-          me.util.addLayerVector(me.map, name, features);
+          self.util.addLayerVector(self.map, name, features);
         });
       });
     };

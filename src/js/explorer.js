@@ -36,105 +36,105 @@ const olexp = {
 /**
  * ol3 main namespace
  * @external ol
- * @see {@link http://openlayers.org/en/v3.14.2/apidoc/ol.html}
+ * @see {@link http://openlayers.org/en/v5.3.0/apidoc/module-ol_html}
  */
 
 /**
  * ol3 Collection
  * @class Collection
  * @memberof external:ol
- * @see {@link http://openlayers.org/en/v3.14.2/apidoc/ol.Collection.html}
+ * @see {@link http://openlayers.org/en/v5.3.0/apidoc/module-ol_Collection.html}
  */
 
 /**
  * ol3 format namespace
  * @memberof external:ol
  * @namespace format
- * @see {@link http://openlayers.org/en/v3.14.2/apidoc/ol.format.html}
+ * @see {@link http://openlayers.org/en/v5.3.0/apidoc/module-ol_format.html}
  */
 
 /**
  * ol3 Feature
  * @class Feature
  * @memberof external:ol
- * @see {@link http://openlayers.org/en/v3.14.2/apidoc/ol.Feature.html}
+ * @see {@link http://openlayers.org/en/v5.3.0/apidoc/module-ol_Feature.html}
  */
 
 /**
  * ol3 format feature
  * @class Feature
  * @memberof external:ol.format
- * @see {@link http://openlayers.org/en/v3.14.2/apidoc/ol.format.Feature.html}
+ * @see {@link http://openlayers.org/en/v5.3.0/apidoc/module-ol_format_Feature.html}
  */
 
 /**
  * ol3 graticule
  * @class Graticule
  * @memberof external:ol
- * @see {@link http://openlayers.org/en/v3.14.2/apidoc/ol.Graticule.html}
+ * @see {@link http://openlayers.org/en/v5.3.0/apidoc/module-ol_Graticule.html}
  */
 
 /**
  * ol3 interaction namespace
  * @memberof external:ol
  * @namespace interaction
- * @see {@link http://openlayers.org/en/v3.14.2/apidoc/ol.interaction.html}
+ * @see {@link http://openlayers.org/en/v5.3.0/apidoc/module-ol_interaction.html}
  */
 
 /**
  * ol3 selection interaction
  * @class Select
  * @memberof external:ol.interaction
- * @see {@link http://openlayers.org/en/v3.14.2/apidoc/ol.interaction.Select.html}
+ * @see {@link http://openlayers.org/en/v5.3.0/apidoc/module-ol_interaction_Select.html}
  */
 
 /**
  * ol3 layer namespace
  * @memberof external:ol
  * @namespace layer
- * @see {@link http://openlayers.org/en/v3.14.2/apidoc/ol.layer.html}
+ * @see {@link http://openlayers.org/en/v5.3.0/apidoc/module-ol_layer.html}
  */
 
 /**
  * ol3 layer base class
  * @class Layer
  * @memberof external:ol.layer
- * @see {@link http://openlayers.org/en/v3.14.2/apidoc/ol.layer.Layer.html}
+ * @see {@link http://openlayers.org/en/v5.3.0/apidoc/module-ol_layer_Layer.html}
  */
 
 /**
  * ol3 map
  * @class Map
  * @memberof external:ol
- * @see {@link http://openlayers.org/en/v3.14.2/apidoc/ol.Map.html}
+ * @see {@link http://openlayers.org/en/v5.3.0/apidoc/module-ol_Map.html}
  */
 
 /**
  * ol3 overlay
  * @class Overlay
  * @memberof external:ol
- * @see {@link http://openlayers.org/en/v3.14.2/apidoc/ol.Overlay.html}
+ * @see {@link http://openlayers.org/en/v5.3.0/apidoc/module-ol_Overlay.html}
  */
 
 /**
  * ol3 style namespace
  * @memberof external:ol
  * @namespace style
- * @see {@link http://openlayers.org/en/v3.14.2/apidoc/ol.style.html}
+ * @see {@link http://openlayers.org/en/v5.3.0/apidoc/module-ol_style.html}
  */
 
 /**
  * ol3 Style
  * @class Style
  * @memberof external:ol.style
- * @see {@link http://openlayers.org/en/v3.14.2/apidoc/ol.style.Style.html}
+ * @see {@link http://openlayers.org/en/v5.3.0/apidoc/module-ol_style_Style.html}
  */
 
 /**
  * ol3 view
  * @class View
  * @memberof external:ol
- * @see {@link http://openlayers.org/en/v3.14.2/apidoc/ol.View.html}
+ * @see {@link http://openlayers.org/en/v5.3.0/apidoc/module-ol_View.html}
  */
 
 /**
@@ -650,7 +650,7 @@ const olexp = {
     // ==================================================
     // Store current object
     // --------------------------------------------------
-    const me = this;
+    const self = this;
 
     // ==================================================
     // Create main layout content div
@@ -688,11 +688,11 @@ const olexp = {
     this.navigation = $('').w2layout({
       name: this.options.explorer.navigation,
       onResize() {
-        if (me.hasOwnProperty('map')) {
-          me.map.updateSize();
+        if (self.hasOwnProperty('map')) {
+          self.map.updateSize();
         }
-        if (me.hasOwnProperty('details')) {
-          me.details.resize();
+        if (self.hasOwnProperty('details')) {
+          self.details.resize();
         }
       },
       panels: [
@@ -713,20 +713,20 @@ const olexp = {
       ],
       onClick(event) {
         const targetId = event.target;
-        const records = me.manager.getDetails(targetId);
-        me.details.clear();
-        me.details.add(records);
-        me.manager.onItemSelected(targetId);
+        const records = self.manager.getDetails(targetId);
+        self.details.clear();
+        self.details.add(records);
+        self.manager.onItemSelected(targetId);
       },
       onDblClick(event) {
         const targetId = event.target;
-        me.manager.toggleNode(targetId);
-        me.manager.onItemSelected(targetId);
+        self.manager.toggleNode(targetId);
+        self.manager.onItemSelected(targetId);
       },
       onRender(event) {
         event.onComplete = () => {
-          const targetId = me.outline.selected;
-          me.manager.onItemSelected(targetId);
+          const targetId = self.outline.selected;
+          self.manager.onItemSelected(targetId);
         };
       },
     });
@@ -793,8 +793,8 @@ const olexp = {
     this.outline.menu = this.menu.items;
     this.outline.onMenuClick = (event) => {
       const targetId = event.menuItem.id;
-      if (me.menu.callbacks[targetId] !== undefined) {
-        me.menu.callbacks[targetId](event);
+      if (self.menu.callbacks[targetId] !== undefined) {
+        self.menu.callbacks[targetId](event);
       }
     };
 
@@ -808,8 +808,8 @@ const olexp = {
     const interactions = this.util.getInteractions(this.map);
     Object.keys(this.options.olinteractions).forEach((iname) => {
       const interaction = interactions[iname];
-      if (me.options.olinteractions[iname]) {
-        me.map.addInteraction(interaction);
+      if (self.options.olinteractions[iname]) {
+        self.map.addInteraction(interaction);
       }
     });
 
@@ -817,8 +817,8 @@ const olexp = {
     const controls = this.util.getControls();
     Object.keys(this.options.olcontrols).forEach((cname) => {
       const control = controls[cname];
-      me.map.addControl(control);
-      control.setMap((me.options.olcontrols[cname] ? me.map : null));
+      self.map.addControl(control);
+      control.setMap((self.options.olcontrols[cname] ? self.map : null));
     });
 
     // ==================================================

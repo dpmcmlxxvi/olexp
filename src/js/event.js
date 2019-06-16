@@ -73,9 +73,9 @@ const olexp = {
     }
 
     // Call listeners with remaining arguments
-    const me = this;
+    const self = this;
     this.listeners[type].forEach((listener) => {
-      listener.apply(me, args);
+      listener.apply(self, args);
     });
   };
 
