@@ -43,7 +43,7 @@ const olexp = {
     // ==================================================
     // Add callback for feature selection
     // --------------------------------------------------
-    const me = this;
+    const self = this;
     this.interaction.on('select', (event) => {
       if (event.selected.length === 1) {
         const feature = event.selected[0];
@@ -57,8 +57,8 @@ const olexp = {
           }
         });
         const records = olexp.util.toRecords(properties);
-        me.details.clear();
-        me.details.add(records);
+        self.details.clear();
+        self.details.add(records);
       }
     });
   };

@@ -185,7 +185,7 @@ const olexp = {
         } else if ((extent !== null) && (layerExtent !== null)) {
           extent = ol.extent.extend(extent, layerExtent);
         }
-      }, this);
+      });
       return extent;
     }
 
@@ -258,7 +258,7 @@ const olexp = {
    * @return {object} Item properties names
    */
   Item.prototype.getPropertyTypes = function() {
-    if (this.layer instanceof ol.layer.Layer) {
+    if (this.layer instanceof ol.layer.Base) {
       return olexp.item.LayerProperties;
     }
     if (this.layer instanceof ol.Overlay) {
@@ -276,9 +276,9 @@ const olexp = {
   Item.prototype.getProperties = function() {
     const properties = {name: this.name};
     const types = this.getPropertyTypes();
-    const me = this;
+    const self = this;
     Object.keys(types).forEach((key) => {
-      properties[key] = me.layer.get(key);
+      properties[key] = self.layer.get(key);
     });
     return properties;
   };
@@ -345,10 +345,10 @@ const olexp = {
       this.name = properties.name;
     }
     const types = this.getPropertyTypes();
-    const me = this;
+    const self = this;
     Object.keys(types).forEach((key) => {
       if (properties.hasOwnProperty(key)) {
-        me.layer.set(key, properties[key]);
+        self.layer.set(key, properties[key]);
       }
     });
   };

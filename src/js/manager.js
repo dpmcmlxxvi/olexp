@@ -70,7 +70,7 @@ const olexp = {
      * @type {ol.Map}
      */
     this.map = map;
-    this.map.on('change:layergroup', this.onLayerGroupChanged, this);
+    this.map.on('change:layergroup', this.onLayerGroupChanged.bind(this));
 
     /**
      * Managed outline sidebar
@@ -470,7 +470,7 @@ const olexp = {
      * @type {ol.Collection}
      */
     this.layers = layers;
-    this.layers.on('change:length', this.onLayerChanged, this);
+    this.layers.on('change:length', this.onLayerChanged.bind(this));
 
     /**
      * Node managers
@@ -544,7 +544,7 @@ const olexp = {
 
       layers.forEach((childLayer) => {
         manager.addLayer(childLayer);
-      }, this);
+      });
       this.managers[item.id] = manager;
       this.outline.expand(item.id);
     }
@@ -565,7 +565,7 @@ const olexp = {
       recursive = true;
     }
 
-    const me = this;
+    const self = this;
     let itemFound = null;
     this.items.forEach((item) => {
       if (itemFound !== null) {
@@ -576,7 +576,7 @@ const olexp = {
         return;
       }
       if (item.type === olexp.item.Type.GROUP && recursive) {
-        const nodeItem = me.managers[item.id].getById(id);
+        const nodeItem = self.managers[item.id].getById(id);
         if ((nodeItem !== null) && (nodeItem.id === id)) {
           itemFound = nodeItem;
           return;
@@ -599,7 +599,7 @@ const olexp = {
       recursive = true;
     }
 
-    const me = this;
+    const self = this;
     let itemFound = null;
     this.items.forEach((item) => {
       if (itemFound !== null) {
@@ -610,7 +610,7 @@ const olexp = {
         return;
       }
       if (item.type === olexp.item.Type.GROUP && recursive) {
-        const nodeItem = me.managers[item.id].getByLayer(layer);
+        const nodeItem = self.managers[item.id].getByLayer(layer);
         if ((nodeItem !== null) && (nodeItem.layer === layer)) {
           itemFound = nodeItem;
           return;
@@ -677,14 +677,14 @@ const olexp = {
     }
 
     // Check if item in child managers
-    const me = this;
+    const self = this;
     let itemFound = null;
     this.items.forEach((item) => {
       if (itemFound !== null) {
         return;
       }
       if (item.type === olexp.item.Type.GROUP) {
-        const movedChild = me.managers[item.id].moveDown(id);
+        const movedChild = self.managers[item.id].moveDown(id);
         if (movedChild !== null) {
           itemFound = movedChild;
           return;
@@ -844,14 +844,14 @@ const olexp = {
     }
 
     // Check if item in child managers
-    const me = this;
+    const self = this;
     let itemFound = null;
     this.items.forEach((item) => {
       if (itemFound !== null) {
         return;
       }
       if (item.type === olexp.item.Type.GROUP) {
-        const movedChild = me.managers[item.id].moveUp(id);
+        const movedChild = self.managers[item.id].moveUp(id);
         if (movedChild !== null) {
           itemFound = movedChild;
           return;
@@ -951,13 +951,13 @@ const olexp = {
     // If layer is in manager but not in map then remove
     // --------------------------------------------------
 
-    const me = this;
+    const self = this;
     const items = this.toList();
     items.forEach((item) => {
       // Check if item is just being moved by user
       if (item.moving() === false) {
-        if (olexp.util.indexOf(me.layers, item.layer) === -1) {
-          me.onItemRemoved(item);
+        if (olexp.util.indexOf(self.layers, item.layer) === -1) {
+          self.onItemRemoved(item);
         }
       }
     });
@@ -984,14 +984,14 @@ const olexp = {
     // ==================================================
     // Check if item in child managers and remove
     // --------------------------------------------------
-    const me = this;
+    const self = this;
     let itemRemoved = false;
     this.items.forEach((itemChild) => {
       if (itemRemoved) {
         return;
       }
       if (itemChild.type === olexp.item.Type.GROUP) {
-        if (me.managers[itemChild.id].remove(item)) {
+        if (self.managers[itemChild.id].remove(item)) {
           itemRemoved = true;
           return;
         }
@@ -1017,14 +1017,14 @@ const olexp = {
     // ==================================================
     // Check if item in child managers and remove
     // --------------------------------------------------
-    const me = this;
+    const self = this;
     let itemRemoved = null;
     this.items.forEach((itemChild) => {
       if (itemRemoved !== null) {
         return;
       }
       if (itemChild.type === olexp.item.Type.GROUP) {
-        const layerChild = me.managers[itemChild.id].removeFromMap(item);
+        const layerChild = self.managers[itemChild.id].removeFromMap(item);
         if (layerChild !== null) {
           itemRemoved = layerChild;
           return;
@@ -1043,14 +1043,14 @@ const olexp = {
    */
   NodeManager.prototype.setLayers = function(layers) {
     // Remove old layers
-    this.layers.un('change:length', this.onLayerChanged, this);
+    this.layers.un('change:length', this.onLayerChanged.bind(this));
     while (this.items.length > 0) {
       this.onItemRemoved(this.items[this.items.length - 1]);
     }
 
     // Add new layers
     this.layers = layers;
-    this.layers.on('change:length', this.onLayerChanged, this);
+    this.layers.on('change:length', this.onLayerChanged.bind(this));
     let j = 0;
     for (j = 0; j < this.layers.getLength(); j += 1) {
       this.addLayer(this.layers.item(j));

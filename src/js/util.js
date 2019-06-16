@@ -156,7 +156,7 @@ const olexp = {
       cluster = true;
     }
 
-    const me = this;
+    const self = this;
 
     // Detect if clustering is on for non-points and disable clustering
     features.forEach((feature) => {
@@ -186,11 +186,11 @@ const olexp = {
       if (styleFunction) {
         return styleFunction.call(feature, resolution);
       }
-      return me.defaultStyle[feature.getGeometry().getType()];
+      return self.defaultStyle[feature.getGeometry().getType()];
     };
 
     if (cluster) {
-      style = (feature) => me.getClusterStyle(feature);
+      style = (feature) => self.getClusterStyle(feature);
     }
 
     // Add layer to map
@@ -252,7 +252,7 @@ const olexp = {
    * @return {ol.interaction.DragAndDrop} ol3 drag and drop interaction
    */
   Util.prototype.getDragAndDrop = function(map) {
-    const me = this;
+    const self = this;
 
     const interaction = new ol.interaction.DragAndDrop({
       formatConstructors: $.map(olexp.util.FileTypes, (o) => o.Format),
@@ -262,7 +262,7 @@ const olexp = {
       // Get filename and remove any extensions
       const filename = olexp.util.setExtension(event.file.name, '');
 
-      me.addLayerVector(map, filename, event.features);
+      self.addLayerVector(map, filename, event.features);
     });
 
     return interaction;

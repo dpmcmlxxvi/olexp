@@ -401,7 +401,7 @@ const olexp = {
       enable = true;
     }
 
-    const me = this;
+    const self = this;
 
     // ==================================================
     // Remove interactions and hidden overlays
@@ -454,69 +454,70 @@ const olexp = {
     // --------------------------------------------------
     let listener = null;
     this.draw.on('drawstart', (event) => {
-      me.drawing = true;
+      self.drawing = true;
 
       // ==================================================
       // Create measurement vector
       // --------------------------------------------------
-      me.createMeasureVector();
+      self.createMeasureVector();
 
       // ==================================================
       // Update measurement tooltip when on change
       // --------------------------------------------------
       let tooltipCoord = event.coordinate;
-      me.sketch = event.feature;
-      listener = me.sketch.getGeometry().on('change', (event) => {
+      self.sketch = event.feature;
+      listener = self.sketch.getGeometry().on('change', (event) => {
         // ==================================================
         // Compute new measurement
         // --------------------------------------------------
         let output = '';
         const geometry = event.target;
         if (geometry instanceof ol.geom.Polygon) {
-          output = me.formatArea(geometry);
+          output = self.formatArea(geometry);
           tooltipCoord = geometry.getInteriorPoint().getCoordinates();
         } else if (geometry instanceof ol.geom.LineString) {
-          output = me.formatLength(geometry);
+          output = self.formatLength(geometry);
           tooltipCoord = geometry.getLastCoordinate();
         }
-        me.measureTooltipElement.innerHTML = output;
-        me.measureTooltip.setPosition(tooltipCoord);
+        self.measureTooltipElement.innerHTML = output;
+        self.measureTooltip.setPosition(tooltipCoord);
       });
-    }, this);
+    });
 
     this.draw.on('drawend', () => {
-      me.drawing = false;
-      me.count += 1;
+      self.drawing = false;
+      self.count += 1;
 
       // ==================================================
       // Store final measurement as layer attribute
       // --------------------------------------------------
-      const geometry = me.sketch.getGeometry();
+      const geometry = self.sketch.getGeometry();
       const property = {};
       if (geometry instanceof ol.geom.Polygon) {
-        property[olexp.measure.properties.area] = me.formatArea(geometry);
-        me.vector.setProperties(property);
+        property[olexp.measure.properties.area] = self.formatArea(geometry);
+        self.vector.setProperties(property);
       } else if (geometry instanceof ol.geom.LineString) {
-        property[olexp.measure.properties.length] = me.formatLength(geometry);
-        me.vector.setProperties(property);
+        property[olexp.measure.properties.length] = self.formatLength(geometry);
+        self.vector.setProperties(property);
       }
 
       // ==================================================
       // Unset sketch
       // --------------------------------------------------
-      me.sketch = null;
+      self.sketch = null;
 
       // ==================================================
       // Unset tooltip so that a new one can be created
       // --------------------------------------------------
-      me.measureTooltipElement.parentNode.removeChild(me.measureTooltipElement);
-      me.measureTooltipElement = null;
-      me.createMeasureTooltip();
+      self.measureTooltipElement.parentNode.removeChild(
+          self.measureTooltipElement);
+      self.measureTooltipElement = null;
+      self.createMeasureTooltip();
 
       ol.Observable.unByKey(listener);
 
-      me.setInteraction(true);
-    }, this);
+      self.setInteraction(true);
+    });
   };
 
   /**

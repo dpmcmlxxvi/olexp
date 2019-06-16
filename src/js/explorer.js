@@ -650,7 +650,7 @@ const olexp = {
     // ==================================================
     // Store current object
     // --------------------------------------------------
-    const me = this;
+    const self = this;
 
     // ==================================================
     // Create main layout content div
@@ -688,11 +688,11 @@ const olexp = {
     this.navigation = $('').w2layout({
       name: this.options.explorer.navigation,
       onResize() {
-        if (me.hasOwnProperty('map')) {
-          me.map.updateSize();
+        if (self.hasOwnProperty('map')) {
+          self.map.updateSize();
         }
-        if (me.hasOwnProperty('details')) {
-          me.details.resize();
+        if (self.hasOwnProperty('details')) {
+          self.details.resize();
         }
       },
       panels: [
@@ -713,20 +713,20 @@ const olexp = {
       ],
       onClick(event) {
         const targetId = event.target;
-        const records = me.manager.getDetails(targetId);
-        me.details.clear();
-        me.details.add(records);
-        me.manager.onItemSelected(targetId);
+        const records = self.manager.getDetails(targetId);
+        self.details.clear();
+        self.details.add(records);
+        self.manager.onItemSelected(targetId);
       },
       onDblClick(event) {
         const targetId = event.target;
-        me.manager.toggleNode(targetId);
-        me.manager.onItemSelected(targetId);
+        self.manager.toggleNode(targetId);
+        self.manager.onItemSelected(targetId);
       },
       onRender(event) {
         event.onComplete = () => {
-          const targetId = me.outline.selected;
-          me.manager.onItemSelected(targetId);
+          const targetId = self.outline.selected;
+          self.manager.onItemSelected(targetId);
         };
       },
     });
@@ -793,8 +793,8 @@ const olexp = {
     this.outline.menu = this.menu.items;
     this.outline.onMenuClick = (event) => {
       const targetId = event.menuItem.id;
-      if (me.menu.callbacks[targetId] !== undefined) {
-        me.menu.callbacks[targetId](event);
+      if (self.menu.callbacks[targetId] !== undefined) {
+        self.menu.callbacks[targetId](event);
       }
     };
 
@@ -808,8 +808,8 @@ const olexp = {
     const interactions = this.util.getInteractions(this.map);
     Object.keys(this.options.olinteractions).forEach((iname) => {
       const interaction = interactions[iname];
-      if (me.options.olinteractions[iname]) {
-        me.map.addInteraction(interaction);
+      if (self.options.olinteractions[iname]) {
+        self.map.addInteraction(interaction);
       }
     });
 
@@ -817,8 +817,8 @@ const olexp = {
     const controls = this.util.getControls();
     Object.keys(this.options.olcontrols).forEach((cname) => {
       const control = controls[cname];
-      me.map.addControl(control);
-      control.setMap((me.options.olcontrols[cname] ? me.map : null));
+      self.map.addControl(control);
+      control.setMap((self.options.olcontrols[cname] ? self.map : null));
     });
 
     // ==================================================
