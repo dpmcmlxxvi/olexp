@@ -16,8 +16,29 @@ visualize, and analyze spatial data. It provides the following common tools:
 
 It's a Javascript library that combines the mapping power of
 [OpenLayers](http://openlayers.org/) and the layout management of
-[w2ui](http://w2ui.com). An explorer can be created easily by adding a `div`
-element and provding the `id` to the `olexp.Explorer` constructor as follows:
+[w2ui](http://w2ui.com).
+
+![](docs/web/img/olexp-example-screenshot.png)
+
+## GETTING STARTED
+
+An explorer can be added to a map by adding its dependencies `OpenLayers`,
+`w2ui`, and `jQuery`
+
+```html
+<link href="https://cdn.rawgit.com/openlayers/openlayers.github.io/master/en/v5.3.0/css/ol.css"
+  rel="stylesheet" type="text/css" />
+<link href="https://unpkg.com/w2ui@1.4.3/w2ui.min.css" rel="stylesheet" type="text/css"/>
+<link href="https://unpkg.com/olexp/dist/olexp.min.css" rel="stylesheet" type="text/css" />
+
+<script src="https://unpkg.com/jquery@2.1.3/dist/jquery.min.js"></script>
+<script src="https://cdn.rawgit.com/openlayers/openlayers.github.io/master/en/v5.3.0/build/ol.js"></script>
+<script src="https://unpkg.com/w2ui@1.4.3/w2ui.min.js"></script>
+<script src="https://unpkg.com/olexp/dist/olexp.min.js"></script>
+```
+
+then adding a `div` element and provding the `id` to the `olexp.Explorer`
+constructor
 
 ```html
 <div id="explorer" style="height: 500px; width: 500px;"></div>
@@ -26,14 +47,13 @@ element and provding the `id` to the `olexp.Explorer` constructor as follows:
 </script>
 ```
 
-![](docs/web/img/olexp-example-screenshot.png)
-
 ## DOCUMENTATION
 
 The following help is available at the olexp
 [website](http://dpmcmlxxvi.github.io/olexp):
 
 - [Documentation](http://dpmcmlxxvi.github.io/olexp/web/)
+- [Getting Started](http://dpmcmlxxvi.github.io/olexp/web/start.html)
 - [Examples](http://dpmcmlxxvi.github.io/olexp/web/demos.html)
 - [API](http://dpmcmlxxvi.github.io/olexp/api/)
 
