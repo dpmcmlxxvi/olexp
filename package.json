@@ -77,7 +77,7 @@
     "puppeteer-to-istanbul": "^1.2.2",
     "remark-cli": "^7.0.0",
     "remark-preset-lint-markdown-style-guide": "^2.1.2",
-    "rollup": "^1.20.3",
+    "rollup": "^1.23.0",
     "rollup-plugin-commonjs": "^10.0.1",
     "rollup-plugin-node-resolve": "^5.0.2",
     "rollup-plugin-terser": "^5.0.0",
