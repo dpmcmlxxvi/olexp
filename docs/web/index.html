@@ -182,18 +182,18 @@
     <script src="https://unpkg.com/bootstrap@3.3.6/dist/js/bootstrap.min.js"></script>
     <script src="../examples/js/example.layers.js"></script>
     <script>
-      $(document).ready(function() {
-        (function() {
+      $(document).ready(function () {
+        (function () {
           const api =
             "https://api.github.com/repos/dpmcmlxxvi/olexp/releases/latest";
-          $.getJSON(api).done(function(json) {
+          $.getJSON(api).done(function (json) {
             const anchor = $("#olexp-download");
             anchor.attr("href", json.zipball_url);
             anchor.html("Download " + json.tag_name + " &raquo;");
           });
         })();
       });
-      window.onload = function() {
+      window.onload = function () {
         window.explorer = runExampleLayers("explorer", "../examples");
       };
     </script>

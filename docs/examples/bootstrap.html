@@ -67,10 +67,10 @@
     <script src="https://unpkg.com/w2ui@1.4.3/w2ui.min.js"></script>
     <script src="https://unpkg.com/olexp/dist/olexp.js"></script>
     <script>
-      window.onload = function() {
+      window.onload = function () {
         window.explorer = new olexp.Explorer("explorer");
         const layerstm = new ol.layer.Tile({
-          source: new ol.source.Stamen({ layer: "watercolor" })
+          source: new ol.source.Stamen({ layer: "watercolor" }),
         });
         layerstm.set("name", "Stamen");
         window.explorer.map.addLayer(layerstm);
