@@ -4,7 +4,6 @@
 [![coverage](https://img.shields.io/coveralls/dpmcmlxxvi/olexp/master.svg)](https://coveralls.io/github/dpmcmlxxvi/olexp?branch=master)
 [![codacy](https://img.shields.io/codacy/grade/df098e3d833a44a3af028f712c4ee75e/master.svg)](https://www.codacy.com/app/dpmcmlxxvi/olexp?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=dpmcmlxxvi/olexp&amp;utm_campaign=Badge_Grade)
 [![npm](https://badge.fury.io/js/olexp.svg)](https://badge.fury.io/js/olexp)
-[![greenkeeper](https://badges.greenkeeper.io/dpmcmlxxvi/olexp.svg)](https://greenkeeper.io/)
 
 [OpenLayers Explorer](https://github.com/dpmcmlxxvi/olexp) (olexp) is a simple
 out-of-the-box web mapping solution. It provides a web application to add,
