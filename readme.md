@@ -9,9 +9,9 @@
 out-of-the-box web mapping solution. It provides a web application to add,
 visualize, and analyze spatial data. It provides the following common tools:
 
-  - **Toolbar** with standard tools (e.g., measuring tools).
-  - **Outline** to inspect and control the visible layers and overlays.
-  - **Map** to display raster tiles, vectors, and overlays.
+-   **Toolbar** with standard tools (e.g., measuring tools).
+-   **Outline** to inspect and control the visible layers and overlays.
+-   **Map** to display raster tiles, vectors, and overlays.
 
 It's a Javascript library that combines the mapping power of
 [OpenLayers](http://openlayers.org/) and the layout management of
@@ -51,10 +51,10 @@ constructor
 The following help is available at the olexp
 [website](http://dpmcmlxxvi.github.io/olexp):
 
-  - [Documentation](http://dpmcmlxxvi.github.io/olexp/web/)
-  - [Getting Started](http://dpmcmlxxvi.github.io/olexp/web/start.html)
-  - [Examples](http://dpmcmlxxvi.github.io/olexp/web/demos.html)
-  - [API](http://dpmcmlxxvi.github.io/olexp/api/)
+-   [Documentation](http://dpmcmlxxvi.github.io/olexp/web/)
+-   [Getting Started](http://dpmcmlxxvi.github.io/olexp/web/start.html)
+-   [Examples](http://dpmcmlxxvi.github.io/olexp/web/demos.html)
+-   [API](http://dpmcmlxxvi.github.io/olexp/api/)
 
 ## BUILD
 
