@@ -2,7 +2,7 @@
 
 [![build](https://travis-ci.org/dpmcmlxxvi/olexp.svg?branch=master)](https://travis-ci.org/dpmcmlxxvi/olexp)
 [![coverage](https://img.shields.io/coveralls/dpmcmlxxvi/olexp/master.svg)](https://coveralls.io/github/dpmcmlxxvi/olexp?branch=master)
-[![codacy](https://img.shields.io/codacy/grade/df098e3d833a44a3af028f712c4ee75e/master.svg)](https://www.codacy.com/app/dpmcmlxxvi/olexp?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=dpmcmlxxvi/olexp&amp;utm_campaign=Badge_Grade)
+[![codacy](https://app.codacy.com/project/badge/Grade/6f1060e1205a4124a25bead230d1ec1c)](https://www.codacy.com/gh/dpmcmlxxvi/olexp/dashboard?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=dpmcmlxxvi/olexp&amp;utm_campaign=Badge_Grade)
 [![npm](https://badge.fury.io/js/olexp.svg)](https://badge.fury.io/js/olexp)
 
 [OpenLayers Explorer](https://github.com/dpmcmlxxvi/olexp) (olexp) is a simple
