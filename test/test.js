@@ -46,7 +46,7 @@ const addRemoveOverlay = async () => {
 
 // Check if element exists.
 const isExist = async (selector) => {
-  await page.waitFor(1000);
+  await page.waitForTimeout(1000);
   const elements = await page.$$(selector);
   return elements.length > 0;
 };
@@ -54,7 +54,7 @@ const isExist = async (selector) => {
 // Check if element or parent is visible.
 // w2ui hides some components by hiding its parent.
 const isVisible = async (selector) => {
-  await page.waitFor(1000);
+  await page.waitForTimeout(1000);
   return await page.evaluate((selector) => {
     return $(selector).parent().css('display') !== 'none';
   }, selector);
