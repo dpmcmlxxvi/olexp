@@ -1,11 +1,10 @@
-
 /*
  * OpenLayersExplorer measurement tool styles
  */
 
 .olexp-measure {
   background: #000;
-  background: rgba(0, 0, 0, 0.5);
+  background: rgba(0 0 0 / 50%);
   border-radius: 4px;
   color: white;
   opacity: 0.7;
@@ -30,7 +29,7 @@
   border-left: 6px solid transparent;
   border-right: 6px solid transparent;
   border-top: 6px solid #000;
-  border-top: 6px solid rgba(0, 0, 0, 0.5);
+  border-top: 6px solid rgba(0 0 0 / 50%);
   bottom: -6px;
   content: "";
   left: 50%;

@@ -1,6 +1,6 @@
 # OpenLayers Explorer
 
-[![build](https://travis-ci.org/dpmcmlxxvi/olexp.svg?branch=master)](https://travis-ci.org/dpmcmlxxvi/olexp)
+[![build](https://github.com/dpmcmlxxvi/olexp/actions/workflows/build.yml/badge.svg)](https://github.com/dpmcmlxxvi/olexp/actions)
 [![coverage](https://img.shields.io/coveralls/dpmcmlxxvi/olexp/master.svg)](https://coveralls.io/github/dpmcmlxxvi/olexp?branch=master)
 [![codacy](https://app.codacy.com/project/badge/Grade/6f1060e1205a4124a25bead230d1ec1c)](https://www.codacy.com/gh/dpmcmlxxvi/olexp/dashboard?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=dpmcmlxxvi/olexp&amp;utm_campaign=Badge_Grade)
 [![npm](https://badge.fury.io/js/olexp.svg)](https://badge.fury.io/js/olexp)
@@ -9,9 +9,9 @@
 out-of-the-box web mapping solution. It provides a web application to add,
 visualize, and analyze spatial data. It provides the following common tools:
 
--   **Toolbar** with standard tools (e.g., measuring tools).
--   **Outline** to inspect and control the visible layers and overlays.
--   **Map** to display raster tiles, vectors, and overlays.
+- **Toolbar** with standard tools (e.g., measuring tools).
+- **Outline** to inspect and control the visible layers and overlays.
+- **Map** to display raster tiles, vectors, and overlays.
 
 It's a Javascript library that combines the mapping power of
 [OpenLayers](http://openlayers.org/) and the layout management of
@@ -51,10 +51,10 @@ constructor
 The following help is available at the olexp
 [website](http://dpmcmlxxvi.github.io/olexp):
 
--   [Documentation](http://dpmcmlxxvi.github.io/olexp/web/)
--   [Getting Started](http://dpmcmlxxvi.github.io/olexp/web/start.html)
--   [Examples](http://dpmcmlxxvi.github.io/olexp/web/demos.html)
--   [API](http://dpmcmlxxvi.github.io/olexp/api/)
+- [Documentation](http://dpmcmlxxvi.github.io/olexp/web/)
+- [Getting Started](http://dpmcmlxxvi.github.io/olexp/web/start.html)
+- [Examples](http://dpmcmlxxvi.github.io/olexp/web/demos.html)
+- [API](http://dpmcmlxxvi.github.io/olexp/api/)
 
 ## BUILD
 
